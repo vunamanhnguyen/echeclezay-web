@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Échec Lezay 26 - 27 — Atelier jeu d'échecs du Collège Lezay Marnésia à Strasbourg.">
+<meta name="theme-color" content="#f7f7f5">
+<title>Échec Lezay 26 - 27</title>
+<link rel="icon" type="image/png" href="https://image-namanhstudio.weebly.com/uploads/1/5/5/3/155356283/favicon_orig.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f7f5;--surface:#fff;--surface-soft:#efefec;--text:#111;--muted:#70706d;--line:#d9d9d4;--dark:#111;--dark-text:#f7f7f5;--radius:24px;--shadow:0 18px 55px rgba(0,0,0,.07)}
+html.dark{--bg:#0b0b0a;--surface:#151514;--surface-soft:#1d1d1b;--text:#f4f4f0;--muted:#a3a39e;--line:#30302d;--dark:#f4f4f0;--dark-text:#0b0b0a;--shadow:0 20px 60px rgba(0,0,0,.35)}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:"DM Sans",system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;transition:.25s}a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}.container{width:min(1160px,calc(100% - 44px));margin:auto}
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;padding:15px 0;background:color-mix(in srgb,var(--bg) 84%,transparent);backdrop-filter:blur(20px);border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent)}.nav-inner{display:flex;align-items:center;gap:24px}.brand{display:flex;align-items:center;gap:11px;margin-right:auto;font-weight:700;letter-spacing:-.03em}.brand img{width:38px;height:38px;object-fit:contain}.brand span{font-size:14px}.nav-links{display:flex;gap:25px;color:var(--muted);font-size:13px}.nav-links a{transition:.2s}.nav-links a:hover{color:var(--text)}.nav-actions{display:flex;align-items:center;gap:8px}.theme,.menu{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:var(--surface);color:var(--text);cursor:pointer}.menu{display:none;border-radius:12px}.nav-btn{padding:10px 15px;border-radius:11px;font-size:12px;font-weight:700;border:1px solid var(--text);cursor:pointer}.nav-btn.primary{background:var(--text);color:var(--bg)}.nav-btn.ghost{background:transparent;color:var(--text);border-color:var(--line)}
+.hero{min-height:860px;padding:170px 0 105px;display:flex;align-items:center;position:relative;overflow:hidden}.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:70px}.kicker{font-size:11px;text-transform:uppercase;letter-spacing:.16em;font-weight:700;color:var(--muted);margin-bottom:24px}.hero h1{font-size:clamp(68px,9vw,126px);line-height:.88;letter-spacing:-.075em;max-width:760px}.hero h1 em{font-family:"Playfair Display",serif;font-style:normal;font-weight:500}.slogan{font-size:clamp(18px,2vw,24px);font-weight:600;letter-spacing:.01em;margin-top:27px}.hero-copy{max-width:590px;color:var(--muted);font-size:16px;margin-top:14px}.hero-actions{display:flex;gap:10px;margin-top:30px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 18px;border-radius:12px;border:1px solid var(--text);background:var(--text);color:var(--bg);font-weight:700;font-size:13px;cursor:pointer;transition:.2s}.btn:hover{transform:translateY(-2px)}.btn.secondary{background:transparent;color:var(--text);border-color:var(--line)}
+.hero-board{justify-self:end;width:min(470px,100%);aspect-ratio:1;position:relative;transform:rotate(-2deg)}.board{width:100%;height:100%;display:grid;grid-template-columns:repeat(8,1fr);border:1px solid var(--text);box-shadow:25px 30px 70px rgba(0,0,0,.12)}.sq{background:var(--surface)}.sq:nth-child(16n+2),.sq:nth-child(16n+4),.sq:nth-child(16n+6),.sq:nth-child(16n+8),.sq:nth-child(16n+9),.sq:nth-child(16n+11),.sq:nth-child(16n+13),.sq:nth-child(16n+15){background:var(--text)}.piece{position:absolute;inset:0;display:grid;place-items:center;font-family:"Playfair Display",serif;font-size:clamp(160px,25vw,290px);color:var(--bg);text-shadow:2px 3px 0 var(--text);line-height:1}.board-label{position:absolute;bottom:-23px;left:0;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+section{padding:115px 0}.section-top{display:grid;grid-template-columns:.7fr 1fr;gap:70px;margin-bottom:55px}.label{font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:15px}h2{font-size:clamp(42px,5.5vw,70px);line-height:.94;letter-spacing:-.065em}h2 em{font-family:"Playfair Display",serif;font-weight:500;font-style:normal}.intro{max-width:650px;color:var(--muted);font-size:16px;padding-top:30px}
+.about-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:16px}.feature{min-height:310px;border-radius:var(--radius);background:var(--dark);color:var(--dark-text);padding:38px;display:flex;flex-direction:column;justify-content:end}.feature h3{font-size:30px;letter-spacing:-.04em}.feature p{color:color-mix(in srgb,var(--dark-text) 65%,transparent);max-width:650px;margin-top:12px}.mini-stack{display:grid;gap:16px}.mini{border:1px solid var(--line);border-radius:var(--radius);padding:30px;background:var(--surface);display:flex;flex-direction:column;justify-content:space-between;min-height:147px}.mini strong{font-size:30px;letter-spacing:-.05em}.mini span{color:var(--muted);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.card{min-height:255px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:27px;display:flex;flex-direction:column;transition:.2s}.card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}.number{font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--muted)}.card h3{font-size:23px;letter-spacing:-.04em;margin-top:auto}.card p{font-size:13px;color:var(--muted);margin-top:8px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.info-box{border:1px solid var(--line);border-radius:var(--radius);padding:32px;background:var(--surface)}.info-box h3{font-size:22px;letter-spacing:-.03em;margin-bottom:18px}.row{display:flex;justify-content:space-between;gap:25px;padding:15px 0;border-bottom:1px solid var(--line);font-size:13px}.row:last-child{border-bottom:0}.row span{color:var(--muted)}.row strong{text-align:right}
+.events{border-top:1px solid var(--line)}.event{display:grid;grid-template-columns:72px 1fr auto;align-items:center;gap:24px;padding:25px 0;border-bottom:1px solid var(--line)}.event-index{font-family:"Playfair Display",serif;font-size:28px;color:var(--muted)}.event h3{font-size:19px}.event p{font-size:13px;color:var(--muted);margin-top:3px}.tag{border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.team{display:grid;grid-template-columns:1fr 1fr;gap:16px}.person{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:34px;min-height:250px;display:flex;flex-direction:column}.person-no{font-size:10px;letter-spacing:.15em;color:var(--muted);font-weight:800}.person h3{font-size:25px;letter-spacing:-.04em;margin-top:auto}.person p{font-size:13px;color:var(--muted);margin-top:5px}
+.cta{padding:80px 0 105px}.cta-box{border-radius:30px;background:var(--dark);color:var(--dark-text);padding:clamp(40px,7vw,76px);display:flex;align-items:end;justify-content:space-between;gap:40px}.cta-box h2{max-width:700px}.cta-box p{color:color-mix(in srgb,var(--dark-text) 65%,transparent);max-width:570px;margin-top:15px}.cta-box .btn{background:var(--dark-text);color:var(--dark);border-color:var(--dark-text)}.absence{margin-top:12px;width:100%;background:transparent;color:var(--text);border-color:var(--line)}
+footer{border-top:1px solid var(--line);padding:38px 0}.footer{display:flex;justify-content:space-between;gap:25px;color:var(--muted);font-size:12px}.footer strong{color:var(--text)}
+.modal-backdrop{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.68);display:none;align-items:center;justify-content:center;padding:20px}.modal-backdrop.active{display:flex}.modal{width:min(560px,100%);max-height:90vh;overflow:auto;border:1px solid var(--line);border-radius:24px;background:var(--surface);color:var(--text);padding:30px;position:relative;box-shadow:0 30px 90px rgba(0,0,0,.3)}.close{position:absolute;right:18px;top:18px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--text);cursor:pointer;font-size:20px}.modal h2{font-size:36px;padding-right:45px}.modal>p{color:var(--muted);font-size:13px;margin:10px 0 25px}.group{margin-bottom:15px}.group label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}.group input,.group select,.group textarea{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:11px;background:var(--bg);color:var(--text);outline:none}.group textarea{min-height:100px;resize:vertical}.modal .btn{width:100%}
+.mobile-actions{display:none}
+@media(max-width:980px){.nav-links{display:none}.menu{display:block}.nav-actions .desktop{display:none}.nav-links.mobile-open{display:flex;position:absolute;top:70px;left:22px;right:22px;padding:18px;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}.mobile-actions{display:grid;gap:8px;margin-top:8px}.hero-grid{grid-template-columns:1fr}.hero-board{justify-self:start;width:min(430px,80vw);margin-top:20px}.cards{grid-template-columns:1fr 1fr}.section-top{grid-template-columns:1fr;gap:10px}.intro{padding-top:0}.about-grid{grid-template-columns:1fr}.mini-stack{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.container{width:min(100% - 28px,1160px)}.brand span{display:none}.hero{min-height:auto;padding:145px 0 85px}.hero h1{font-size:clamp(60px,17vw,92px)}.hero-board{width:82vw}.slogan{font-size:19px}section{padding:78px 0}.cards,.info-grid,.team,.mini-stack{grid-template-columns:1fr}.feature{min-height:280px}.event{grid-template-columns:45px 1fr;gap:15px}.tag{grid-column:2;width:max-content}.cta-box{padding:38px 28px;align-items:start;flex-direction:column}.footer{flex-direction:column}}
+
+/* CHESS DECORATIVE EFFECTS */
+.decor-chess{position:absolute;pointer-events:none;user-select:none;font-family:"Playfair Display",serif;color:var(--text);opacity:.055;line-height:1;z-index:0}
+.section-chess{position:relative;overflow:hidden}
+.section-chess>*{position:relative;z-index:1}
+.decor-chess.knight{font-size:clamp(180px,20vw,310px);right:-35px;top:50%;transform:translateY(-38%) rotate(8deg)}
+.decor-chess.rook{font-size:clamp(150px,17vw,250px);left:-28px;bottom:-45px;transform:rotate(-7deg)}
+.decor-chess.queen{font-size:clamp(170px,18vw,270px);right:4%;bottom:-70px;transform:rotate(5deg)}
+.decor-chess.pawn{font-size:clamp(150px,16vw,230px);left:4%;top:45%;transform:rotate(-6deg)}
+.chess-orbit{position:absolute;right:5%;top:18%;width:210px;height:210px;border:1px solid var(--text);border-radius:50%;opacity:.08;pointer-events:none}
+.chess-orbit::before,.chess-orbit::after{content:"";position:absolute;inset:18px;border:1px dashed var(--text);border-radius:50%}
+.chess-orbit::after{inset:48px}
+.chess-line{position:absolute;width:260px;height:1px;background:var(--text);opacity:.08;right:-25px;top:50%;transform:rotate(-28deg);pointer-events:none}
+.card-chess{position:absolute;right:18px;top:18px;font-family:"Playfair Display",serif;font-size:42px;color:var(--text);opacity:.065}
+.info-box,.card,.person,.feature{position:relative;overflow:hidden}
+.mini::after{content:"♟";position:absolute;right:14px;bottom:-30px;font-family:"Playfair Display",serif;font-size:115px;color:var(--text);opacity:.045;pointer-events:none}
+.events-wrap{position:relative;overflow:hidden}
+.events-wrap::after{content:"♞";position:absolute;right:-15px;bottom:-75px;font-family:"Playfair Display",serif;font-size:230px;color:var(--text);opacity:.045;pointer-events:none}
+@media(max-width:620px){
+  .decor-chess.knight{right:-70px;top:42%;font-size:180px}
+  .decor-chess.rook{left:-55px;bottom:-55px;font-size:150px}
+  .decor-chess.queen{right:-35px;font-size:170px}
+  .chess-orbit{width:145px;height:145px;right:-35px}
+}
+
+
+/* LIGHT MODE — enhanced chess visibility */
+:root {
+  --chess-opacity: .105;
+  --chess-line-opacity: .10;
+}
+
+.decor-chess {
+  opacity: var(--chess-opacity);
+}
+
+.chess-orbit {
+  opacity: var(--chess-line-opacity);
+}
+
+.chess-line {
+  opacity: var(--chess-line-opacity);
+}
+
+.card-chess {
+  opacity: .085;
+}
+
+.mini::after,
+.events-wrap::after {
+  opacity: .07;
+}
+
+html.dark {
+  --chess-opacity: .055;
+  --chess-line-opacity: .08;
+}
+
+html.dark .card-chess {
+  opacity: .065;
+}
+
+html.dark .mini::after,
+html.dark .events-wrap::after {
+  opacity: .045;
+}
+
+</style>
+</head>
+<body>
+<header class="navbar"><div class="container nav-inner">
+<a href="#accueil" class="brand"><img src="https://image-namanhstudio.weebly.com/uploads/1/5/5/3/155356283/icon-echec-lezay_orig.png" alt="Échec Lezay 26 - 27"><span>Échec Lezay 26 - 27</span></a>
+<nav class="nav-links" id="navLinks">
+<a href="#accueil">Accueil</a><a href="#apropos">À propos</a><a href="#activites">Activités</a><a href="#tournois">Tournois</a><a href="#equipe">Équipe</a><a href="#contact">Contact</a>
+<div class="mobile-actions"><button class="nav-btn primary" onclick="openModal('joinModal')">Inscription</button><button class="nav-btn ghost" onclick="openModal('absenceModal')">Absence</button></div>
+</nav>
+<div class="nav-actions"><button class="theme" id="themeToggle" aria-label="Changer de thème">☾</button><button class="nav-btn primary desktop" onclick="openModal('joinModal')">Inscription</button><button class="nav-btn ghost desktop" onclick="openModal('absenceModal')">Absence</button><button class="menu" id="menuBtn" aria-label="Ouvrir le menu">☰</button></div>
+</div></header>
+<main>
+<section class="hero" id="accueil"><div class="container hero-grid"><div><div class="kicker">Collège Lezay Marnésia · Strasbourg · 2026 — 2027</div><h1>Échec<br><em>Lezay</em><br>26 - 27</h1><div class="slogan">Jouez. Réfléchissez. Progressez.</div><p class="hero-copy">Un atelier d'échecs ouvert aux élèves de 6e à 3e, débutants comme joueurs expérimentés. Un lieu pour jouer, apprendre, analyser et progresser ensemble.</p><div class="hero-actions"><button class="btn" onclick="openModal('joinModal')">Inscription →</button><a class="btn secondary" href="#apropos">Découvrir l'atelier</a></div></div><div class="hero-board"><div class="board" id="board"></div><div class="piece">♞</div><div class="board-label">Atelier jeu d'échecs · Salle A25</div></div></div></section>
+<section id="apropos" class="section-chess"><span class="decor-chess knight">♞</span><span class="chess-orbit"></span><div class="container"><div class="section-top"><div><div class="label">01 · À propos</div><h2>Les échecs,<br><em>pour tous.</em></h2></div><p class="intro">Un atelier scolaire pensé comme un espace de rencontre entre les élèves de 6e à 3e. Pas besoin d'être expert : il suffit d'avoir envie de jouer et de découvrir les échecs.</p></div><div class="about-grid"><article class="feature"><h3>Apprendre ensemble.</h3><p>Découvrir les règles, développer son raisonnement, analyser les positions et progresser grâce aux parties et aux échanges avec les autres membres.</p></article><div class="mini-stack"><article class="mini"><strong>6e → 3e</strong><span>Tous les niveaux scolaires sont les bienvenus.</span></article><article class="mini"><strong>15–20</strong><span>Objectif de groupe à taille humaine.</span></article></div></div></div></section>
+<section id="activites" class="section-chess"><span class="decor-chess pawn">♟</span><span class="chess-line"></span><div class="container"><div class="section-top"><div><div class="label">02 · Activités</div><h2>Une partie<br><em>après l'autre.</em></h2></div><p class="intro">Chaque séance peut mélanger jeu libre, stratégie, réflexion et exercices. L'objectif : progresser tout en gardant le plaisir du jeu.</p></div><div class="cards"><article class="card"><span class="card-chess">♟</span><div class="number">01</div><h3>Jouer</h3><p>Des parties libres pour jouer, découvrir et échanger.</p></article><article class="card"><span class="card-chess">♞</span><div class="number">02</div><h3>Apprendre</h3><p>Règles, stratégies et principes essentiels du jeu.</p></article><article class="card"><span class="card-chess">♜</span><div class="number">03</div><h3>Résoudre</h3><p>Des problèmes d'échecs pour entraîner sa réflexion.</p></article><article class="card"><span class="card-chess">♛</span><div class="number">04</div><h3>Progresser</h3><p>Logique, anticipation, analyse et prise de décision.</p></article></div></div></section>
+<section class="section-chess"><span class="decor-chess rook">♜</span><div class="container"><div class="section-top"><div><div class="label">03 · Organisation</div><h2>Le cadre<br><em>de l'atelier.</em></h2></div><p class="intro">Les horaires seront communiqués prochainement. Les informations seront mises à jour dès qu'elles seront disponibles.</p></div><div class="info-grid"><div class="info-box"><h3>Informations pratiques</h3><div class="row"><span>Lieu</span><strong>Salle A25</strong></div><div class="row"><span>Jour</span><strong>Pas disponible pour le moment</strong></div><div class="row"><span>Horaire</span><strong>Pas disponible pour le moment</strong></div><div class="row"><span>Fréquence</span><strong>Pas disponible pour le moment</strong></div></div><div class="info-box"><h3>Qui peut participer ?</h3><div class="row"><span>Niveaux</span><strong>6e → 3e</strong></div><div class="row"><span>Niveau aux échecs</span><strong>Tous niveaux</strong></div><div class="row"><span>Adhésion</span><strong>Gratuite</strong></div><div class="row"><span>Objectif</span><strong>Non lucratif</strong></div></div></div></div></section>
+<section id="tournois" class="section-chess"><span class="decor-chess queen">♛</span><div class="container"><div class="section-top"><div><div class="label">04 · Tournois & événements</div><h2>Jouer.<br><em>Se rencontrer.</em></h2></div><p class="intro">Les échecs peuvent aussi sortir du cadre des séances habituelles avec des rencontres et des événements organisés au collège.</p></div><div class="events-wrap"><div class="events"><div class="event"><div class="event-index">01</div><div><h3>Tournois amicaux</h3><p>Des rencontres et tournois organisés par l'enseignant.</p></div><span class="tag">Collège</span></div><div class="event"><div class="event-index">02</div><div><h3>Parties entre élèves</h3><p>Des moments de jeu pour rencontrer les autres membres.</p></div><span class="tag">Toute l'année</span></div><div class="event"><div class="event-index">03</div><div><h3>Écoles Ouvertes</h3><p>Des activités autour des échecs peuvent être proposées pendant les vacances scolaires.</p></div><span class="tag">Vacances</span></div></div></div></section>
+<section id="equipe" class="section-chess"><span class="decor-chess knight">♞</span><div class="container"><div class="section-top"><div><div class="label">05 · Équipe</div><h2>Les personnes<br><em>derrière l'atelier.</em></h2></div><p class="intro">Une équipe qui contribue à l'encadrement, au fonctionnement et à l'identité d'Échec Lezay 26 - 27.</p></div><div class="team"><article class="person"><div class="person-no">01 · ENCADREMENT</div><h3>M. Bouhafs</h3><p>Président / Enseignant encadrant</p></article><article class="person"><div class="person-no">02 · CRÉATION</div><h3>Vu Nam Anh NGUYEN</h3><p>Design & Adjoint Principal</p></article></div></div></section>
+<section class="cta" id="contact"><div class="container"><div class="cta-box"><div><div class="label">06 · Rejoindre</div><h2>Prêt à jouer ?</h2><p>Que tu sois débutant ou déjà joueur, l'atelier est ouvert à tous les élèves de 6e à 3e.</p></div><button class="btn" onclick="openModal('joinModal')">Inscription →</button></div><button class="btn absence" onclick="openModal('absenceModal')">Prévenir d'une absence</button></div></section>
+</main>
+<footer><div class="container footer"><div><strong>Échec Lezay 26 - 27</strong><br>Collège Lezay Marnésia · Strasbourg · Salle A25</div><div>© 2026 — 2027 Échec Lezay</div></div></footer>
+<div class="modal-backdrop" id="joinModal" role="dialog" aria-modal="true" aria-labelledby="joinTitle"><div class="modal"><button class="close" onclick="closeModal('joinModal')" aria-label="Fermer">×</button><h2 id="joinTitle">Inscription</h2><p>Remplis ce formulaire pour demander à rejoindre Échec Lezay 26 - 27.</p><form action="https://formspree.io/f/xzebepqg" method="POST"><div class="group"><label for="join-name">Prénom et nom</label><input id="join-name" name="nom" type="text" required></div><div class="group"><label for="join-class">Classe</label><select id="join-class" name="classe" required><option value="">Sélectionner</option><option>6e</option><option>5e</option><option>4e</option><option>3e</option></select></div><div class="group"><label for="join-message">Message (facultatif)</label><textarea id="join-message" name="message" placeholder="Ex. Je suis débutant / je joue déjà aux échecs..."></textarea></div><button class="btn" type="submit">Envoyer ma demande</button></form></div></div>
+<div class="modal-backdrop" id="absenceModal" role="dialog" aria-modal="true" aria-labelledby="absenceTitle"><div class="modal"><button class="close" onclick="closeModal('absenceModal')" aria-label="Fermer">×</button><h2 id="absenceTitle">Absence</h2><p>Utilise ce formulaire pour prévenir l'équipe de ton absence.</p><form action="https://formspree.io/f/moeqeazn" method="POST"><div class="group"><label for="absence-name">Prénom et nom</label><input id="absence-name" name="nom" type="text" required></div><div class="group"><label for="absence-class">Classe</label><select id="absence-class" name="classe" required><option value="">Sélectionner</option><option>6e</option><option>5e</option><option>4e</option><option>3e</option></select></div><div class="group"><label for="absence-date">Date de l'absence</label><input id="absence-date" name="date_absence" type="date" required></div><div class="group"><label for="absence-message">Motif / message</label><textarea id="absence-message" name="message" required></textarea></div><button class="btn" type="submit">Prévenir de mon absence</button></form></div></div>
+<script>
+const root=document.documentElement,themeToggle=document.getElementById('themeToggle'),metaTheme=document.querySelector('meta[name="theme-color"]');
+function applyTheme(theme){root.classList.toggle('dark',theme==='dark');themeToggle.textContent=theme==='dark'?'☀':'☾';metaTheme.setAttribute('content',theme==='dark'?'#0b0b0a':'#f7f7f5');localStorage.setItem('theme',theme)}
+const savedTheme=localStorage.getItem('theme'),systemDark=window.matchMedia('(prefers-color-scheme: dark)').matches;applyTheme(savedTheme||(systemDark?'dark':'light'));
+themeToggle.addEventListener('click',()=>applyTheme(root.classList.contains('dark')?'light':'dark'));
+const navLinks=document.getElementById('navLinks'),menuBtn=document.getElementById('menuBtn');menuBtn.addEventListener('click',()=>navLinks.classList.toggle('mobile-open'));document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('mobile-open')));
+function openModal(id){document.getElementById(id).classList.add('active');document.body.style.overflow='hidden';navLinks.classList.remove('mobile-open')};function closeModal(id){document.getElementById(id).classList.remove('active');document.body.style.overflow=''}
+document.querySelectorAll('.modal-backdrop').forEach(b=>b.addEventListener('click',e=>{if(e.target===b)closeModal(b.id)}));document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-backdrop.active').forEach(m=>closeModal(m.id))});
+const board=document.getElementById('board');for(let i=0;i<64;i++){const s=document.createElement('div');s.className='sq';board.appendChild(s)}
+</script>
+</body>
+</html>
