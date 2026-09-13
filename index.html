@@ -1164,6 +1164,7 @@
         <a href="#activites">Activités</a>
         <a href="#evenements">Tournois</a>
         <a href="#contact">Contact</a>
+        <a href="https://echeclezay.substack.com" target="_blank" rel="noopener noreferrer">Posts</a>
       </nav>
 
       <div class="nav-actions">
@@ -1667,11 +1668,7 @@
 
           <article class="person">
 
-            <div class="person-avatar">
-              MB
-            </div>
-
-            <h3>M. Bouhaf</h3>
+<h3>M. Bouhaf</h3>
 
             <p>
               Enseignant · Encadrant de l'atelier
@@ -1682,11 +1679,7 @@
 
           <article class="person">
 
-            <div class="person-avatar">
-              VA
-            </div>
-
-            <h3>Vu Nam Anh NGUYEN</h3>
+<h3>Vu Nam Anh NGUYEN</h3>
 
             <p>
               Design & Adjoint Principal
@@ -2011,7 +2004,7 @@
 
     const savedTheme = localStorage.getItem("lezay-theme");
 
-    if (savedTheme === "dark") {
+    if (savedTheme === "dark" || savedTheme === null) {
       root.classList.add("dark");
     }
 
