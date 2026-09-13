@@ -1994,6 +1994,7 @@
 
 
     /*
+      /*
       =====================================================
       THEME
       =====================================================
@@ -2040,62 +2041,16 @@
 
     const board = document.getElementById("chessBoard");
 
-<div id="board" style="
-  display: grid; 
-  grid-template-columns: repeat(8, 60px); 
-  grid-template-rows: repeat(8, 60px); 
-  border: 4px solid #333;
-"></div>
-
-<script>
-  // Mảng 64 ô chuẩn: 'w' là Trắng (White), 'b' là Đen (Black)
-  const pieces = [
-    // Hàng 1 & 2: Quân Trắng
-    { c: "♖", t: "w" }, { c: "♘", t: "w" }, { c: "♗", t: "w" }, { c: "♕", t: "w" }, { c: "♔", t: "w" }, { c: "♗", t: "w" }, { c: "♘", t: "w" }, { c: "♖", t: "w" },
-    { c: "♙", t: "w" }, { c: "♙", t: "w" }, { c: "♙", t: "w" }, { c: "♙", t: "w" }, { c: "♙", t: "w" }, { c: "♙", t: "w" }, { c: "♙", t: "w" }, { c: "♙", t: "w" },
-    
-    // Hàng 3 đến 6: Ô trống (đủ 8 ô mỗi hàng)
-    null, null, null, null, null, null, null, null,
-    null, null, null, null, null, null, null, null,
-    null, null, null, null, null, null, null, null,
-    null, null, null, null, null, null, null, null,
-    
-    // Hàng 7 & 8: Quân Đen
-    { c: "♟", t: "b" }, { c: "♟", t: "b" }, { c: "♟", t: "b" }, { c: "♟", t: "b" }, { c: "♟", t: "b" }, { c: "♟", t: "b" }, { c: "♟", t: "b" }, { c: "♟", t: "b" },
-    { c: "♜", t: "b" }, { c: "♞", t: "b" }, { c: "♝", t: "b" }, { c: "♛", t: "b" }, { c: "♚", t: "b" }, { c: "♝", t: "b" }, { c: "♞", t: "b" }, { c: "♜", t: "b" }
-  ];
-
-  const board = document.getElementById("board");
-
-  pieces.forEach((item, index) => {
-    const square = document.createElement("div");
-    const row = Math.floor(index / 8);
-    const col = index % 8;
-    
-    // Cố định kích thước ô bằng nhau và tô màu nền ô cờ
-    const isLightSquare = (row + col) % 2 === 0;
-    square.style.width = "60px";
-    square.style.height = "60px";
-    square.style.display = "flex";
-    square.style.justifyContent = "center";
-    square.style.alignItems = "center";
-    square.style.fontSize = "38px";
-    square.style.backgroundColor = isLightSquare ? "#f0d9b5" : "#b58863";
-
-    // Đặt quân cờ và phân biệt màu rõ ràng
-    if (item) {
-      square.textContent = item.c;
-      if (item.t === "w") {
-        square.style.color = "#ffffff";
-        square.style.textShadow = "0 0 2px #000, 0 0 3px #000"; // Viền đen để quân trắng nổi bật trên ô sáng
-      } else {
-        square.style.color = "#000000";
-      }
-    }
-
-    board.appendChild(square);
-  });
-</script>
+    const pieces = [
+      { c: "♖", t: "w" }, { c: "♘", t: "w" }, { c: "♗", t: "w" }, { c: "♕", t: "w" }, { c: "♔", t: "w" }, { c: "♗", t: "w" }, { c: "♘", t: "w" }, { c: "♖", t: "w" },
+      { c: "♙", t: "w" }, { c: "♙", t: "w" }, { c: "♙", t: "w" }, { c: "♙", t: "w" }, { c: "♙", t: "w" }, { c: "♙", t: "w" }, { c: "♙", t: "w" }, { c: "♙", t: "w" },
+      null, null, null, null, null, null, null, null,
+      null, null, null, null, null, null, null, null,
+      null, null, null, null, null, null, null, null,
+      null, null, null, null, null, null, null, null,
+      { c: "♟", t: "b" }, { c: "♟", t: "b" }, { c: "♟", t: "b" }, { c: "♟", t: "b" }, { c: "♟", t: "b" }, { c: "♟", t: "b" }, { c: "♟", t: "b" }, { c: "♟", t: "b" },
+      { c: "♜", t: "b" }, { c: "♞", t: "b" }, { c: "♝", t: "b" }, { c: "♛", t: "b" }, { c: "♚", t: "b" }, { c: "♝", t: "b" }, { c: "♞", t: "b" }, { c: "♜", t: "b" }
+    ];
 
     for (let i = 0; i < 64; i++) {
 
@@ -2108,7 +2063,16 @@
         "square " +
         ((row + col) % 2 === 0 ? "light" : "dark");
 
-      square.textContent = pieces[i];
+      const item = pieces[i];
+      if (item) {
+        square.textContent = item.c;
+        if (item.t === "w") {
+          square.style.color = "#ffffff";
+          square.style.textShadow = "0 0 2px #000, 0 0 3px #000";
+        } else {
+          square.style.color = "#000000";
+        }
+      }
 
       board.appendChild(square);
     }
