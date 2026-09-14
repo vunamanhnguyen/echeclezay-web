@@ -2033,224 +2033,87 @@
 
 
     /*
-<!-- =====================================================
-     CHESS BOARD
-     ===================================================== -->
+<!-- /* =====================================================
+   CHESS BOARD
+   ===================================================== */
 
-<style>
-  /* Chess board container */
-  #chessBoard {
-    width: min(100%, 500px);
-    aspect-ratio: 1 / 1;
+const board = document.getElementById("chessBoard");
 
-    display: grid;
-    grid-template-columns: repeat(8, minmax(0, 1fr));
-    grid-template-rows: repeat(8, minmax(0, 1fr));
+const pieces = [
+  // Hàng 1 - Quân ĐEN
+  "♜", "♞", "♝", "♛", "♚", "♝", "♞", "♜",
 
-    overflow: hidden;
-    border-radius: 24px;
+  // Hàng 2 - Tốt ĐEN
+  "♟", "♟", "♟", "♟", "♟", "♟", "♟", "♟",
 
-    transform: rotate(-1.5deg);
+  // Hàng 3
+  "", "", "", "", "", "", "", "",
 
-    background: #171717;
-    box-sizing: border-box;
+  // Hàng 4
+  "", "", "", "", "", "", "",
+
+  // Hàng 5
+  "", "", "", "", "", "", "",
+
+  // Hàng 6
+  "", "", "", "", "", "", "",
+
+  // Hàng 7 - Tốt TRẮNG
+  "♙", "♙", "♙", "♙", "♙", "♙", "♙", "♙",
+
+  // Hàng 8 - Quân TRẮNG
+  "♖", "♘", "♗", "♕", "♔", "♗", "♘", "♖"
+];
+
+
+/*
+ * Xóa các ô cũ trước khi tạo lại.
+ * Không xóa board, không xóa các chế độ hay
+ * thành phần giao diện khác.
+ */
+board.innerHTML = "";
+
+
+for (let i = 0; i < 64; i++) {
+
+  const square = document.createElement("div");
+
+  const row = Math.floor(i / 8);
+  const col = i % 8;
+
+  /* Giữ nguyên class cũ của bàn cờ */
+  square.className =
+    "square " +
+    ((row + col) % 2 === 0 ? "light" : "dark");
+
+  const piece = pieces[i];
+
+  if (piece !== "") {
+
+    const pieceElement = document.createElement("span");
+
+    pieceElement.className =
+      (piece === "♙" ||
+       piece === "♖" ||
+       piece === "♘" ||
+       piece === "♗" ||
+       piece === "♕" ||
+       piece === "♔")
+        ? "white-piece"
+        : "black-piece";
+
+    pieceElement.textContent = piece;
+
+    square.appendChild(pieceElement);
   }
 
-  /* Every square MUST stay perfectly square */
-  #chessBoard .square {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 1 / 1;
+  board.appendChild(square);
+}
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
-    box-sizing: border-box;
-
-    font-family:
-      "Arial Unicode MS",
-      "DejaVu Sans",
-      "Segoe UI Symbol",
-      sans-serif;
-
-    font-size: clamp(28px, 5vw, 48px);
-    line-height: 1;
-
-    user-select: none;
-  }
-
-  /* Board colors */
-  #chessBoard .light {
-    background: #deded9;
-  }
-
-  #chessBoard .dark {
-    background: #171717;
-  }
-
-  /* White pieces */
-  #chessBoard .white-piece {
-    color: #f5f5f2;
-
-    /* subtle dark outline so white pieces remain visible
-       on both light and dark squares */
-    text-shadow:
-      -1px -1px 0 #111,
-       1px -1px 0 #111,
-      -1px  1px 0 #111,
-       1px  1px 0 #111;
-  }
-
-  /* Black pieces */
-  #chessBoard .black-piece {
-    color: #111111;
-
-    text-shadow:
-      -1px -1px 0 #deded9,
-       1px -1px 0 #deded9,
-      -1px  1px 0 #deded9,
-       1px  1px 0 #deded9;
-  }
-
-  /* Keep the board responsive on mobile */
-  @media (max-width: 600px) {
-    #chessBoard {
-      width: min(92vw, 500px);
-      border-radius: 18px;
-    }
-
-    #chessBoard .square {
-      font-size: clamp(24px, 8vw, 42px);
-    }
-  }
-</style>
-
-<div id="chessBoard"></div>
-
-<script>
-  const board = document.getElementById("chessBoard");
-
-  /*
-    Standard chess starting position.
-
-    Row 1 = Black pieces
-    Row 2 = Black pawns
-    Row 3-6 = Empty
-    Row 7 = White pawns
-    Row 8 = White pieces
-
-    This is the correct orientation when looking at
-    the board from White's side.
-  */
-
-  const pieces = [
-    // Row 1 - Black
-    { symbol: "♜", color: "black" },
-    { symbol: "♞", color: "black" },
-    { symbol: "♝", color: "black" },
-    { symbol: "♛", color: "black" },
-    { symbol: "♚", color: "black" },
-    { symbol: "♝", color: "black" },
-    { symbol: "♞", color: "black" },
-    { symbol: "♜", color: "black" },
-
-    // Row 2 - Black pawns
-    { symbol: "♟", color: "black" },
-    { symbol: "♟", color: "black" },
-    { symbol: "♟", color: "black" },
-    { symbol: "♟", color: "black" },
-    { symbol: "♟", color: "black" },
-    { symbol: "♟", color: "black" },
-    { symbol: "♟", color: "black" },
-    { symbol: "♟", color: "black" },
-
-    // Row 3
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-
-    // Row 4
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-
-    // Row 5
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-
-    // Row 6
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-    { symbol: "", color: "" },
-
-    // Row 7 - White pawns
-    { symbol: "♙", color: "white" },
-    { symbol: "♙", color: "white" },
-    { symbol: "♙", color: "white" },
-    { symbol: "♙", color: "white" },
-    { symbol: "♙", color: "white" },
-    { symbol: "♙", color: "white" },
-    { symbol: "♙", color: "white" },
-    { symbol: "♙", color: "white" },
-
-    // Row 8 - White
-    { symbol: "♖", color: "white" },
-    { symbol: "♘", color: "white" },
-    { symbol: "♗", color: "white" },
-    { symbol: "♕", color: "white" },
-    { symbol: "♔", color: "white" },
-    { symbol: "♗", color: "white" },
-    { symbol: "♘", color: "white" },
-    { symbol: "♖", color: "white" }
-  ];
-
-  /* Create all 64 squares */
-  pieces.forEach((piece, index) => {
-    const square = document.createElement("div");
-
-    const row = Math.floor(index / 8);
-    const col = index % 8;
-
-    /* Alternating board colors */
-    square.className =
-      "square " +
-      ((row + col) % 2 === 0 ? "light" : "dark");
-
-    /* Add piece */
-    if (piece.symbol) {
-      square.textContent = piece.symbol;
-      square.classList.add(`${piece.color}-piece`);
-    }
-
-    board.appendChild(square);
-  });
-</script>
-
-<!-- =====================================================
-     END CHESS BOARD
-     ===================================================== -->
+/* =====================================================
+   END CHESS BOARD
+   ===================================================== */
       =====================================================
       MEMBERSHIP MODAL
       =====================================================
