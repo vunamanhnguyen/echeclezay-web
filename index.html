@@ -1,65 +1,23 @@
 <!DOCTYPE html>
-
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Atelier Jeu d'Échecs Lezay</title>
-
-<meta
-name="description"
-content="Atelier jeu d'échecs du Collège Lezay Marnésia à Strasbourg. Ouvert aux élèves de 6e à 3e, tous niveaux."
-
->
-
-  <meta name="theme-color" content="#111111">
-
-  <link rel="icon" href="https://image-namanhstudio.weebly.com/uploads/1/5/5/3/155356283/icon-echec-lezay_orig.png">
+  <meta name="description" content="Atelier Jeu d'Échecs Lezay — Collège Lezay Marnésia, Strasbourg.">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root {
-      --bg: #f5f5f2;
-      --surface: #ffffff;
-      --surface-2: #eeeeeb;
-      --text: #111111;
-      --muted: #666666;
-      --border: #deded8;
-
-      --green: #176b45;
-      --green-dark: #105437;
-      --green-soft: #e7f1eb;
-
-      --black: #111111;
+      --black: #050505;
       --white: #ffffff;
-
-      --danger: #b4232f;
-      --danger-bg: #fbe9eb;
-
-      --shadow: 0 25px 70px rgba(0, 0, 0, .13);
-
-      --radius: 18px;
-      --max-width: 1180px;
-    }
-
-    [data-theme="dark"] {
-      --bg: #0c0e0d;
-      --surface: #141715;
-      --surface-2: #1b1e1c;
-      --text: #f5f5f2;
-      --muted: #9a9f9b;
-      --border: #2b302d;
-
-      --green: #4da978;
-      --green-dark: #6abd91;
-      --green-soft: #17281f;
-
-      --black: #f5f5f2;
-      --white: #111111;
-
-      --shadow: 0 25px 70px rgba(0, 0, 0, .35);
+      --green: #19a463;
+      --green-dark: #0d6f43;
+      --green-light: #dff7ea;
+      --border: rgba(25, 164, 99, 0.35);
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.16);
     }
 
     * {
@@ -70,31 +28,24 @@ content="Atelier jeu d'échecs du Collège Lezay Marnésia à Strasbourg. Ouvert
 
     html {
       scroll-behavior: smooth;
-      scroll-padding-top: 90px;
     }
 
     body {
-      font-family:
-        Inter,
-        ui-sans-serif,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
-
-      background: var(--bg);
-      color: var(--text);
-
-      min-height: 100vh;
-
-      transition:
-        background .25s ease,
-        color .25s ease;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      background: var(--white);
+      color: var(--black);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 0.25s ease, color 0.25s ease;
     }
 
-    body.modal-open {
-      overflow: hidden;
+    body.dark {
+      --white: #050505;
+      --black: #ffffff;
+      --green-light: #0b291b;
+      --border: rgba(25, 164, 99, 0.45);
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     }
 
     a {
@@ -113,2148 +64,1518 @@ content="Atelier jeu d'échecs du Collège Lezay Marnésia à Strasbourg. Ouvert
       cursor: pointer;
     }
 
-    ::selection {
-      background: var(--green);
-      color: white;
+    .container {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
     }
 
-    /* =====================================================
+    /* =========================
        NAVBAR
-    ===================================================== */
+    ========================= */
 
     .navbar {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-
-      height: 76px;
-
-      z-index: 50;
-
+      z-index: 1000;
       border-bottom: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
+    }
 
-      background: color-mix(
-        in srgb,
-        var(--bg) 88%,
-        transparent
-      );
-
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+    body.dark .navbar {
+      background: rgba(5, 5, 5, 0.92);
     }
 
     .nav-inner {
-      width: min(
-        calc(100% - 36px),
-        var(--max-width)
-      );
-
-      height: 100%;
-
-      margin: auto;
-
+      height: 76px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
+      gap: 25px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 11px;
-
-      flex-shrink: 0;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
     }
 
-    .brand-logo {
+    .brand img {
       width: 42px;
       height: 42px;
-
       object-fit: contain;
-
-      background: white;
-
-      border-radius: 11px;
-
-      padding: 4px;
-
-      border: 1px solid var(--border);
-    }
-
-    .brand-text strong {
-      display: block;
-
-      font-size: 13px;
-      letter-spacing: -.025em;
-    }
-
-    .brand-text span {
-      display: block;
-
-      margin-top: 2px;
-
-      color: var(--muted);
-
-      font-size: 10px;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 24px;
+      font-size: 14px;
+      font-weight: 700;
     }
 
     .nav-links a {
-      padding: 9px 11px;
-
-      border-radius: 9px;
-
-      color: var(--muted);
-
-      font-size: 12px;
-      font-weight: 650;
-
-      transition: .18s ease;
+      position: relative;
+      transition: color 0.2s ease;
     }
 
     .nav-links a:hover {
-      color: var(--text);
-      background: var(--surface-2);
+      color: var(--green);
     }
 
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 9px;
     }
 
-    .theme-button,
-    .menu-button {
-      width: 38px;
-      height: 38px;
-
+    .theme-btn,
+    .menu-btn {
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--black);
       display: grid;
       place-items: center;
-
-      border: 1px solid var(--border);
-
-      background: var(--surface);
-
-      color: var(--text);
-
-      border-radius: 10px;
-
-      transition: .18s ease;
+      font-size: 17px;
     }
 
-    .theme-button:hover,
-    .menu-button:hover {
-      border-color: var(--green);
-      color: var(--green);
-    }
-
-    .menu-button {
+    .menu-btn {
       display: none;
     }
 
-    /* =====================================================
-       BUTTONS
-    ===================================================== */
-
     .btn {
-      border: 1px solid var(--border);
-
-      background: var(--surface);
-      color: var(--text);
-
-      border-radius: 11px;
-
-      padding: 11px 16px;
-
-      font-size: 12px;
-      font-weight: 750;
-
-      transition: .18s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      border-color: var(--green);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 46px;
+      padding: 0 20px;
+      border-radius: 999px;
+      border: 1px solid var(--green);
+      font-weight: 800;
+      transition: 0.2s ease;
     }
 
     .btn-green {
       background: var(--green);
-      color: white;
-      border-color: var(--green);
+      color: #ffffff;
     }
 
     .btn-green:hover {
       background: var(--green-dark);
-      border-color: var(--green-dark);
+      transform: translateY(-2px);
     }
 
-    .btn-black {
-      background: var(--text);
-      color: var(--bg);
-      border-color: var(--text);
+    .btn-outline {
+      background: transparent;
+      color: var(--black);
     }
 
-    .btn-large {
-      padding: 14px 20px;
-      font-size: 13px;
-      border-radius: 12px;
+    .btn-outline:hover {
+      background: var(--green-light);
     }
 
-    /* =====================================================
+    /* =========================
        HERO
-    ===================================================== */
+    ========================= */
 
     .hero {
-      min-height: 760px;
-
-      padding:
-        155px 0
-        100px;
-
+      min-height: 100vh;
+      padding: 150px 0 90px;
       display: flex;
       align-items: center;
-
       position: relative;
-
       overflow: hidden;
     }
 
     .hero::before {
       content: "";
-
       position: absolute;
-
-      width: 520px;
-      height: 520px;
-
-      right: -180px;
-      top: 80px;
-
+      width: 500px;
+      height: 500px;
       border-radius: 50%;
-
-      background: var(--green-soft);
-
-      opacity: .75;
-
+      background: rgba(25, 164, 99, 0.09);
+      top: 5%;
+      right: -180px;
+      filter: blur(10px);
       pointer-events: none;
     }
 
-    .hero-inner {
-      width: min(
-        calc(100% - 36px),
-        var(--max-width)
-      );
-
-      margin: auto;
-
-      position: relative;
-      z-index: 1;
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+      gap: 70px;
     }
 
     .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-
       color: var(--green);
-
-      font-size: 11px;
-      font-weight: 800;
-
-      letter-spacing: .11em;
+      font-size: 13px;
+      font-weight: 900;
       text-transform: uppercase;
+      letter-spacing: 0.13em;
+      margin-bottom: 18px;
     }
 
     .eyebrow::before {
       content: "";
-
-      width: 22px;
+      width: 26px;
       height: 2px;
-
       background: var(--green);
     }
 
     .hero h1 {
-      max-width: 850px;
-
-      margin-top: 20px;
-
-      font-size:
-        clamp(48px, 8vw, 92px);
-
-      line-height: .93;
-
-      letter-spacing: -.075em;
-
-      font-weight: 800;
+      font-size: clamp(48px, 7vw, 88px);
+      line-height: 0.95;
+      letter-spacing: -0.065em;
+      max-width: 800px;
+      margin-bottom: 28px;
     }
 
     .hero h1 span {
       color: var(--green);
     }
 
-    .hero-description {
-      max-width: 600px;
-
-      margin-top: 27px;
-
-      color: var(--muted);
-
-      font-size: 16px;
-      line-height: 1.7;
+    .hero-text {
+      max-width: 650px;
+      font-size: 19px;
+      color: var(--black);
+      opacity: 0.78;
+      margin-bottom: 34px;
     }
 
-    .hero-actions {
+    .hero-buttons {
       display: flex;
       flex-wrap: wrap;
-      gap: 9px;
-
-      margin-top: 30px;
+      gap: 12px;
     }
 
-    .hero-meta {
+    /* Chessboard */
+
+    .hero-board-wrap {
       display: flex;
-      flex-wrap: wrap;
-      gap: 28px;
-
-      margin-top: 55px;
-
-      padding-top: 22px;
-
-      border-top: 1px solid var(--border);
-
-      max-width: 760px;
+      justify-content: center;
+      align-items: center;
     }
 
-    .hero-meta-item strong {
-      display: block;
-
-      font-size: 17px;
-      letter-spacing: -.03em;
+    .chessboard-frame {
+      width: min(500px, 90vw);
+      aspect-ratio: 1;
+      padding: 15px;
+      background: var(--black);
+      border: 2px solid var(--green);
+      box-shadow: var(--shadow);
+      transform: rotate(1deg);
     }
 
-    .hero-meta-item span {
-      display: block;
-
-      margin-top: 4px;
-
-      color: var(--muted);
-
-      font-size: 10px;
-      font-weight: 650;
-
-      text-transform: uppercase;
-      letter-spacing: .07em;
+    .chessboard {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      border: 2px solid var(--green);
     }
 
-    /* =====================================================
+    .square {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Georgia, serif;
+      font-size: clamp(25px, 5vw, 52px);
+      line-height: 1;
+      user-select: none;
+    }
+
+    .square.light {
+      background: #ffffff;
+      color: #050505;
+    }
+
+    .square.dark {
+      background: var(--green);
+      color: #ffffff;
+    }
+
+    /* =========================
        GENERAL SECTIONS
-    ===================================================== */
+    ========================= */
 
-    .section {
-      padding: 105px 0;
+    section {
+      padding: 110px 0;
+      scroll-margin-top: 80px;
     }
 
-    .section-inner {
-      width: min(
-        calc(100% - 36px),
-        var(--max-width)
-      );
-
-      margin: auto;
+    .section-header {
+      max-width: 760px;
+      margin-bottom: 55px;
     }
 
     .section-number {
       color: var(--green);
-
-      font-size: 10px;
-      font-weight: 800;
-
-      letter-spacing: .12em;
-
-      text-transform: uppercase;
-
-      margin-bottom: 13px;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      margin-bottom: 12px;
     }
 
-    .section-heading {
-      max-width: 760px;
-
-      font-size:
-        clamp(32px, 5vw, 58px);
-
+    .section-header h2 {
+      font-size: clamp(38px, 5vw, 62px);
       line-height: 1;
-
-      letter-spacing: -.06em;
+      letter-spacing: -0.055em;
+      margin-bottom: 20px;
     }
 
-    .section-intro {
-      max-width: 620px;
-
-      margin-top: 18px;
-
-      color: var(--muted);
-
-      font-size: 14px;
-      line-height: 1.75;
+    .section-header p {
+      font-size: 17px;
+      opacity: 0.72;
+      max-width: 700px;
     }
 
-    /* =====================================================
+    /* =========================
        ABOUT
-    ===================================================== */
+    ========================= */
 
-    .about-grid {
+    .about-layout {
       display: grid;
-
-      grid-template-columns:
-        1.15fr
-        .85fr;
-
+      grid-template-columns: 1fr 1fr;
       gap: 70px;
-
-      margin-top: 55px;
-
       align-items: start;
     }
 
     .about-copy {
       font-size: 17px;
-      line-height: 1.8;
     }
 
-    .about-copy p + p {
-      margin-top: 20px;
+    .about-copy p {
+      margin-bottom: 20px;
     }
 
-    .about-copy strong {
+    .about-highlight {
+      padding: 26px;
+      border-left: 4px solid var(--green);
+      background: var(--green-light);
+      font-weight: 800;
+      font-size: 18px;
+      margin: 30px 0;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .stat {
+      border: 1px solid var(--border);
+      padding: 24px;
+      min-height: 145px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .stat strong {
+      color: var(--green);
+      font-size: 32px;
+      line-height: 1;
+    }
+
+    .stat span {
+      font-size: 13px;
       font-weight: 800;
     }
 
-    .quote {
-      padding: 24px;
-
-      margin-bottom: 25px;
-
-      border-left: 3px solid var(--green);
-
-      background: var(--surface);
-
-      border-radius: 0 14px 14px 0;
-
-      font-size: 20px;
-
-      line-height: 1.45;
-
-      letter-spacing: -.025em;
-    }
-
-    .about-stats {
-      display: grid;
-
-      grid-template-columns: repeat(3, 1fr);
-
-      gap: 10px;
-    }
-
-    .about-stat {
-      background: var(--surface);
-
-      border: 1px solid var(--border);
-
-      border-radius: 14px;
-
-      padding: 19px;
-    }
-
-    .about-stat strong {
-      display: block;
-
-      color: var(--green);
-
-      font-size: 26px;
-
-      letter-spacing: -.05em;
-    }
-
-    .about-stat span {
-      display: block;
-
-      margin-top: 6px;
-
-      color: var(--muted);
-
-      font-size: 10px;
-
-      line-height: 1.4;
-    }
-
-    /* =====================================================
+    /* =========================
        ACTIVITIES
-    ===================================================== */
+    ========================= */
 
-    .activities {
-      margin-top: 55px;
-
+    .activities-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
       border-top: 1px solid var(--border);
+      border-left: 1px solid var(--border);
     }
 
     .activity {
-      display: grid;
-
-      grid-template-columns: 70px 1fr;
-
-      gap: 25px;
-
-      padding: 27px 0;
-
+      padding: 30px;
+      min-height: 280px;
+      border-right: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
+      transition: 0.25s ease;
+    }
+
+    .activity:hover {
+      background: var(--green-light);
+      transform: translateY(-4px);
     }
 
     .activity-number {
       color: var(--green);
-
-      font-size: 11px;
-      font-weight: 800;
+      font-weight: 900;
+      font-size: 14px;
+      margin-bottom: 65px;
     }
 
     .activity h3 {
-      font-size: 23px;
-
-      letter-spacing: -.04em;
+      font-size: 24px;
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
     }
 
     .activity p {
-      max-width: 600px;
-
-      margin-top: 7px;
-
-      color: var(--muted);
-
-      font-size: 13px;
-      line-height: 1.65;
+      opacity: 0.7;
+      font-size: 15px;
     }
 
-    /* =====================================================
-       INFORMATION
-    ===================================================== */
+    /* =========================
+       INFORMATIONS
+    ========================= */
 
     .info-grid {
       display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
-      gap: 12px;
-
-      margin-top: 55px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
     }
 
     .info-card {
-      background: var(--surface);
-
       border: 1px solid var(--border);
-
-      border-radius: 16px;
-
-      padding: 25px;
+      padding: 28px;
+      min-height: 200px;
     }
 
-    .info-card-label {
+    .info-icon {
       color: var(--green);
-
-      font-size: 10px;
-      font-weight: 800;
-
-      text-transform: uppercase;
-      letter-spacing: .09em;
+      font-size: 25px;
+      margin-bottom: 30px;
     }
 
-    .info-card strong {
-      display: block;
-
-      margin-top: 13px;
-
-      font-size: 21px;
-
-      letter-spacing: -.035em;
+    .info-card h3 {
+      font-size: 19px;
+      margin-bottom: 7px;
     }
 
     .info-card p {
-      margin-top: 7px;
-
-      color: var(--muted);
-
-      font-size: 12px;
-
-      line-height: 1.6;
+      opacity: 0.7;
+      font-size: 15px;
     }
 
-    /* =====================================================
+    .info-card strong {
+      color: var(--green);
+    }
+
+    /* =========================
        CLUB LIFE
-    ===================================================== */
+    ========================= */
 
-    .life-grid {
-      display: grid;
-
-      grid-template-columns:
-        repeat(4, 1fr);
-
-      gap: 11px;
-
-      margin-top: 55px;
-    }
-
-    .life-card {
-      min-height: 245px;
-
-      background: var(--surface);
-
-      border: 1px solid var(--border);
-
-      border-radius: 16px;
-
-      padding: 22px;
-
-      display: flex;
-      flex-direction: column;
-    }
-
-    .life-icon {
-      color: var(--green);
-
-      font-size: 25px;
-
-      margin-bottom: auto;
-    }
-
-    .life-card small {
-      color: var(--green);
-
-      font-size: 9px;
-      font-weight: 800;
-
-      text-transform: uppercase;
-      letter-spacing: .09em;
-    }
-
-    .life-card h3 {
-      margin-top: 8px;
-
-      font-size: 18px;
-
-      letter-spacing: -.035em;
-    }
-
-    .life-card p {
-      margin-top: 7px;
-
-      color: var(--muted);
-
-      font-size: 11px;
-
-      line-height: 1.6;
-    }
-
-    /* =====================================================
-       ENCADREMENT
-    ===================================================== */
-
-    .team-grid {
-      display: grid;
-
-      grid-template-columns:
-        repeat(2, 1fr);
-
-      gap: 12px;
-
-      margin-top: 55px;
-    }
-
-    .person {
-      background: var(--surface);
-
-      border: 1px solid var(--border);
-
-      border-radius: 17px;
-
-      padding: 27px;
-
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-
-    .person-avatar {
-      width: 60px;
-      height: 60px;
-
-      flex-shrink: 0;
-
-      display: grid;
-      place-items: center;
-
-      border-radius: 16px;
-
-      background: var(--green);
-
-      color: white;
-
-      font-size: 19px;
-      font-weight: 800;
-    }
-
-    .person small {
-      color: var(--green);
-
-      font-size: 9px;
-      font-weight: 800;
-
-      text-transform: uppercase;
-      letter-spacing: .08em;
-    }
-
-    .person h3 {
-      margin-top: 6px;
-
-      font-size: 19px;
-
-      letter-spacing: -.035em;
-    }
-
-    .person p {
-      margin-top: 5px;
-
-      color: var(--muted);
-
-      font-size: 11px;
-    }
-
-    /* =====================================================
-       CTA
-    ===================================================== */
-
-    .cta-section {
-      padding: 80px 0 105px;
-    }
-
-    .cta {
-      background: var(--green);
-
-      color: white;
-
-      border-radius: 22px;
-
-      padding: 55px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
-
-      gap: 35px;
-    }
-
-    .cta h2 {
-      max-width: 650px;
-
-      font-size:
-        clamp(30px, 4vw, 48px);
-
-      line-height: 1;
-
-      letter-spacing: -.06em;
-    }
-
-    .cta p {
-      max-width: 600px;
-
-      margin-top: 12px;
-
-      color: rgba(255,255,255,.78);
-
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .cta .btn {
-      flex-shrink: 0;
-
-      background: white;
-      color: var(--green);
-
-      border-color: white;
-    }
-
-    /* =====================================================
-       FOOTER
-    ===================================================== */
-
-    footer {
-      padding: 30px 0 35px;
-
+    .club-list {
       border-top: 1px solid var(--border);
     }
 
-    .footer-inner {
-      width: min(
-        calc(100% - 36px),
-        var(--max-width)
-      );
-
-      margin: auto;
-
-      display: flex;
-
+    .club-item {
+      display: grid;
+      grid-template-columns: 80px 170px 1fr;
       align-items: center;
-
-      justify-content: space-between;
-
-      gap: 20px;
+      gap: 30px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
     }
 
-    .footer-brand {
-      color: var(--muted);
-
-      font-size: 11px;
-    }
-
-    .footer-brand strong {
-      color: var(--text);
-    }
-
-    .footer-email {
+    .club-symbol {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--green);
       color: var(--green);
-
-      font-size: 11px;
-      font-weight: 700;
+      font-family: Georgia, serif;
+      font-size: 25px;
     }
 
-    /* =====================================================
-       MODAL INSCRIPTION
-    ===================================================== */
-
-    .modal-overlay {
-      position: fixed;
-
-      inset: 0;
-
-      z-index: 100;
-
-      display: none;
-
-      align-items: center;
-      justify-content: center;
-
-      padding: 20px;
-
-      background: rgba(0,0,0,.62);
-
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+    .club-title {
+      font-size: 20px;
+      font-weight: 900;
     }
 
-    .modal-overlay.open {
+    .club-text {
+      opacity: 0.7;
+      font-size: 15px;
+    }
+
+    /* =========================
+       ENCADREMENT
+    ========================= */
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .person {
+      border: 1px solid var(--border);
+      padding: 35px;
+      min-height: 250px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .person::after {
+      content: "♟";
+      position: absolute;
+      right: 22px;
+      bottom: -30px;
+      font-family: Georgia, serif;
+      font-size: 170px;
+      color: var(--green);
+      opacity: 0.08;
+    }
+
+    .person-role {
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 55px;
+    }
+
+    .person h3 {
+      font-size: 28px;
+      letter-spacing: -0.04em;
+      margin-bottom: 8px;
+    }
+
+    .person p {
+      opacity: 0.7;
+    }
+
+    /* =========================
+       CTA
+    ========================= */
+
+    .cta {
+      padding: 0 0 110px;
+    }
+
+    .cta-box {
+      background: var(--black);
+      color: var(--white);
+      border: 1px solid var(--green);
+      padding: 55px;
       display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
     }
+
+    body.dark .cta-box {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .cta-box h2 {
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1;
+      letter-spacing: -0.05em;
+      margin-bottom: 14px;
+    }
+
+    .cta-box p {
+      opacity: 0.7;
+      max-width: 600px;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 30px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      font-size: 13px;
+      opacity: 0.65;
+    }
+
+    /* =========================
+       MODAL INSCRIPTION
+    ========================= */
 
     .modal {
-      width: 100%;
-
-      max-width: 560px;
-
-      max-height: 92vh;
-
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(0, 0, 0, 0.72);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
       overflow-y: auto;
+    }
 
-      background: var(--surface);
+    .modal.open {
+      display: flex;
+    }
 
-      color: var(--text);
-
-      border: 1px solid var(--border);
-
-      border-radius: 20px;
-
-      box-shadow: var(--shadow);
-
-      animation: modalIn .2s ease;
+    .modal-box {
+      width: min(600px, 100%);
+      background: var(--white);
+      color: var(--black);
+      border: 1px solid var(--green);
+      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.4);
+      position: relative;
+      padding: 35px;
+      animation: modalIn 0.2s ease;
     }
 
     @keyframes modalIn {
       from {
         opacity: 0;
-        transform: translateY(12px) scale(.98);
+        transform: translateY(15px) scale(0.98);
       }
-
       to {
         opacity: 1;
         transform: translateY(0) scale(1);
       }
     }
 
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--black);
+      font-size: 20px;
+    }
+
     .modal-header {
-      padding: 22px 24px;
+      padding-right: 45px;
+      margin-bottom: 28px;
+    }
 
-      border-bottom: 1px solid var(--border);
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
+    .modal-header .eyebrow {
+      margin-bottom: 10px;
     }
 
     .modal-header h2 {
-      font-size: 21px;
-
-      letter-spacing: -.045em;
+      font-size: 34px;
+      line-height: 1;
+      letter-spacing: -0.05em;
+      margin-bottom: 10px;
     }
 
     .modal-header p {
-      margin-top: 4px;
-
-      color: var(--muted);
-
-      font-size: 11px;
-    }
-
-    .close-button {
-      width: 34px;
-      height: 34px;
-
-      border: 0;
-
-      border-radius: 9px;
-
-      background: var(--surface-2);
-
-      color: var(--text);
-
-      font-size: 20px;
-
-      display: grid;
-      place-items: center;
-    }
-
-    .modal-body {
-      padding: 24px;
-    }
-
-    .form-grid {
-      display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap: 14px;
+      font-size: 14px;
+      opacity: 0.65;
     }
 
     .form-group {
-      display: flex;
-      flex-direction: column;
-
-      gap: 7px;
+      margin-bottom: 17px;
     }
 
-    .form-group.full {
-      grid-column: 1 / -1;
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
     }
 
-    .form-group label {
-      color: var(--text);
-
-      font-size: 11px;
-
-      font-weight: 750;
-    }
-
-    .form-group label span {
-      color: var(--muted);
-
-      font-weight: 500;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-
-      border: 1px solid var(--border);
-
-      border-radius: 10px;
-
-      background: var(--bg);
-
-      color: var(--text);
-
-      padding: 12px 13px;
-
-      outline: none;
-
+    label {
+      display: block;
       font-size: 13px;
-
-      transition: .18s ease;
+      font-weight: 900;
+      margin-bottom: 7px;
     }
 
-    .form-group textarea {
-      min-height: 105px;
+    .required {
+      color: var(--green);
+    }
 
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--black);
+      padding: 12px 13px;
+      border-radius: 7px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(25, 164, 99, 0.12);
+    }
+
+    textarea {
+      min-height: 100px;
       resize: vertical;
     }
 
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      border-color: var(--green);
-
-      box-shadow:
-        0 0 0 3px
-        color-mix(
-          in srgb,
-          var(--green) 13%,
-          transparent
-        );
+    select option {
+      color: #050505;
+      background: #ffffff;
     }
 
-    .modal-footer {
-      padding: 17px 24px;
+    .form-note {
+      font-size: 12px;
+      opacity: 0.55;
+      margin-top: 8px;
+    }
 
-      border-top: 1px solid var(--border);
-
-      display: flex;
-
-      justify-content: flex-end;
-
-      gap: 8px;
+    .honeypot {
+      position: absolute !important;
+      left: -9999px !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
     }
 
     .form-message {
       display: none;
-
-      margin-bottom: 17px;
-
-      padding: 12px 13px;
-
-      border-radius: 10px;
-
-      font-size: 12px;
-
-      line-height: 1.5;
+      padding: 13px;
+      margin-bottom: 16px;
+      border: 1px solid var(--green);
+      background: var(--green-light);
+      font-size: 14px;
+      font-weight: 700;
     }
 
     .form-message.show {
       display: block;
     }
 
-    .form-message.success {
-      background: var(--green-soft);
-
-      color: var(--green);
-    }
-
     .form-message.error {
-      background: var(--danger-bg);
-
-      color: var(--danger);
+      background: transparent;
     }
 
-    .required-note {
-      margin-top: 14px;
-
-      color: var(--muted);
-
-      font-size: 10px;
+    .submit-btn {
+      width: 100%;
+      border: 0;
+      margin-top: 5px;
     }
 
-    /* =====================================================
-       MOBILE NAV
-    ===================================================== */
-
-    .mobile-nav {
-      display: none;
-
-      position: fixed;
-
-      top: 76px;
-      left: 0;
-      right: 0;
-
-      z-index: 49;
-
-      padding: 10px 18px 15px;
-
-      background: var(--bg);
-
-      border-bottom: 1px solid var(--border);
+    .submit-btn:disabled {
+      opacity: 0.55;
+      cursor: wait;
+      transform: none;
     }
 
-    .mobile-nav.open {
-      display: block;
-    }
+    /* =========================
+       MOBILE
+    ========================= */
 
-    .mobile-nav a {
-      display: block;
-
-      padding: 13px;
-
-      border-radius: 10px;
-
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .mobile-nav a:hover {
-      background: var(--surface-2);
-    }
-
-    /* =====================================================
-       RESPONSIVE
-    ===================================================== */
-
-    @media (max-width: 900px) {
+    @media (max-width: 1000px) {
       .nav-links {
         display: none;
       }
 
-      .menu-button {
+      .menu-btn {
         display: grid;
       }
 
-      .hero {
-        min-height: auto;
-
-        padding-top: 145px;
+      .nav-links.mobile-open {
+        position: absolute;
+        top: 76px;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 10px 20px 20px;
+        background: var(--white);
+        border-bottom: 1px solid var(--border);
       }
 
-      .about-grid {
+      .nav-links.mobile-open a {
+        padding: 13px 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .hero-grid,
+      .about-layout {
         grid-template-columns: 1fr;
-
-        gap: 35px;
       }
 
-      .life-grid {
-        grid-template-columns:
-          repeat(2, 1fr);
+      .hero-board-wrap {
+        order: -1;
+      }
+
+      .hero {
+        padding-top: 120px;
+      }
+
+      .activities-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .info-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
       }
 
-      .cta {
-        flex-direction: column;
+      .club-item {
+        grid-template-columns: 65px 1fr;
+      }
 
-        align-items: flex-start;
-
-        padding: 38px;
+      .club-text {
+        grid-column: 2;
       }
     }
 
     @media (max-width: 650px) {
-      .navbar {
-        height: 68px;
+      .container {
+        width: min(100% - 28px, 1180px);
       }
 
-      .mobile-nav {
-        top: 68px;
-      }
-
-      .brand-text span {
+      .brand span {
         display: none;
-      }
-
-      .brand-logo {
-        width: 39px;
-        height: 39px;
-      }
-
-      .nav-actions .btn {
-        display: none;
-      }
-
-      .hero {
-        padding:
-          125px 0
-          75px;
       }
 
       .hero h1 {
         font-size: 54px;
       }
 
-      .hero-description {
-        font-size: 14px;
+      .hero-text {
+        font-size: 17px;
       }
 
-      .hero-meta {
-        gap: 20px;
+      section {
+        padding: 80px 0;
       }
 
-      .section {
-        padding: 75px 0;
-      }
-
-      .about-stats {
+      .activities-grid,
+      .info-grid,
+      .team-grid,
+      .stats {
         grid-template-columns: 1fr;
       }
 
       .activity {
-        grid-template-columns: 40px 1fr;
-
-        gap: 10px;
+        min-height: auto;
       }
 
-      .life-grid {
+      .activity-number {
+        margin-bottom: 35px;
+      }
+
+      .cta-box {
+        padding: 32px 24px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .form-row {
         grid-template-columns: 1fr;
       }
 
-      .team-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .person {
-        padding: 21px;
-      }
-
-      .cta-section {
-        padding: 50px 0 75px;
-      }
-
-      .cta {
-        padding: 30px 24px;
-
-        border-radius: 17px;
+      .modal-box {
+        padding: 27px 20px;
       }
 
       .footer-inner {
         flex-direction: column;
-
         align-items: flex-start;
       }
 
-      .modal-overlay {
-        padding: 10px;
-      }
-
-      .modal {
-        border-radius: 16px;
-      }
-
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .form-group.full {
-        grid-column: auto;
-      }
-
-      .modal-body {
-        padding: 19px;
-      }
-
-      .modal-footer {
-        padding: 15px 19px;
+      .nav-actions .btn {
+        display: none;
       }
     }
   </style>
-
 </head>
 
 <body>
 
-  <!-- =====================================================
+  <!-- =========================
        NAVBAR
-  ====================================================== -->
+  ========================= -->
 
   <header class="navbar">
-    <div class="nav-inner">
+    <div class="container nav-inner">
 
-```
-  <a href="#accueil" class="brand" aria-label="Accueil">
-    <img
-      class="brand-logo"
-      src="https://image-namanhstudio.weebly.com/uploads/1/5/5/3/155356283/icon-echec-lezay_orig.png"
-      alt="Logo Atelier Jeu d'Échecs Lezay"
-    >
+      <a href="#accueil" class="brand">
+        <img
+          src="https://image-namanhstudio.weebly.com/uploads/1/5/5/3/155356283/icon-echec-lezay_orig.png"
+          alt="Logo Atelier Jeu d'Échecs Lezay"
+        >
+        <span>Atelier Échecs Lezay</span>
+      </a>
 
-    <div class="brand-text">
-      <strong>Échecs Lezay</strong>
-      <span>Atelier du collège</span>
+      <nav class="nav-links" id="navLinks">
+        <a href="#a-propos">À propos</a>
+        <a href="#activites">Activités</a>
+        <a href="#informations">Informations</a>
+        <a href="#vie-du-club">Vie du club</a>
+        <a href="#encadrement">Encadrement</a>
+        <a href="https://echeclezay.substack.com" target="_blank" rel="noopener">
+          Nouvelles
+        </a>
+      </nav>
+
+      <div class="nav-actions">
+        <button
+          class="theme-btn"
+          id="themeToggle"
+          type="button"
+          aria-label="Changer de thème"
+          title="Changer de thème"
+        >
+          ☾
+        </button>
+
+        <button
+          class="menu-btn"
+          id="menuToggle"
+          type="button"
+          aria-label="Ouvrir le menu"
+        >
+          ☰
+        </button>
+
+        <button class="btn btn-green" type="button" data-open-register>
+          S'inscrire
+        </button>
+      </div>
+
     </div>
-  </a>
-
-  <nav class="nav-links">
-    <a href="#a-propos">À propos</a>
-    <a href="#activites">Activités</a>
-    <a href="#informations">Informations</a>
-    <a href="#vie-du-club">Vie du club</a>
-    <a href="#encadrement">Encadrement</a>
-
-    <a
-      href="https://echeclezay.substack.com"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Posts ↗
-    </a>
-  </nav>
-
-  <div class="nav-actions">
-
-    <button
-      class="theme-button"
-      id="themeButton"
-      onclick="toggleTheme()"
-      aria-label="Changer de thème"
-      title="Changer de thème"
-    >
-      ☾
-    </button>
-
-    <button
-      class="menu-button"
-      onclick="toggleMobileMenu()"
-      aria-label="Ouvrir le menu"
-      id="menuButton"
-    >
-      ☰
-    </button>
-
-    <button
-      class="btn btn-green"
-      onclick="openRegistration()"
-    >
-      S'inscrire
-    </button>
-
-  </div>
-
-</div>
-```
-
   </header>
 
-  <!-- MOBILE NAV -->
-
-  <nav class="mobile-nav" id="mobileNav">
-
-```
-<a href="#a-propos" onclick="closeMobileMenu()">
-  À propos
-</a>
-
-<a href="#activites" onclick="closeMobileMenu()">
-  Activités
-</a>
-
-<a href="#informations" onclick="closeMobileMenu()">
-  Informations
-</a>
-
-<a href="#vie-du-club" onclick="closeMobileMenu()">
-  Vie du club
-</a>
-
-<a href="#encadrement" onclick="closeMobileMenu()">
-  Encadrement
-</a>
-
-<a
-  href="https://echeclezay.substack.com"
-  target="_blank"
-  rel="noopener noreferrer"
->
-  Posts ↗
-</a>
-```
-
-  </nav>
-
-  <!-- =====================================================
-       HERO
-  ====================================================== -->
 
   <main>
 
-```
-<section class="hero" id="accueil">
+    <!-- =========================
+         HERO
+    ========================= -->
 
-  <div class="hero-inner">
-
-    <div class="eyebrow">
-      Atelier Jeu d'Échecs Lezay
-    </div>
-
-    <h1>
-      Penser.<br>
-      Jouer.<br>
-      <span>Progresser.</span>
-    </h1>
-
-    <p class="hero-description">
-      Un espace dédié aux échecs au sein du Collège
-      Lezay Marnésia. De la 6e à la 3e, débutant ou
-      joueur expérimenté, chacun est le bienvenu.
-    </p>
-
-    <div class="hero-actions">
-
-      <button
-        class="btn btn-green btn-large"
-        onclick="openRegistration()"
-      >
-        Rejoindre l'atelier
-      </button>
-
-      <a
-        href="#a-propos"
-        class="btn btn-large"
-      >
-        Découvrir le club
-      </a>
-
-    </div>
-
-    <div class="hero-meta">
-
-      <div class="hero-meta-item">
-        <strong>6e–3e</strong>
-        <span>Niveaux concernés</span>
-      </div>
-
-      <div class="hero-meta-item">
-        <strong>15–20</strong>
-        <span>Objectif de membres</span>
-      </div>
-
-      <div class="hero-meta-item">
-        <strong>100%</strong>
-        <span>Atelier non lucratif</span>
-      </div>
-
-      <div class="hero-meta-item">
-        <strong>A25</strong>
-        <span>Salle</span>
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ===================================================
-     01 — À PROPOS
-==================================================== -->
-
-<section
-  class="section"
-  id="a-propos"
->
-
-  <div class="section-inner">
-
-    <div class="section-number">
-      01 · À propos
-    </div>
-
-    <h2 class="section-heading">
-      Un club pour penser autrement.
-    </h2>
-
-    <div class="about-grid">
-
-      <div class="about-copy">
-
-        <div class="quote">
-          Un échiquier, quelques pièces, et une infinité
-          de possibilités. Chaque partie est une nouvelle
-          manière d'apprendre.
-        </div>
-
-        <p>
-          Plus qu'un jeu, les échecs développent la
-          concentration, la logique, la patience et la
-          capacité à prendre des décisions.
-        </p>
-
-        <p>
-          L'Atelier jeu d'échecs Lezay propose aux élèves
-          du Collège Lezay Marnésia un espace dédié à la
-          pratique des échecs.
-        </p>
-
-        <p>
-          Débutant ou joueur déjà expérimenté, chacun
-          peut venir jouer, apprendre de nouvelles
-          stratégies, résoudre des positions et affronter
-          d'autres membres du club.
-        </p>
-
-        <p>
-          L'objectif est simple :
-          <strong>
-            progresser ensemble tout en prenant plaisir
-            à jouer.
-          </strong>
-        </p>
-
-      </div>
-
-      <div class="about-stats">
-
-        <div class="about-stat">
-          <strong>6e–3e</strong>
-          <span>Niveaux concernés</span>
-        </div>
-
-        <div class="about-stat">
-          <strong>15–20</strong>
-          <span>Objectif de membres</span>
-        </div>
-
-        <div class="about-stat">
-          <strong>100%</strong>
-          <span>Atelier non lucratif</span>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ===================================================
-     02 — ACTIVITÉS
-==================================================== -->
-
-<section
-  class="section"
-  id="activites"
->
-
-  <div class="section-inner">
-
-    <div class="section-number">
-      02 · Activités
-    </div>
-
-    <h2 class="section-heading">
-      Quatre façons de progresser.
-    </h2>
-
-    <p class="section-intro">
-      L'atelier mélange pratique, réflexion et découverte
-      pour permettre à chacun de trouver son propre rythme.
-    </p>
-
-    <div class="activities">
-
-      <article class="activity">
-        <div class="activity-number">01</div>
+    <section class="hero" id="accueil">
+      <div class="container hero-grid">
 
         <div>
-          <h3>Jouer</h3>
+          <div class="eyebrow">Collège Lezay Marnésia · Strasbourg</div>
 
-          <p>
-            Des parties libres pour pratiquer, tester ses
-            idées et découvrir différents styles de jeu.
+          <h1>
+            Pense.
+            <br>
+            Joue.
+            <br>
+            <span>Progresse.</span>
+          </h1>
+
+          <p class="hero-text">
+            L'Atelier Jeu d'Échecs Lezay est un espace ouvert aux élèves
+            de la 6e à la 3e pour jouer, apprendre, réfléchir et progresser
+            ensemble autour de l'échiquier.
           </p>
+
+          <div class="hero-buttons">
+            <button class="btn btn-green" type="button" data-open-register>
+              Rejoindre l'atelier
+            </button>
+
+            <a class="btn btn-outline" href="#informations">
+              Découvrir le club
+            </a>
+          </div>
         </div>
-      </article>
 
-      <article class="activity">
-        <div class="activity-number">02</div>
+        <div class="hero-board-wrap">
+          <div class="chessboard-frame">
+            <div class="chessboard" aria-label="Échiquier décoratif">
 
-        <div>
-          <h3>Apprendre</h3>
+              <div class="square light">♜</div>
+              <div class="square dark">♞</div>
+              <div class="square light">♝</div>
+              <div class="square dark">♛</div>
+              <div class="square light">♚</div>
+              <div class="square dark">♝</div>
+              <div class="square light">♞</div>
+              <div class="square dark">♜</div>
 
+              <div class="square dark">♟</div>
+              <div class="square light">♟</div>
+              <div class="square dark">♟</div>
+              <div class="square light">♟</div>
+              <div class="square dark">♟</div>
+              <div class="square light">♟</div>
+              <div class="square dark">♟</div>
+              <div class="square light">♟</div>
+
+              <div class="square light"></div>
+              <div class="square dark"></div>
+              <div class="square light"></div>
+              <div class="square dark"></div>
+              <div class="square light"></div>
+              <div class="square dark"></div>
+              <div class="square light"></div>
+              <div class="square dark"></div>
+
+              <div class="square dark"></div>
+              <div class="square light"></div>
+              <div class="square dark"></div>
+              <div class="square light"></div>
+              <div class="square dark"></div>
+              <div class="square light"></div>
+              <div class="square dark"></div>
+              <div class="square light"></div>
+
+              <div class="square light"></div>
+              <div class="square dark"></div>
+              <div class="square light"></div>
+              <div class="square dark"></div>
+              <div class="square light"></div>
+              <div class="square dark"></div>
+              <div class="square light"></div>
+              <div class="square dark"></div>
+
+              <div class="square dark"></div>
+              <div class="square light"></div>
+              <div class="square dark"></div>
+              <div class="square light"></div>
+              <div class="square dark"></div>
+              <div class="square light"></div>
+              <div class="square dark"></div>
+              <div class="square light"></div>
+
+              <div class="square light">♙</div>
+              <div class="square dark">♙</div>
+              <div class="square light">♙</div>
+              <div class="square dark">♙</div>
+              <div class="square light">♙</div>
+              <div class="square dark">♙</div>
+              <div class="square light">♙</div>
+              <div class="square dark">♙</div>
+
+              <div class="square dark">♖</div>
+              <div class="square light">♘</div>
+              <div class="square dark">♗</div>
+              <div class="square light">♕</div>
+              <div class="square dark">♔</div>
+              <div class="square light">♗</div>
+              <div class="square dark">♘</div>
+              <div class="square light">♖</div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =========================
+         01 · À PROPOS
+    ========================= -->
+
+    <section id="a-propos">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="section-number">01 · À PROPOS</div>
+          <h2>Un club pour penser autrement.</h2>
           <p>
-            Découvrir les règles, les ouvertures, les
-            tactiques et les principes essentiels du jeu.
-          </p>
-        </div>
-      </article>
-
-      <article class="activity">
-        <div class="activity-number">03</div>
-
-        <div>
-          <h3>Réfléchir</h3>
-
-          <p>
-            Résoudre des problèmes, analyser des positions
-            et développer sa capacité de raisonnement.
-          </p>
-        </div>
-      </article>
-
-      <article class="activity">
-        <div class="activity-number">04</div>
-
-        <div>
-          <h3>Progresser</h3>
-
-          <p>
-            Jouer régulièrement, analyser ses parties et
-            apprendre de ses erreurs.
-          </p>
-        </div>
-      </article>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ===================================================
-     03 — INFORMATIONS
-==================================================== -->
-
-<section
-  class="section"
-  id="informations"
->
-
-  <div class="section-inner">
-
-    <div class="section-number">
-      03 · Informations
-    </div>
-
-    <h2 class="section-heading">
-      Le club, concrètement.
-    </h2>
-
-    <p class="section-intro">
-      Un atelier au sein du collège, pensé pour rester
-      simple, accessible et centré sur la pratique.
-    </p>
-
-    <div class="info-grid">
-
-      <div class="info-card">
-
-        <div class="info-card-label">
-          Lieu
-        </div>
-
-        <strong>
-          Salle A25
-        </strong>
-
-        <p>
-          Collège Lezay Marnésia · Strasbourg
-        </p>
-
-      </div>
-
-      <div class="info-card">
-
-        <div class="info-card-label">
-          Public
-        </div>
-
-        <strong>
-          6e à 3e
-        </strong>
-
-        <p>
-          Tous les niveaux sont les bienvenus.
-        </p>
-
-      </div>
-
-      <div class="info-card">
-
-        <div class="info-card-label">
-          Adhésion
-        </div>
-
-        <strong>
-          Gratuite
-        </strong>
-
-        <p>
-          L'atelier est une activité non lucrative.
-        </p>
-
-      </div>
-
-      <div class="info-card">
-
-        <div class="info-card-label">
-          Séances
-        </div>
-
-        <strong>
-          Bientôt disponible
-        </strong>
-
-        <p>
-          Les jours et horaires seront communiqués
-          prochainement.
-        </p>
-
-      </div>
-
-      <div class="info-card">
-
-        <div class="info-card-label">
-          Contact
-        </div>
-
-        <strong>
-          echeclezay@proton.me
-        </strong>
-
-        <p>
-          Email public de l'Atelier Jeu d'Échecs Lezay.
-        </p>
-
-      </div>
-
-      <div class="info-card">
-
-        <div class="info-card-label">
-          Inscription
-        </div>
-
-        <strong>
-          En ligne
-        </strong>
-
-        <p>
-          L'inscription peut être effectuée directement
-          depuis ce site.
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ===================================================
-     04 — VIE DU CLUB
-==================================================== -->
-
-<section
-  class="section"
-  id="vie-du-club"
->
-
-  <div class="section-inner">
-
-    <div class="section-number">
-      04 · Vie du club
-    </div>
-
-    <h2 class="section-heading">
-      Jouer ensemble.
-    </h2>
-
-    <p class="section-intro">
-      Des moments pour jouer, se rencontrer et mettre
-      en pratique ce que l'on apprend.
-    </p>
-
-    <div class="life-grid">
-
-      <article class="life-card">
-
-        <div class="life-icon">♜</div>
-
-        <div>
-          <small>Tournoi</small>
-
-          <h3>
-            Tournois internes
-          </h3>
-
-          <p>
-            Des rencontres amicales entre membres du club
-            pour mettre ses stratégies à l'épreuve.
+            Plus qu'un jeu, les échecs développent la concentration,
+            la logique, la patience et la capacité à prendre des décisions.
           </p>
         </div>
 
-      </article>
+        <div class="about-layout">
+
+          <div class="about-copy">
+            <div class="about-highlight">
+              Un échiquier, quelques pièces, et une infinité de possibilités.
+              Chaque partie est une nouvelle manière d'apprendre.
+            </div>
+
+            <p>
+              L'Atelier jeu d'échecs Lezay propose aux élèves du Collège
+              Lezay Marnésia un espace dédié à la pratique des échecs.
+            </p>
+
+            <p>
+              Débutant ou joueur déjà expérimenté, chacun peut venir jouer,
+              apprendre de nouvelles stratégies, résoudre des positions et
+              affronter d'autres membres du club.
+            </p>
+
+            <p>
+              L'objectif est simple : progresser ensemble tout en prenant
+              plaisir à jouer.
+            </p>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <strong>6e–3e</strong>
+              <span>Niveaux concernés</span>
+            </div>
+
+            <div class="stat">
+              <strong>15–20</strong>
+              <span>Objectif de membres</span>
+            </div>
+
+            <div class="stat">
+              <strong>100%</strong>
+              <span>Atelier non lucratif</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
 
 
-      <article class="life-card">
+    <!-- =========================
+         02 · ACTIVITÉS
+    ========================= -->
 
-        <div class="life-icon">♞</div>
+    <section id="activites">
+      <div class="container">
 
-        <div>
-          <small>Rencontre</small>
-
-          <h3>
-            Parties & rencontres
-          </h3>
-
+        <div class="section-header">
+          <div class="section-number">02 · ACTIVITÉS</div>
+          <h2>Quatre façons de progresser.</h2>
           <p>
-            Des séances consacrées au jeu libre et aux
-            échanges entre les membres.
+            L'atelier mélange pratique, réflexion et découverte pour permettre
+            à chacun de trouver son propre rythme.
           </p>
         </div>
 
-      </article>
+        <div class="activities-grid">
+
+          <article class="activity">
+            <div class="activity-number">01</div>
+            <h3>Jouer</h3>
+            <p>
+              Des parties libres pour pratiquer, tester ses idées et découvrir
+              différents styles de jeu.
+            </p>
+          </article>
+
+          <article class="activity">
+            <div class="activity-number">02</div>
+            <h3>Apprendre</h3>
+            <p>
+              Découvrir les règles, les ouvertures, les tactiques et les
+              principes essentiels du jeu.
+            </p>
+          </article>
+
+          <article class="activity">
+            <div class="activity-number">03</div>
+            <h3>Réfléchir</h3>
+            <p>
+              Résoudre des problèmes, analyser des positions et développer
+              sa capacité de raisonnement.
+            </p>
+          </article>
+
+          <article class="activity">
+            <div class="activity-number">04</div>
+            <h3>Progresser</h3>
+            <p>
+              Jouer régulièrement, analyser ses parties et apprendre
+              de ses erreurs.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
 
 
-      <article class="life-card">
+    <!-- =========================
+         03 · INFORMATIONS
+    ========================= -->
 
-        <div class="life-icon">♟</div>
+    <section id="informations">
+      <div class="container">
 
-        <div>
-          <small>Collège</small>
-
-          <h3>
-            Écoles Ouvertes
-          </h3>
-
+        <div class="section-header">
+          <div class="section-number">03 · INFORMATIONS</div>
+          <h2>Le club, concrètement.</h2>
           <p>
-            Présentation de l'atelier et découverte du jeu
-            dans le cadre des événements du collège.
+            Un atelier au sein du collège, pensé pour rester simple,
+            accessible et centré sur la pratique.
           </p>
         </div>
 
-      </article>
+        <div class="info-grid">
+
+          <article class="info-card">
+            <div class="info-icon">⌖</div>
+            <h3>Lieu</h3>
+            <p>
+              <strong>Salle A25</strong><br>
+              Collège Lezay Marnésia · Strasbourg
+            </p>
+          </article>
+
+          <article class="info-card">
+            <div class="info-icon">♟</div>
+            <h3>Public</h3>
+            <p>
+              <strong>6e à 3e</strong><br>
+              Tous les niveaux sont les bienvenus.
+            </p>
+          </article>
+
+          <article class="info-card">
+            <div class="info-icon">✓</div>
+            <h3>Adhésion</h3>
+            <p>
+              <strong>Gratuite</strong><br>
+              L'atelier est une activité non lucrative.
+            </p>
+          </article>
+
+          <article class="info-card">
+            <div class="info-icon">◷</div>
+            <h3>Séances</h3>
+            <p>
+              <strong>Le lundi en S4</strong><br>
+              16h45 – 17h40
+            </p>
+          </article>
+
+          <article class="info-card">
+            <div class="info-icon">✉</div>
+            <h3>Email</h3>
+            <p>
+              <a href="mailto:echeclezay@proton.me">
+                <strong>echeclezay@proton.me</strong>
+              </a>
+            </p>
+          </article>
+
+          <article class="info-card">
+            <div class="info-icon">♜</div>
+            <h3>Horaires</h3>
+            <p>
+              <strong>Lundi · S4</strong><br>
+              16h45 – 17h40
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
 
 
-      <article class="life-card">
+    <!-- =========================
+         04 · VIE DU CLUB
+    ========================= -->
 
-        <div class="life-icon">♛</div>
+    <section id="vie-du-club">
+      <div class="container">
 
-        <div>
-          <small>Atelier</small>
-
-          <h3>
-            Apprendre ensemble
-          </h3>
-
+        <div class="section-header">
+          <div class="section-number">04 · VIE DU CLUB</div>
+          <h2>Jouer ensemble.</h2>
           <p>
-            Exercices, positions et analyses pour développer
-            ses compétences progressivement.
+            Des moments pour jouer, se rencontrer et mettre en pratique
+            ce que l'on apprend.
           </p>
         </div>
 
-      </article>
+        <div class="club-list">
 
-    </div>
+          <div class="club-item">
+            <div class="club-symbol">♜</div>
+            <div class="club-title">Tournoi</div>
+            <div class="club-text">
+              <strong>Tournois internes</strong> — Des rencontres amicales
+              entre membres du club pour mettre ses stratégies à l'épreuve.
+            </div>
+          </div>
 
-  </div>
+          <div class="club-item">
+            <div class="club-symbol">♞</div>
+            <div class="club-title">Rencontre</div>
+            <div class="club-text">
+              <strong>Parties & rencontres</strong> — Des séances consacrées
+              au jeu libre et aux échanges entre les membres.
+            </div>
+          </div>
 
-</section>
+          <div class="club-item">
+            <div class="club-symbol">♟</div>
+            <div class="club-title">Collège</div>
+            <div class="club-text">
+              <strong>Écoles Ouvertes</strong> — Présentation de l'atelier
+              et découverte du jeu dans le cadre des événements du collège.
+            </div>
+          </div>
 
+          <div class="club-item">
+            <div class="club-symbol">♛</div>
+            <div class="club-title">Atelier</div>
+            <div class="club-text">
+              <strong>Apprendre ensemble</strong> — Exercices, positions
+              et analyses pour développer ses compétences progressivement.
+            </div>
+          </div>
 
-<!-- ===================================================
-     05 — ENCADREMENT
-==================================================== -->
-
-<section
-  class="section"
-  id="encadrement"
->
-
-  <div class="section-inner">
-
-    <div class="section-number">
-      05 · Encadrement
-    </div>
-
-    <h2 class="section-heading">
-      Derrière l'échiquier.
-    </h2>
-
-    <p class="section-intro">
-      Une équipe qui accompagne le projet et fait vivre
-      l'atelier au sein du collège.
-    </p>
-
-    <div class="team-grid">
-
-      <article class="person">
-
-        <div class="person-avatar">
-          M
         </div>
+      </div>
+    </section>
 
-        <div>
-          <small>
-            Enseignant
-          </small>
 
-          <h3>
-            M. Bouhaf
-          </h3>
+    <!-- =========================
+         05 · ENCADREMENT
+    ========================= -->
 
+    <section id="encadrement">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="section-number">05 · ENCADREMENT</div>
+          <h2>Derrière l'échiquier.</h2>
           <p>
-            Enseignant · Encadrant de l'atelier
+            Une équipe qui accompagne le projet et fait vivre l'atelier
+            au sein du collège.
           </p>
         </div>
 
-      </article>
+        <div class="team-grid">
 
+          <article class="person">
+            <div class="person-role">
+              Encadrement
+            </div>
 
-      <article class="person">
+            <h3>M. Bouhaf</h3>
 
-        <div class="person-avatar">
-          V
+            <p>
+              Enseignant · Encadrant de l'atelier
+            </p>
+          </article>
+
+          <article class="person">
+            <div class="person-role">
+              Design & Adjoint Principal
+            </div>
+
+            <h3>Vu Nam Anh NGUYEN</h3>
+
+            <p>
+              Design & Adjoint Principal · Classe 4e4
+            </p>
+          </article>
+
         </div>
-
-        <div>
-          <small>
-            Design · Adjoint Principal
-          </small>
-
-          <h3>
-            Vu Nam Anh NGUYEN
-          </h3>
-
-          <p>
-            Design & Adjoint Principal · Classe 4e4
-          </p>
-        </div>
-
-      </article>
-
-    </div>
-
-  </div>
-
-</section>
+      </div>
+    </section>
 
 
-<!-- ===================================================
-     CTA
-==================================================== -->
-
-<section class="cta-section">
-
-  <div class="section-inner">
+    <!-- =========================
+         CTA
+    ========================= -->
 
     <div class="cta">
+      <div class="container">
 
-      <div>
+        <div class="cta-box">
+          <div>
+            <h2>Prêt à jouer ?</h2>
+            <p>
+              L'inscription est gratuite et ouverte aux élèves de la 6e
+              à la 3e, quel que soit leur niveau aux échecs.
+            </p>
+          </div>
 
-        <h2>
-          Prêt à jouer votre première partie ?
-        </h2>
-
-        <p>
-          L'inscription est gratuite et ouverte aux élèves
-          de la 6e à la 3e, quel que soit leur niveau aux
-          échecs.
-        </p>
+          <button class="btn btn-green" type="button" data-open-register>
+            S'inscrire en ligne
+          </button>
+        </div>
 
       </div>
-
-      <button
-        class="btn"
-        onclick="openRegistration()"
-      >
-        S'inscrire en ligne
-      </button>
-
     </div>
-
-  </div>
-
-</section>
-```
 
   </main>
 
-  <!-- =====================================================
+
+  <!-- =========================
        FOOTER
-  ====================================================== -->
+  ========================= -->
 
   <footer>
-
-```
-<div class="footer-inner">
-
-  <div class="footer-brand">
-    © 2026 <strong>Atelier Jeu d'Échecs Lezay</strong>
-  </div>
-
-  <a
-    class="footer-email"
-    href="mailto:echeclezay@proton.me"
-  >
-    echeclezay@proton.me
-  </a>
-
-</div>
-```
-
+    <div class="container footer-inner">
+      <span>© 2026 Atelier Jeu d'Échecs Lezay</span>
+    </div>
   </footer>
 
-  <!-- =====================================================
-       REGISTRATION MODAL
-  ====================================================== -->
+
+  <!-- =========================
+       MODAL INSCRIPTION
+  ========================= -->
 
   <div
-    class="modal-overlay"
-    id="registrationModal"
+    class="modal"
+    id="registerModal"
     role="dialog"
     aria-modal="true"
-    aria-labelledby="registrationTitle"
+    aria-labelledby="registerTitle"
   >
 
-```
-<div class="modal">
+    <div class="modal-box">
 
-  <div class="modal-header">
+      <button
+        class="modal-close"
+        id="closeModal"
+        type="button"
+        aria-label="Fermer"
+      >
+        ×
+      </button>
 
-    <div>
-      <h2 id="registrationTitle">
-        Rejoindre l'atelier
-      </h2>
+      <div class="modal-header">
+        <div class="eyebrow">Inscription en ligne</div>
 
-      <p>
-        Inscription gratuite · 6e à 3e
-      </p>
-    </div>
+        <h2 id="registerTitle">
+          Rejoindre l'atelier.
+        </h2>
 
-    <button
-      class="close-button"
-      onclick="closeRegistration()"
-      aria-label="Fermer"
-    >
-      ×
-    </button>
+        <p>
+          Remplis ce formulaire pour rejoindre l'Atelier Jeu d'Échecs Lezay.
+          L'inscription est gratuite.
+        </p>
+      </div>
 
-  </div>
+      <div class="form-message" id="formMessage"></div>
+
+      <form id="registerForm">
+
+        <!-- Anti-spam honeypot -->
+        <input
+          type="text"
+          name="website"
+          class="honeypot"
+          tabindex="-1"
+          autocomplete="off"
+        >
+
+        <div class="form-row">
+
+          <div class="form-group">
+            <label for="firstName">
+              Prénom <span class="required">*</span>
+            </label>
+
+            <input
+              id="firstName"
+              name="first_name"
+              type="text"
+              required
+              maxlength="100"
+              autocomplete="given-name"
+              placeholder="Ton prénom"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">
+              Nom <span class="required">*</span>
+            </label>
+
+            <input
+              id="lastName"
+              name="last_name"
+              type="text"
+              required
+              maxlength="100"
+              autocomplete="family-name"
+              placeholder="Ton nom"
+            >
+          </div>
+
+        </div>
 
 
-  <form
-    id="registrationForm"
-    onsubmit="submitRegistration(event)"
-  >
+        <div class="form-row">
 
-    <div class="modal-body">
+          <div class="form-group">
+            <label for="className">
+              Classe <span class="required">*</span>
+            </label>
 
-      <div
-        class="form-message"
-        id="formMessage"
-      ></div>
+            <select
+              id="className"
+              name="class_name"
+              required
+            >
+              <option value="">Choisir...</option>
+              <option value="6e">6e</option>
+              <option value="5e">5e</option>
+              <option value="4e">4e</option>
+              <option value="3e">3e</option>
+            </select>
+          </div>
 
-      <div class="form-grid">
+          <div class="form-group">
+            <label for="chessLevel">
+              Niveau aux échecs
+            </label>
+
+            <select
+              id="chessLevel"
+              name="chess_level"
+            >
+              <option value="">Non précisé</option>
+              <option value="Débutant">Débutant</option>
+              <option value="Débutant avancé">Débutant avancé</option>
+              <option value="Intermédiaire">Intermédiaire</option>
+              <option value="Avancé">Avancé</option>
+              <option value="Expert">Expert</option>
+            </select>
+          </div>
+
+        </div>
+
 
         <div class="form-group">
-
-          <label for="firstName">
-            Prénom
+          <label for="email">
+            Email <span style="font-weight: 500; opacity: 0.55;">(optionnel)</span>
           </label>
 
           <input
-            id="firstName"
-            name="first_name"
-            type="text"
-            autocomplete="given-name"
-            required
-            maxlength="100"
-            placeholder="Votre prénom"
+            id="email"
+            name="email"
+            type="email"
+            maxlength="200"
+            autocomplete="email"
+            placeholder="ton.email@exemple.fr"
           >
-
         </div>
 
 
         <div class="form-group">
-
-          <label for="lastName">
-            Nom
-          </label>
-
-          <input
-            id="lastName"
-            name="last_name"
-            type="text"
-            autocomplete="family-name"
-            maxlength="100"
-            placeholder="Votre nom"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label for="className">
-            Classe
-          </label>
-
-          <input
-            id="className"
-            name="class_name"
-            type="text"
-            required
-            maxlength="30"
-            placeholder="Ex : 5e B"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label for="chessLevel">
-            Niveau aux échecs
-            <span>· optionnel</span>
-          </label>
-
-          <select
-            id="chessLevel"
-            name="chess_level"
-          >
-
-            <option value="">
-              Sélectionner
-            </option>
-
-            <option value="Débutant">
-              Débutant
-            </option>
-
-            <option value="Intermédiaire">
-              Intermédiaire
-            </option>
-
-            <option value="Avancé">
-              Avancé
-            </option>
-
-            <option value="Je ne sais pas">
-              Je ne sais pas
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <div class="form-group full">
-
           <label for="message">
-            Message
-            <span>· optionnel</span>
+            Message <span style="font-weight: 500; opacity: 0.55;">(optionnel)</span>
           </label>
 
           <textarea
@@ -2263,457 +1584,258 @@ content="Atelier jeu d'échecs du Collège Lezay Marnésia à Strasbourg. Ouvert
             maxlength="1000"
             placeholder="Une question, une précision..."
           ></textarea>
-
         </div>
 
-      </div>
 
-      <p class="required-note">
-        * Champs obligatoires. L'inscription est gratuite.
-      </p>
+        <p class="form-note">
+          Les informations envoyées servent uniquement à gérer les inscriptions
+          à l'atelier.
+        </p>
 
-    </div>
+        <button
+          class="btn btn-green submit-btn"
+          id="submitBtn"
+          type="submit"
+        >
+          Envoyer mon inscription
+        </button>
 
-
-    <div class="modal-footer">
-
-      <button
-        type="button"
-        class="btn"
-        onclick="closeRegistration()"
-      >
-        Annuler
-      </button>
-
-      <button
-        type="submit"
-        class="btn btn-green"
-        id="submitButton"
-      >
-        Envoyer mon inscription
-      </button>
+      </form>
 
     </div>
-
-  </form>
-
-</div>
-```
-
   </div>
 
-  <!-- =====================================================
-       JAVASCRIPT
-  ====================================================== -->
 
   <script>
-
-    /* =====================================================
+    /* =========================
        SUPABASE
-    ===================================================== */
+    ========================= */
 
-    const SUPABASE_URL =
-      "https://mulwdqtyojndrjbpgldk.supabase.co";
+    const SUPABASE_URL = "https://mulwdqtyojndrjbpgldk.supabase.co";
 
     const SUPABASE_KEY =
       "sb_publishable_AdZl_u0YAK2xSiv3pX74iA_Q2GMnIwz";
 
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
+    const { createClient } = supabase;
 
-
-    /* =====================================================
-       THEME
-    ===================================================== */
-
-    function getPreferredTheme() {
-
-      const saved =
-        localStorage.getItem("lezay-theme");
-
-      if (saved === "dark" || saved === "light") {
-        return saved;
-      }
-
-      return window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches
-        ? "dark"
-        : "light";
-    }
-
-
-    function applyTheme(theme) {
-
-      document.documentElement.dataset.theme =
-        theme;
-
-      localStorage.setItem(
-        "lezay-theme",
-        theme
-      );
-
-      const button =
-        document.getElementById("themeButton");
-
-      if (button) {
-
-        button.textContent =
-          theme === "dark"
-            ? "☀"
-            : "☾";
-
-        button.setAttribute(
-          "aria-label",
-          theme === "dark"
-            ? "Activer le mode clair"
-            : "Activer le mode sombre"
-        );
-
-      }
-
-    }
-
-
-    function toggleTheme() {
-
-      const current =
-        document.documentElement.dataset.theme ||
-        "light";
-
-      applyTheme(
-        current === "dark"
-          ? "light"
-          : "dark"
-      );
-
-    }
-
-
-    applyTheme(getPreferredTheme());
-
-
-    /* =====================================================
-       MOBILE MENU
-    ===================================================== */
-
-    function toggleMobileMenu() {
-
-      const menu =
-        document.getElementById("mobileNav");
-
-      menu.classList.toggle("open");
-
-    }
-
-
-    function closeMobileMenu() {
-
-      document
-        .getElementById("mobileNav")
-        .classList.remove("open");
-
-    }
-
-
-    /* =====================================================
-       REGISTRATION MODAL
-    ===================================================== */
-
-    function openRegistration() {
-
-      closeMobileMenu();
-
-      const modal =
-        document.getElementById(
-          "registrationModal"
-        );
-
-      modal.classList.add("open");
-
-      document.body.classList.add("modal-open");
-
-      setTimeout(() => {
-
-        document
-          .getElementById("firstName")
-          .focus();
-
-      }, 100);
-
-    }
-
-
-    function closeRegistration() {
-
-      const modal =
-        document.getElementById(
-          "registrationModal"
-        );
-
-      modal.classList.remove("open");
-
-      document.body.classList.remove(
-        "modal-open"
-      );
-
-    }
-
-
-    /* Click outside */
-
-    document
-      .getElementById("registrationModal")
-      .addEventListener(
-        "click",
-        function(event) {
-
-          if (event.target === this) {
-            closeRegistration();
-          }
-
-        }
-      );
-
-
-    /* Escape */
-
-    document.addEventListener(
-      "keydown",
-      function(event) {
-
-        if (event.key === "Escape") {
-
-          closeRegistration();
-
-          closeMobileMenu();
-
-        }
-
-      }
+    const supabaseClient = createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
     );
 
 
-    /* =====================================================
-       FORM MESSAGE
-    ===================================================== */
+    /* =========================
+       THEME
+    ========================= */
 
-    function showFormMessage(
-      message,
-      type
-    ) {
+    const themeToggle = document.getElementById("themeToggle");
 
-      const box =
-        document.getElementById(
-          "formMessage"
-        );
-
-      box.textContent = message;
-
-      box.className =
-        "form-message show " + type;
-
+    function applyTheme(theme) {
+      if (theme === "dark") {
+        document.body.classList.add("dark");
+        themeToggle.textContent = "☀";
+        themeToggle.setAttribute("aria-label", "Passer au thème clair");
+      } else {
+        document.body.classList.remove("dark");
+        themeToggle.textContent = "☾";
+        themeToggle.setAttribute("aria-label", "Passer au thème sombre");
+      }
     }
 
+    const savedTheme = localStorage.getItem("lezay-theme");
 
-    function clearFormMessage() {
+    if (savedTheme) {
+      applyTheme(savedTheme);
+    } else {
+      const prefersDark =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-      const box =
-        document.getElementById(
-          "formMessage"
-        );
-
-      box.textContent = "";
-
-      box.className =
-        "form-message";
-
+      applyTheme(prefersDark ? "dark" : "light");
     }
 
+    themeToggle.addEventListener("click", () => {
+      const isDark = document.body.classList.contains("dark");
+      const newTheme = isDark ? "light" : "dark";
 
-    /* =====================================================
-       REGISTRATION
-    ===================================================== */
+      localStorage.setItem("lezay-theme", newTheme);
+      applyTheme(newTheme);
+    });
 
-    async function submitRegistration(event) {
 
+    /* =========================
+       MOBILE MENU
+    ========================= */
+
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+
+    menuToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("mobile-open");
+
+      menuToggle.textContent =
+        navLinks.classList.contains("mobile-open") ? "×" : "☰";
+    });
+
+    navLinks.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("mobile-open");
+        menuToggle.textContent = "☰";
+      });
+    });
+
+
+    /* =========================
+       MODAL
+    ========================= */
+
+    const modal = document.getElementById("registerModal");
+    const closeModal = document.getElementById("closeModal");
+
+    function openRegisterModal() {
+      modal.classList.add("open");
+      document.body.style.overflow = "hidden";
+
+      setTimeout(() => {
+        document.getElementById("firstName").focus();
+      }, 100);
+    }
+
+    function closeRegisterModal() {
+      modal.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    document.querySelectorAll("[data-open-register]").forEach(button => {
+      button.addEventListener("click", openRegisterModal);
+    });
+
+    closeModal.addEventListener("click", closeRegisterModal);
+
+    modal.addEventListener("click", event => {
+      if (event.target === modal) {
+        closeRegisterModal();
+      }
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && modal.classList.contains("open")) {
+        closeRegisterModal();
+      }
+    });
+
+
+    /* =========================
+       FORMULAIRE
+    ========================= */
+
+    const registerForm = document.getElementById("registerForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const formMessage = document.getElementById("formMessage");
+
+    function showMessage(message, isError = false) {
+      formMessage.textContent = message;
+      formMessage.classList.add("show");
+
+      if (isError) {
+        formMessage.classList.add("error");
+      } else {
+        formMessage.classList.remove("error");
+      }
+    }
+
+    function hideMessage() {
+      formMessage.textContent = "";
+      formMessage.classList.remove("show", "error");
+    }
+
+    registerForm.addEventListener("submit", async event => {
       event.preventDefault();
 
-      clearFormMessage();
+      hideMessage();
 
-      const button =
-        document.getElementById(
-          "submitButton"
-        );
+      const formData = new FormData(registerForm);
 
-      const firstName =
-        document
-          .getElementById("firstName")
-          .value
-          .trim();
-
-      const lastName =
-        document
-          .getElementById("lastName")
-          .value
-          .trim();
-
-      const className =
-        document
-          .getElementById("className")
-          .value
-          .trim();
-
-      const chessLevel =
-        document
-          .getElementById("chessLevel")
-          .value
-          .trim();
-
-      const message =
-        document
-          .getElementById("message")
-          .value
-          .trim();
-
-
-      if (!firstName || !className) {
-
-        showFormMessage(
-          "Merci de renseigner votre prénom et votre classe.",
-          "error"
-        );
-
+      // Anti-spam
+      if (formData.get("website")) {
         return;
       }
 
+      const firstName = formData.get("first_name")?.trim();
+      const lastName = formData.get("last_name")?.trim();
+      const className = formData.get("class_name");
+      const chessLevel = formData.get("chess_level") || null;
+      const email = formData.get("email")?.trim() || null;
+      const message = formData.get("message")?.trim() || null;
 
-      button.disabled = true;
-
-      button.textContent =
-        "Inscription en cours…";
-
-
-      try {
-
-        const { error } =
-          await supabaseClient
-            .from("students")
-            .insert({
-              first_name: firstName,
-              last_name: lastName || null,
-              class_name: className,
-              chess_level: chessLevel || null,
-              message: message || null
-            });
-
-
-        if (error) {
-          throw error;
-        }
-
-
-        showFormMessage(
-          "Votre inscription a bien été envoyée. Bienvenue à l'Atelier !",
-          "success"
+      if (!firstName || !lastName || !className) {
+        showMessage(
+          "Merci de remplir tous les champs obligatoires.",
+          true
         );
-
-
-        document
-          .getElementById("registrationForm")
-          .reset();
-
-
-        button.textContent =
-          "Inscription envoyée";
-
-
-        setTimeout(() => {
-
-          closeRegistration();
-
-          button.disabled = false;
-
-          button.textContent =
-            "Envoyer mon inscription";
-
-          clearFormMessage();
-
-        }, 2200);
-
-
-      } catch (error) {
-
-        console.error(
-          "Erreur inscription :",
-          error
-        );
-
-
-        showFormMessage(
-          "Impossible d'envoyer l'inscription pour le moment. Vérifiez votre connexion ou réessayez.",
-          "error"
-        );
-
-
-        button.disabled = false;
-
-        button.textContent =
-          "Envoyer mon inscription";
-
+        return;
       }
 
-    }
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showMessage(
+          "L'adresse email renseignée n'est pas valide.",
+          true
+        );
+        return;
+      }
 
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Envoi en cours…";
 
-    /* =====================================================
-       SMOOTH NAVIGATION
-    ===================================================== */
-
-    document
-      .querySelectorAll('a[href^="#"]')
-      .forEach(link => {
-
-        link.addEventListener(
-          "click",
-          function(event) {
-
-            const targetId =
-              this.getAttribute("href");
-
-            if (
-              !targetId ||
-              targetId === "#"
-            ) {
-              return;
+      try {
+        const { error } = await supabaseClient
+          .from("students")
+          .insert([
+            {
+              first_name: firstName,
+              last_name: lastName,
+              class_name: className,
+              chess_level: chessLevel,
+              email: email,
+              message: message
             }
+          ]);
 
-            const target =
-              document.querySelector(
-                targetId
-              );
+        if (error) {
+          console.error("Erreur Supabase :", error);
 
-            if (!target) {
-              return;
-            }
+          showMessage(
+            "Une erreur est survenue lors de l'inscription. Vérifie les informations puis réessaie.",
+            true
+          );
 
-            event.preventDefault();
+          return;
+        }
 
-            target.scrollIntoView({
-              behavior: "smooth",
-              block: "start"
-            });
-
-            closeMobileMenu();
-
-          }
+        showMessage(
+          "Inscription envoyée avec succès ! Bienvenue dans l'atelier."
         );
 
-      });
+        registerForm.reset();
 
+        setTimeout(() => {
+          closeRegisterModal();
+          hideMessage();
+        }, 2200);
+
+      } catch (error) {
+        console.error("Erreur :", error);
+
+        showMessage(
+          "Impossible d'envoyer l'inscription pour le moment. Réessaie dans quelques instants.",
+          true
+        );
+
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Envoyer mon inscription";
+      }
+    });
   </script>
 
 </body>
