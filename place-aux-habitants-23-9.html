@@ -1,30 +1,44 @@
-```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Inscription — Place aux habitants | Atelier Jeu d'Échecs Lezay</title>
-  <meta name="description" content="Inscription à l'Atelier Jeu d'Échecs Lezay — Place aux habitants, le 23 septembre de 14h00 à 17h00, 9–11 rue de la Corse à Strasbourg.">
+  <title>Place aux habitants — Atelier Jeu d'Échecs Lezay</title>
+
+  <meta
+    name="description"
+    content="Inscription à l'Atelier Jeu d'Échecs Lezay pour l'événement Place aux habitants, le 23 septembre de 14h00 à 17h00."
+  >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
 
   <style>
     :root {
       --black: #080908;
-      --black-soft: #101210;
+      --black-2: #0d0f0d;
+      --black-3: #111411;
+
       --white: #ffffff;
-      --off-white: #f5f6f3;
-      --grey: #a4aaa3;
-      --grey-dark: #6e756e;
-      --line: rgba(255,255,255,.13);
+      --white-soft: #f4f6f3;
+
+      --grey: #a3aaa3;
+      --grey-dark: #6d746d;
+
       --green: #198754;
-      --green-bright: #21a366;
-      --green-soft: rgba(25,135,84,.13);
-      --radius: 18px;
+      --green-light: #21a366;
+      --green-dark: #123a29;
+
+      --line: rgba(255, 255, 255, 0.12);
+      --line-strong: rgba(255, 255, 255, 0.18);
+
+      --radius: 16px;
       --max-width: 1180px;
     }
 
@@ -39,12 +53,15 @@
     }
 
     body {
-      background: var(--black);
-      color: var(--white);
-      font-family: "DM Sans", sans-serif;
-      line-height: 1.5;
       min-height: 100vh;
       overflow-x: hidden;
+
+      background: var(--black);
+      color: var(--white);
+
+      font-family: "DM Sans", sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
     }
 
     a {
@@ -59,21 +76,20 @@
       font: inherit;
     }
 
-    /* =========================
+    /* =========================================
        NAVIGATION
-    ========================= */
+    ========================================= */
 
-    .nav {
+    .navbar {
       width: 100%;
       border-bottom: 1px solid var(--line);
-      position: relative;
-      z-index: 10;
     }
 
-    .nav-inner {
+    .navbar-inner {
       width: min(calc(100% - 48px), var(--max-width));
       min-height: 78px;
-      margin: auto;
+      margin: 0 auto;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -84,170 +100,256 @@
       display: flex;
       align-items: center;
       gap: 12px;
+
       font-family: "Space Grotesk", sans-serif;
+      font-size: 14px;
       font-weight: 600;
-      letter-spacing: -.03em;
-      white-space: nowrap;
+      letter-spacing: -0.025em;
     }
 
-    .brand img {
-      width: 38px;
-      height: 38px;
+    .brand-logo {
+      width: 39px;
+      height: 39px;
       object-fit: contain;
+      flex-shrink: 0;
     }
 
-    .brand span {
-      font-size: 15px;
-    }
-
-    .nav-back {
+    .back-link {
       display: inline-flex;
       align-items: center;
       gap: 9px;
+
       color: var(--grey);
       font-size: 13px;
       font-weight: 600;
-      transition: .2s ease;
+
+      transition:
+        color 180ms ease,
+        transform 180ms ease;
     }
 
-    .nav-back:hover {
+    .back-link:hover {
       color: var(--white);
+      transform: translateX(-2px);
     }
 
-    .arrow {
-      font-size: 16px;
-      transition: transform .2s ease;
+    .back-arrow {
+      font-size: 17px;
+      line-height: 1;
     }
 
-    .nav-back:hover .arrow {
-      transform: translateX(-3px);
-    }
-
-    /* =========================
+    /* =========================================
        HERO
-    ========================= */
+    ========================================= */
 
     .hero {
       width: min(calc(100% - 48px), var(--max-width));
-      margin: auto;
-      padding: 92px 0 72px;
-      position: relative;
+      margin: 0 auto;
+      padding: 92px 0 76px;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.05fr .95fr;
+      grid-template-columns: minmax(0, 1fr) 390px;
+      align-items: center;
       gap: 80px;
-      align-items: end;
     }
 
     .eyebrow {
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      gap: 9px;
-      color: var(--green-bright);
+      gap: 10px;
+
+      margin-bottom: 22px;
+
+      color: var(--green-light);
       font-size: 11px;
       font-weight: 700;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      letter-spacing: .13em;
-      margin-bottom: 22px;
     }
 
     .eyebrow::before {
       content: "";
-      width: 22px;
+
+      width: 23px;
       height: 1px;
-      background: var(--green-bright);
+
+      background: var(--green-light);
     }
 
-    h1 {
+    .hero h1 {
+      max-width: 760px;
+
       font-family: "Space Grotesk", sans-serif;
-      font-size: clamp(52px, 7vw, 92px);
-      line-height: .92;
-      letter-spacing: -.065em;
+      font-size: clamp(54px, 7vw, 94px);
       font-weight: 600;
-      max-width: 720px;
+      line-height: 0.91;
+      letter-spacing: -0.07em;
     }
 
-    h1 span {
-      color: var(--green-bright);
+    .hero h1 .green {
+      color: var(--green-light);
     }
 
-    .hero-description {
-      margin-top: 30px;
+    .hero-text {
       max-width: 570px;
+      margin-top: 30px;
+
       color: var(--grey);
-      font-size: 17px;
-      line-height: 1.7;
+      font-size: 16px;
+      line-height: 1.75;
     }
 
-    /* =========================
-       CHESS VISUAL
-    ========================= */
+    /* =========================================
+       VRAI ÉCHIQUIER 8×8
+    ========================================= */
 
-    .chess-visual {
+    .board-wrapper {
+      width: 100%;
+      max-width: 390px;
       justify-self: end;
-      width: min(100%, 390px);
-      aspect-ratio: 1;
-      display: grid;
-      grid-template-columns: repeat(8, 1fr);
-      border: 1px solid var(--line);
+
+      position: relative;
+
       padding: 10px;
-      background: var(--black-soft);
+
+      background: var(--black-3);
+      border: 1px solid var(--line-strong);
+
       transform: rotate(-2deg);
     }
 
-    .square {
-      aspect-ratio: 1;
-      position: relative;
+    .board {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+
+      overflow: hidden;
     }
 
+    .square {
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      aspect-ratio: 1 / 1;
+
+      font-family:
+        "Arial Unicode MS",
+        "Segoe UI Symbol",
+        "Noto Sans Symbols 2",
+        sans-serif;
+
+      user-select: none;
+    }
+
+    /*
+      Couleurs du véritable damier :
+      - cases claires
+      - cases foncées vert échecs
+    */
+
     .square.light {
-      background: #e9ece7;
+      background: #edf0eb;
     }
 
     .square.dark {
-      background: #173c2b;
+      background: #17432f;
     }
 
-    .square::after {
-      content: "";
-      position: absolute;
-      inset: 32%;
-      border-radius: 50%;
-      background: transparent;
-    }
+    /*
+      Pièces :
+      position cohérente et volontairement
+      minimaliste pour rester dans l'identité
+      graphique du site.
+    */
 
-    .square.piece::after {
-      content: "♟";
-      inset: auto;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -55%);
-      color: var(--black);
-      font-size: clamp(17px, 3vw, 31px);
+    .piece {
+      position: relative;
+      z-index: 2;
+
+      font-size: clamp(22px, 5vw, 42px);
       line-height: 1;
+
+      transform: translateY(-1px);
     }
 
-    .square.piece.green::after {
-      color: var(--green-bright);
+    .piece.white-piece {
+      color: #ffffff;
+
+      text-shadow:
+        0 1px 0 rgba(0, 0, 0, 0.35),
+        0 2px 3px rgba(0, 0, 0, 0.18);
     }
 
-    /* =========================
-       EVENT INFO
-    ========================= */
+    .piece.black-piece {
+      color: #080908;
 
-    .event-strip {
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
+      text-shadow:
+        0 1px 1px rgba(255, 255, 255, 0.18);
+    }
+
+    /*
+      Petite ligne décorative autour du plateau
+      pour reprendre le langage éditorial du site.
+    */
+
+    .board-wrapper::before {
+      content: "";
+
+      position: absolute;
+      top: -10px;
+      left: 18px;
+
+      width: 48px;
+      height: 2px;
+
+      background: var(--green-light);
+    }
+
+    .board-wrapper::after {
+      content: "";
+
+      position: absolute;
+      right: -8px;
+      bottom: 20px;
+
+      width: 2px;
+      height: 48px;
+
+      background: var(--green-light);
+    }
+
+    /* =========================================
+       EVENT INFORMATION
+    ========================================= */
+
+    .event-info {
       width: min(calc(100% - 48px), var(--max-width));
       margin: 0 auto;
+
       display: grid;
       grid-template-columns: repeat(3, 1fr);
+
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
     }
 
     .event-item {
-      padding: 25px 28px;
+      min-height: 94px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      padding: 20px 28px;
+
       border-right: 1px solid var(--line);
     }
 
@@ -256,95 +358,114 @@
     }
 
     .event-label {
+      margin-bottom: 5px;
+
       color: var(--grey-dark);
       font-size: 10px;
       font-weight: 700;
-      letter-spacing: .13em;
+      letter-spacing: 0.13em;
       text-transform: uppercase;
-      margin-bottom: 7px;
     }
 
     .event-value {
       font-family: "Space Grotesk", sans-serif;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 600;
-      letter-spacing: -.025em;
+      letter-spacing: -0.025em;
     }
 
-    /* =========================
-       MAIN
-    ========================= */
+    /* =========================================
+       CONTENT
+    ========================================= */
 
     main {
       width: min(calc(100% - 48px), var(--max-width));
-      margin: auto;
-      padding: 88px 0 120px;
+      margin: 0 auto;
+      padding: 90px 0 120px;
     }
 
     .content-grid {
       display: grid;
-      grid-template-columns: .72fr 1.28fr;
+      grid-template-columns: minmax(250px, 0.7fr) minmax(0, 1.3fr);
+
       gap: 90px;
       align-items: start;
     }
 
     .section-number {
-      color: var(--green-bright);
+      margin-bottom: 17px;
+
+      color: var(--green-light);
+
       font-family: "Space Grotesk", sans-serif;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
-      margin-bottom: 18px;
+      letter-spacing: 0.08em;
     }
 
     .section-title {
       font-family: "Space Grotesk", sans-serif;
-      font-size: clamp(30px, 4vw, 48px);
-      line-height: 1;
-      letter-spacing: -.05em;
+      font-size: clamp(32px, 4vw, 50px);
       font-weight: 600;
+      line-height: 0.98;
+      letter-spacing: -0.055em;
     }
 
-    .section-text {
-      margin-top: 22px;
+    .section-description {
+      max-width: 410px;
+      margin-top: 23px;
+
       color: var(--grey);
-      font-size: 15px;
-      line-height: 1.75;
-      max-width: 420px;
+      font-size: 14px;
+      line-height: 1.8;
     }
 
-    .event-note {
-      margin-top: 35px;
-      padding: 18px 20px;
-      border-left: 2px solid var(--green-bright);
-      background: var(--green-soft);
-      color: #dfe8e1;
-      font-size: 13px;
-      line-height: 1.6;
+    .info-note {
+      max-width: 410px;
+      margin-top: 30px;
+      padding: 17px 19px;
+
+      border-left: 2px solid var(--green-light);
+
+      background: rgba(25, 135, 84, 0.10);
+
+      color: #dfe8e2;
+      font-size: 12px;
+      line-height: 1.65;
     }
 
-    /* =========================
-       FORM
-    ========================= */
+    /* =========================================
+       FORM CARD
+    ========================================= */
 
     .form-card {
+      padding: clamp(26px, 4vw, 42px);
+
+      background: var(--black-2);
       border: 1px solid var(--line);
-      background: #0c0e0c;
-      padding: clamp(25px, 4vw, 42px);
+
       border-radius: var(--radius);
     }
 
-    .form-heading {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 23px;
-      font-weight: 600;
-      letter-spacing: -.035em;
-      margin-bottom: 7px;
+    .form-header {
+      padding-bottom: 28px;
+      margin-bottom: 28px;
+
+      border-bottom: 1px solid var(--line);
     }
 
-    .form-subheading {
+    .form-title {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -0.04em;
+    }
+
+    .form-subtitle {
+      margin-top: 7px;
+
       color: var(--grey-dark);
-      font-size: 13px;
-      margin-bottom: 34px;
+      font-size: 12px;
     }
 
     .form-grid {
@@ -364,12 +485,12 @@
     }
 
     label {
-      color: #dfe2df;
+      color: #dfe3df;
       font-size: 12px;
       font-weight: 600;
     }
 
-    label span {
+    label .optional {
       color: var(--grey-dark);
       font-weight: 400;
     }
@@ -378,111 +499,155 @@
     select,
     textarea {
       width: 100%;
-      border: 1px solid rgba(255,255,255,.14);
+
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 8px;
+
       background: #111411;
       color: var(--white);
-      border-radius: 9px;
+
       outline: none;
-      padding: 13px 14px;
-      transition: border-color .2s ease, background .2s ease;
+
+      transition:
+        border-color 180ms ease,
+        background 180ms ease;
     }
 
     input,
     select {
       height: 48px;
+      padding: 0 14px;
     }
 
     textarea {
-      min-height: 125px;
+      min-height: 120px;
+      padding: 13px 14px;
+
       resize: vertical;
     }
 
     input::placeholder,
     textarea::placeholder {
-      color: #5e645e;
+      color: #5e655e;
     }
 
     input:focus,
     select:focus,
     textarea:focus {
-      border-color: var(--green-bright);
-      background: #131713;
+      border-color: var(--green-light);
+      background: #141714;
     }
 
     select {
       appearance: none;
       cursor: pointer;
+
+      background-image:
+        linear-gradient(45deg, transparent 50%, #8a918a 50%),
+        linear-gradient(135deg, #8a918a 50%, transparent 50%);
+
+      background-position:
+        calc(100% - 18px) 20px,
+        calc(100% - 13px) 20px;
+
+      background-size:
+        5px 5px,
+        5px 5px;
+
+      background-repeat: no-repeat;
     }
+
+    /* =========================================
+       SUBMIT
+    ========================================= */
 
     .submit-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 20px;
-      margin-top: 28px;
-      padding-top: 25px;
+
+      margin-top: 27px;
+      padding-top: 24px;
+
       border-top: 1px solid var(--line);
     }
 
-    .required-note {
+    .required {
       color: var(--grey-dark);
       font-size: 11px;
     }
 
-    .submit-btn {
+    .submit-button {
+      min-height: 47px;
+
+      padding: 0 22px;
+
       border: 0;
       border-radius: 8px;
-      padding: 14px 24px;
-      background: var(--green-bright);
+
+      background: var(--green-light);
       color: white;
+
+      font-size: 12px;
       font-weight: 700;
-      font-size: 13px;
+
       cursor: pointer;
-      transition: transform .2s ease, background .2s ease;
+
+      transition:
+        background 180ms ease,
+        transform 180ms ease,
+        opacity 180ms ease;
     }
 
-    .submit-btn:hover {
+    .submit-button:hover {
       background: #27b36d;
       transform: translateY(-2px);
     }
 
-    .submit-btn:disabled {
-      opacity: .55;
+    .submit-button:disabled {
       cursor: wait;
+      opacity: 0.55;
       transform: none;
     }
 
-    /* =========================
-       SUCCESS / ERROR
-    ========================= */
+    /* =========================================
+       MESSAGES
+    ========================================= */
 
     .status {
       display: none;
+
       margin-top: 20px;
       padding: 16px 18px;
+
       border: 1px solid var(--line);
-      font-size: 13px;
-      line-height: 1.6;
-      border-radius: 9px;
+      border-radius: 8px;
+
+      font-size: 12px;
+      line-height: 1.65;
     }
 
     .status.success {
       display: block;
-      border-color: rgba(33,163,102,.5);
-      background: rgba(33,163,102,.08);
-      color: #cfe9da;
+
+      border-color: rgba(33, 163, 102, 0.45);
+      background: rgba(33, 163, 102, 0.08);
+
+      color: #d5ebde;
     }
 
     .status.error {
       display: block;
-      border-color: rgba(255,255,255,.2);
-      background: rgba(255,255,255,.04);
-      color: #e5e7e5;
+
+      background: rgba(255, 255, 255, 0.04);
+
+      color: #e3e6e3;
     }
 
-    /* =========================
+    /* =========================================
        FOOTER
-    ========================= */
+    ========================================= */
 
     footer {
       border-top: 1px solid var(--line);
@@ -491,45 +656,105 @@
     .footer-inner {
       width: min(calc(100% - 48px), var(--max-width));
       min-height: 95px;
-      margin: auto;
+      margin: 0 auto;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 20px;
+
       color: var(--grey-dark);
       font-size: 11px;
     }
 
-    .footer-brand {
+    .footer-name {
       color: var(--grey);
       font-weight: 600;
     }
 
-    /* =========================
-       MOBILE
-    ========================= */
+    /* =========================================
+       RESPONSIVE
+    ========================================= */
 
-    @media (max-width: 850px) {
+    @media (max-width: 900px) {
+
       .hero {
-        padding-top: 65px;
+        padding-top: 70px;
       }
 
-      .hero-grid,
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 55px;
+      }
+
+      .board-wrapper {
+        justify-self: start;
+        max-width: 350px;
+      }
+
       .content-grid {
         grid-template-columns: 1fr;
-        gap: 50px;
+        gap: 55px;
       }
 
-      .chess-visual {
-        justify-self: start;
-        max-width: 330px;
+      .section-description,
+      .info-note {
+        max-width: 600px;
+      }
+    }
+
+    @media (max-width: 650px) {
+
+      .navbar-inner,
+      .hero,
+      .event-info,
+      main,
+      .footer-inner {
+        width: min(calc(100% - 30px), var(--max-width));
       }
 
-      .event-strip {
+      .navbar-inner {
+        min-height: 68px;
+      }
+
+      .brand {
+        font-size: 12px;
+      }
+
+      .brand-logo {
+        width: 34px;
+        height: 34px;
+      }
+
+      .back-link {
+        font-size: 11px;
+      }
+
+      .hero {
+        padding: 60px 0 58px;
+      }
+
+      .hero h1 {
+        font-size: clamp(49px, 15vw, 70px);
+      }
+
+      .hero-text {
+        font-size: 14px;
+      }
+
+      .board-wrapper {
+        width: min(100%, 320px);
+      }
+
+      .event-info {
         grid-template-columns: 1fr;
       }
 
       .event-item {
+        min-height: 78px;
+
+        padding: 18px 20px;
+
         border-right: 0;
         border-bottom: 1px solid var(--line);
       }
@@ -539,37 +764,7 @@
       }
 
       main {
-        padding-top: 65px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .nav-inner,
-      .hero,
-      main,
-      .event-strip,
-      .footer-inner {
-        width: min(calc(100% - 30px), var(--max-width));
-      }
-
-      .nav-inner {
-        min-height: 68px;
-      }
-
-      .brand span {
-        font-size: 13px;
-      }
-
-      .nav-back {
-        font-size: 12px;
-      }
-
-      h1 {
-        font-size: clamp(48px, 16vw, 72px);
-      }
-
-      .hero-description {
-        font-size: 15px;
+        padding: 65px 0 85px;
       }
 
       .form-grid {
@@ -585,15 +780,16 @@
         flex-direction: column;
       }
 
-      .submit-btn {
+      .submit-button {
         width: 100%;
       }
 
       .footer-inner {
-        flex-direction: column;
+        min-height: 110px;
+
         align-items: flex-start;
         justify-content: center;
-        padding: 22px 0;
+        flex-direction: column;
       }
     }
   </style>
@@ -601,23 +797,32 @@
 
 <body>
 
-  <!-- =========================
+  <!-- =========================================
        NAVIGATION
-  ========================== -->
+  ========================================== -->
 
-  <nav class="nav">
-    <div class="nav-inner">
+  <nav class="navbar">
+    <div class="navbar-inner">
 
-      <a href="https://echeclezay.vercel.app/" class="brand">
+      <a
+        href="https://echeclezay.vercel.app/"
+        class="brand"
+        aria-label="Retour au site de l'Atelier Jeu d'Échecs Lezay"
+      >
         <img
+          class="brand-logo"
           src="https://image-namanhstudio.weebly.com/uploads/1/5/5/3/155356283/icon-echec-lezay_orig.png"
           alt="Logo Atelier Jeu d'Échecs Lezay"
         >
+
         <span>Atelier Jeu d'Échecs Lezay</span>
       </a>
 
-      <a href="https://echeclezay.vercel.app/" class="nav-back">
-        <span class="arrow">←</span>
+      <a
+        href="https://echeclezay.vercel.app/"
+        class="back-link"
+      >
+        <span class="back-arrow">←</span>
         Retour au site
       </a>
 
@@ -625,107 +830,44 @@
   </nav>
 
 
-  <!-- =========================
+  <!-- =========================================
        HERO
-  ========================== -->
+  ========================================== -->
 
   <header class="hero">
 
     <div class="hero-grid">
 
-      <div>
+      <div class="hero-content">
+
         <div class="eyebrow">
-          Événement · Strasbourg
+          Place aux habitants · Strasbourg
         </div>
 
         <h1>
           Place aux<br>
-          <span>habitants.</span>
+          <span class="green">habitants.</span>
         </h1>
 
-        <p class="hero-description">
+        <p class="hero-text">
           Venez découvrir l’Atelier Jeu d’Échecs Lezay,
-          échanger autour du jeu et partager un moment
-          autour de l’échiquier.
+          jouer, échanger et partager un moment autour
+          de l’échiquier.
         </p>
+
       </div>
 
 
-      <!-- Échiquier graphique -->
-      <div class="chess-visual" aria-hidden="true">
+      <!-- =====================================
+           ÉCHIQUIER 8 × 8
+           Les 64 cases sont générées en JS.
+      ====================================== -->
 
-        <div class="square light"></div>
-        <div class="square dark piece"></div>
-        <div class="square light"></div>
-        <div class="square dark"></div>
-        <div class="square light"></div>
-        <div class="square dark"></div>
-        <div class="square light piece green"></div>
-        <div class="square dark"></div>
-
-        <div class="square dark"></div>
-        <div class="square light"></div>
-        <div class="square dark piece green"></div>
-        <div class="square light"></div>
-        <div class="square dark"></div>
-        <div class="square light piece"></div>
-        <div class="square dark"></div>
-        <div class="square light"></div>
-
-        <div class="square light"></div>
-        <div class="square dark"></div>
-        <div class="square light"></div>
-        <div class="square dark"></div>
-        <div class="square light"></div>
-        <div class="square dark piece"></div>
-        <div class="square light"></div>
-        <div class="square dark"></div>
-
-        <div class="square dark piece green"></div>
-        <div class="square light"></div>
-        <div class="square dark"></div>
-        <div class="square light"></div>
-        <div class="square dark"></div>
-        <div class="square light"></div>
-        <div class="square dark piece"></div>
-        <div class="square light"></div>
-
-        <div class="square light"></div>
-        <div class="square dark"></div>
-        <div class="square light piece"></div>
-        <div class="square dark"></div>
-        <div class="square light"></div>
-        <div class="square dark"></div>
-        <div class="square light"></div>
-        <div class="square dark"></div>
-
-        <div class="square dark"></div>
-        <div class="square light piece green"></div>
-        <div class="square dark"></div>
-        <div class="square light"></div>
-        <div class="square dark piece"></div>
-        <div class="square light"></div>
-        <div class="square dark"></div>
-        <div class="square light"></div>
-
-        <div class="square light piece green"></div>
-        <div class="square dark"></div>
-        <div class="square light"></div>
-        <div class="square dark piece"></div>
-        <div class="square light"></div>
-        <div class="square dark"></div>
-        <div class="square light"></div>
-        <div class="square dark"></div>
-
-        <div class="square dark"></div>
-        <div class="square light"></div>
-        <div class="square dark piece"></div>
-        <div class="square light"></div>
-        <div class="square dark"></div>
-        <div class="square light piece green"></div>
-        <div class="square dark"></div>
-        <div class="square light"></div>
-
+      <div class="board-wrapper" aria-hidden="true">
+        <div
+          id="chessBoard"
+          class="board"
+        ></div>
       </div>
 
     </div>
@@ -733,75 +875,105 @@
   </header>
 
 
-  <!-- =========================
-       EVENT DETAILS
-  ========================== -->
+  <!-- =========================================
+       INFORMATIONS DE L'ÉVÉNEMENT
+  ========================================== -->
 
-  <section class="event-strip">
+  <section class="event-info" aria-label="Informations de l'événement">
 
     <div class="event-item">
-      <div class="event-label">Date</div>
-      <div class="event-value">23 septembre</div>
+
+      <div class="event-label">
+        Date
+      </div>
+
+      <div class="event-value">
+        23 septembre
+      </div>
+
     </div>
 
-    <div class="event-item">
-      <div class="event-label">Horaire</div>
-      <div class="event-value">14h00 — 17h00</div>
-    </div>
 
     <div class="event-item">
-      <div class="event-label">Lieu</div>
-      <div class="event-value">9–11 rue de la Corse · Meinau</div>
+
+      <div class="event-label">
+        Horaire
+      </div>
+
+      <div class="event-value">
+        14h00 — 17h00
+      </div>
+
+    </div>
+
+
+    <div class="event-item">
+
+      <div class="event-label">
+        Lieu
+      </div>
+
+      <div class="event-value">
+        9–11 rue de la Corse · Meinau
+      </div>
+
     </div>
 
   </section>
 
 
-  <!-- =========================
-       CONTENT
-  ========================== -->
+  <!-- =========================================
+       FORMULAIRE
+  ========================================== -->
 
   <main>
 
     <div class="content-grid">
 
-      <div>
+      <section>
 
-        <div class="section-number">01 — Inscription</div>
+        <div class="section-number">
+          01 — Inscription
+        </div>
 
         <h2 class="section-title">
           Participez<br>
           à la rencontre.
         </h2>
 
-        <p class="section-text">
-          Remplissez le formulaire pour nous transmettre
+        <p class="section-description">
+          Remplissez le formulaire afin de nous transmettre
           votre inscription à l’événement
           <strong>Place aux habitants</strong>.
         </p>
 
-        <div class="event-note">
-          Aucun niveau particulier n’est nécessaire.
-          L’Atelier Jeu d’Échecs Lezay est ouvert à tous
-          les niveaux.
+        <div class="info-note">
+          Tous les niveaux sont les bienvenus.
+          Aucun niveau particulier aux échecs n’est nécessaire
+          pour participer.
         </div>
 
-      </div>
+      </section>
 
 
-      <!-- =========================
-           FORMULAIRE FORMSPREE
-      ========================== -->
+      <section class="form-card">
 
-      <div class="form-card">
+        <div class="form-header">
 
-        <div class="form-heading">
-          Formulaire d'inscription
+          <h2 class="form-title">
+            Formulaire d'inscription
+          </h2>
+
+          <p class="form-subtitle">
+            Les champs marqués d’un * sont obligatoires.
+          </p>
+
         </div>
 
-        <div class="form-subheading">
-          Les champs marqués d’un * sont obligatoires.
-        </div>
+
+        <!-- =====================================
+             FORMSPREE
+        ====================================== -->
 
         <form
           id="registrationForm"
@@ -809,14 +981,13 @@
           method="POST"
         >
 
-          <!-- Sujet de l'email Formspree -->
           <input
             type="hidden"
             name="_subject"
             value="Inscription — Place aux habitants — Atelier Jeu d'Échecs Lezay"
           >
 
-          <!-- Honeypot anti-spam -->
+          <!-- Anti-spam honeypot -->
           <input
             type="text"
             name="_gotcha"
@@ -825,87 +996,132 @@
             style="display:none"
           >
 
+
           <div class="form-grid">
 
+            <!-- PRÉNOM -->
+
             <div class="field">
-              <label for="first_name">
+
+              <label for="firstName">
                 Prénom *
               </label>
 
               <input
-                type="text"
-                id="first_name"
+                id="firstName"
                 name="Prénom"
+                type="text"
                 placeholder="Votre prénom"
                 autocomplete="given-name"
                 required
               >
+
             </div>
 
 
+            <!-- NOM -->
+
             <div class="field">
-              <label for="last_name">
+
+              <label for="lastName">
                 Nom *
               </label>
 
               <input
-                type="text"
-                id="last_name"
+                id="lastName"
                 name="Nom"
+                type="text"
                 placeholder="Votre nom"
                 autocomplete="family-name"
                 required
               >
+
             </div>
 
 
+            <!-- CLASSE -->
+
             <div class="field">
-              <label for="class">
-                Classe <span>— facultatif</span>
+
+              <label for="className">
+                Classe
+                <span class="optional">— facultatif</span>
               </label>
 
               <input
-                type="text"
-                id="class"
+                id="className"
                 name="Classe"
+                type="text"
                 placeholder="Ex. 4e4"
               >
+
             </div>
 
+
+            <!-- NIVEAU -->
 
             <div class="field">
-              <label for="level">
-                Niveau aux échecs <span>— facultatif</span>
+
+              <label for="chessLevel">
+                Niveau aux échecs
+                <span class="optional">— facultatif</span>
               </label>
 
-              <select id="level" name="Niveau aux échecs">
-                <option value="">Sélectionner</option>
-                <option value="Débutant">Débutant</option>
-                <option value="Intermédiaire">Intermédiaire</option>
-                <option value="Avancé">Avancé</option>
-                <option value="Je ne sais pas">Je ne sais pas</option>
+              <select
+                id="chessLevel"
+                name="Niveau aux échecs"
+              >
+                <option value="">
+                  Sélectionner
+                </option>
+
+                <option value="Débutant">
+                  Débutant
+                </option>
+
+                <option value="Intermédiaire">
+                  Intermédiaire
+                </option>
+
+                <option value="Avancé">
+                  Avancé
+                </option>
+
+                <option value="Je ne sais pas">
+                  Je ne sais pas
+                </option>
               </select>
+
             </div>
 
 
+            <!-- EMAIL -->
+
             <div class="field full">
+
               <label for="email">
-                Adresse e-mail <span>— facultatif</span>
+                Adresse e-mail
+                <span class="optional">— facultatif</span>
               </label>
 
               <input
-                type="email"
                 id="email"
                 name="Email"
+                type="email"
                 placeholder="votre@email.fr"
                 autocomplete="email"
               >
+
             </div>
 
 
+            <!-- MESSAGE -->
+
             <div class="field full">
+
               <label for="message">
-                Message <span>— facultatif</span>
+                Message
+                <span class="optional">— facultatif</span>
               </label>
 
               <textarea
@@ -913,21 +1129,24 @@
                 name="Message"
                 placeholder="Une question, une précision..."
               ></textarea>
+
             </div>
 
           </div>
 
 
+          <!-- BOUTON -->
+
           <div class="submit-row">
 
-            <div class="required-note">
+            <span class="required">
               * Informations obligatoires
-            </div>
+            </span>
 
             <button
-              type="submit"
-              class="submit-btn"
               id="submitButton"
+              class="submit-button"
+              type="submit"
             >
               Envoyer l'inscription →
             </button>
@@ -937,6 +1156,8 @@
         </form>
 
 
+        <!-- SUCCÈS -->
+
         <div
           id="successMessage"
           class="status"
@@ -944,10 +1165,12 @@
           aria-live="polite"
         >
           <strong>Inscription envoyée.</strong><br>
-          Merci. Votre inscription a bien été transmise à
-          l’Atelier Jeu d’Échecs Lezay.
+          Merci. Votre inscription a bien été transmise
+          à l’Atelier Jeu d’Échecs Lezay.
         </div>
 
+
+        <!-- ERREUR -->
 
         <div
           id="errorMessage"
@@ -956,24 +1179,25 @@
           aria-live="assertive"
         >
           Une erreur est survenue lors de l’envoi.
-          Vous pouvez réessayer dans quelques instants.
+          Veuillez réessayer dans quelques instants.
         </div>
 
-      </div>
+      </section>
 
     </div>
 
   </main>
 
 
-  <!-- =========================
+  <!-- =========================================
        FOOTER
-  ========================== -->
+  ========================================== -->
 
   <footer>
+
     <div class="footer-inner">
 
-      <div class="footer-brand">
+      <div class="footer-name">
         Atelier Jeu d'Échecs Lezay
       </div>
 
@@ -982,71 +1206,185 @@
       </div>
 
     </div>
+
   </footer>
 
 
-  <!-- =========================
-       FORM LOGIC
-  ========================== -->
+  <!-- =========================================
+       JAVASCRIPT
+  ========================================== -->
 
   <script>
+
+    /* =========================================
+       GÉNÉRATION DU VRAI ÉCHIQUIER
+    ========================================== */
+
+    const board = document.getElementById("chessBoard");
+
+    /*
+      Position de départ classique des pièces.
+
+      Chaque rangée contient exactement 8 cases.
+      Les 8 rangées donnent donc exactement 64 cases.
+
+      La position est inversée pour afficher les blancs
+      en bas du plateau, comme sur un véritable échiquier.
+    */
+
+    const pieces = {
+
+      0: ["♜", "♞", "♝", "♛", "♚", "♝", "♞", "♜"],
+      1: ["♟", "♟", "♟", "♟", "♟", "♟", "♟", "♟"],
+
+      6: ["♙", "♙", "♙", "♙", "♙", "♙", "♙", "♙"],
+      7: ["♖", "♘", "♗", "♕", "♔", "♗", "♘", "♖"]
+
+    };
+
+
+    for (let row = 0; row < 8; row++) {
+
+      for (let col = 0; col < 8; col++) {
+
+        const square = document.createElement("div");
+
+        /*
+          Alternance correcte des couleurs :
+          si row + col est pair → case claire
+          sinon → case foncée
+        */
+
+        square.classList.add(
+          "square",
+          (row + col) % 2 === 0
+            ? "light"
+            : "dark"
+        );
+
+
+        /*
+          Ajout des pièces uniquement sur
+          les rangées de départ.
+        */
+
+        if (pieces[row] && pieces[row][col]) {
+
+          const piece = document.createElement("span");
+
+          piece.classList.add("piece");
+
+          /*
+            Les pièces des deux premières rangées
+            sont noires, les deux dernières blanches.
+          */
+
+          if (row <= 1) {
+
+            piece.classList.add("black-piece");
+
+          } else {
+
+            piece.classList.add("white-piece");
+
+          }
+
+          piece.textContent = pieces[row][col];
+
+          square.appendChild(piece);
+
+        }
+
+        board.appendChild(square);
+
+      }
+
+    }
+
+
+    /* =========================================
+       FORMULAIRE FORMSPREE
+    ========================================== */
+
     const form = document.getElementById("registrationForm");
-    const button = document.getElementById("submitButton");
-    const successMessage = document.getElementById("successMessage");
-    const errorMessage = document.getElementById("errorMessage");
+
+    const submitButton =
+      document.getElementById("submitButton");
+
+    const successMessage =
+      document.getElementById("successMessage");
+
+    const errorMessage =
+      document.getElementById("errorMessage");
+
 
     form.addEventListener("submit", async function (event) {
+
       event.preventDefault();
+
 
       successMessage.classList.remove("success");
       errorMessage.classList.remove("error");
 
-      button.disabled = true;
-      button.textContent = "Envoi en cours…";
+
+      submitButton.disabled = true;
+      submitButton.textContent = "Envoi en cours…";
+
 
       const formData = new FormData(form);
 
+
       try {
-        const response = await fetch(form.action, {
-          method: "POST",
-          body: formData,
-          headers: {
-            "Accept": "application/json"
+
+        const response = await fetch(
+          form.action,
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              "Accept": "application/json"
+            }
           }
+        );
+
+
+        if (!response.ok) {
+          throw new Error("Formspree request failed");
+        }
+
+
+        form.reset();
+
+        successMessage.classList.add("success");
+
+        submitButton.disabled = false;
+        submitButton.textContent = "Inscription envoyée ✓";
+
+
+        successMessage.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest"
         });
 
-        if (response.ok) {
-          form.reset();
-
-          successMessage.classList.add("success");
-
-          button.disabled = false;
-          button.textContent = "Inscription envoyée ✓";
-
-          successMessage.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest"
-          });
-
-        } else {
-          throw new Error("Formspree error");
-        }
 
       } catch (error) {
 
         errorMessage.classList.add("error");
 
-        button.disabled = false;
-        button.textContent = "Réessayer →";
+        submitButton.disabled = false;
+        submitButton.textContent = "Réessayer →";
+
 
         errorMessage.scrollIntoView({
           behavior: "smooth",
           block: "nearest"
         });
+
       }
+
     });
+
   </script>
 
 </body>
 </html>
-```
