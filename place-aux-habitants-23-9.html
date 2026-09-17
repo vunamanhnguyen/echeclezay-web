@@ -1,0 +1,896 @@
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Place aux habitants — Atelier Jeu d'Échecs Lezay</title>
+  <meta name="description" content="Inscription à l'Atelier Jeu d'Échecs Lezay pour l'événement Place aux habitants, le 23 septembre à Strasbourg.">
+
+  <style>
+    :root {
+      --black: #050505;
+      --white: #ffffff;
+      --green: #19a463;
+      --green-dark: #0d6f43;
+      --green-light: #dff7ea;
+      --border: rgba(25, 164, 99, 0.32);
+      --muted: #777;
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--white);
+      color: var(--black);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    /* NAVBAR */
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .nav-inner {
+      max-width: 1180px;
+      margin: auto;
+      min-height: 76px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .brand img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+    }
+
+    .brand span {
+      font-size: 15px;
+      line-height: 1.1;
+    }
+
+    .nav-link {
+      font-size: 14px;
+      font-weight: 700;
+      color: #555;
+      transition: color 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--green);
+    }
+
+    .nav-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 11px 18px;
+      border-radius: 999px;
+      background: var(--black);
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 800;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .nav-button:hover {
+      transform: translateY(-2px);
+      background: var(--green);
+    }
+
+    /* HERO */
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      right: -180px;
+      top: -220px;
+      border-radius: 50%;
+      background: var(--green);
+      opacity: 0.14;
+      filter: blur(20px);
+    }
+
+    .hero-inner {
+      max-width: 1180px;
+      margin: auto;
+      padding: 90px 24px 85px;
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      gap: 70px;
+    }
+
+    .eyebrow {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: clamp(46px, 7vw, 88px);
+      line-height: 0.92;
+      letter-spacing: -0.065em;
+      max-width: 750px;
+      margin-bottom: 28px;
+    }
+
+    .hero-title-accent {
+      color: var(--green);
+    }
+
+    .hero-description {
+      max-width: 600px;
+      color: rgba(255,255,255,0.7);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    /* CHESSBOARD */
+
+    .board-wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+    .chessboard {
+      width: min(390px, 80vw);
+      aspect-ratio: 1;
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      border: 7px solid var(--white);
+      box-shadow: 0 25px 70px rgba(0,0,0,0.5);
+      transform: rotate(-2deg);
+    }
+
+    .square {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 1;
+      font-size: clamp(20px, 4vw, 42px);
+      line-height: 1;
+      user-select: none;
+    }
+
+    .square.light {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .square.dark {
+      background: var(--green);
+      color: var(--white);
+    }
+
+    /* CONTENT */
+
+    main {
+      max-width: 1180px;
+      margin: auto;
+      padding: 80px 24px 110px;
+    }
+
+    .event-grid {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 70px;
+      align-items: start;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--green-dark);
+      margin-bottom: 15px;
+    }
+
+    h2 {
+      font-size: clamp(34px, 5vw, 56px);
+      letter-spacing: -0.05em;
+      line-height: 1;
+      margin-bottom: 24px;
+    }
+
+    .intro {
+      color: #666;
+      font-size: 17px;
+      line-height: 1.7;
+      margin-bottom: 35px;
+    }
+
+    .details {
+      display: grid;
+      gap: 14px;
+    }
+
+    .detail {
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      background: #fbfbfb;
+    }
+
+    .detail strong {
+      display: block;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--green-dark);
+      margin-bottom: 7px;
+    }
+
+    .detail span {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    /* FORM */
+
+    .form-card {
+      background: #f7f7f7;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: var(--radius);
+      padding: clamp(25px, 5vw, 42px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.07);
+    }
+
+    .form-card h3 {
+      font-size: 30px;
+      letter-spacing: -0.04em;
+      margin-bottom: 9px;
+    }
+
+    .form-card > p {
+      color: #777;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .optional {
+      color: #888;
+      font-weight: 500;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid #d8d8d8;
+      background: var(--white);
+      color: var(--black);
+      border-radius: 13px;
+      padding: 14px 15px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input,
+    select {
+      min-height: 50px;
+    }
+
+    textarea {
+      min-height: 125px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 4px rgba(25,164,99,0.12);
+    }
+
+    .submit {
+      width: 100%;
+      margin-top: 22px;
+      border: none;
+      border-radius: 13px;
+      min-height: 54px;
+      background: var(--black);
+      color: var(--white);
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .submit:hover {
+      background: var(--green);
+      transform: translateY(-2px);
+    }
+
+    .submit:disabled {
+      opacity: 0.6;
+      cursor: wait;
+      transform: none;
+    }
+
+    .privacy {
+      margin-top: 14px;
+      color: #888;
+      font-size: 12px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    /* SUCCESS */
+
+    .success {
+      display: none;
+      text-align: center;
+      padding: 35px 15px 20px;
+    }
+
+    .success-icon {
+      width: 65px;
+      height: 65px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+      font-size: 28px;
+      font-weight: 900;
+    }
+
+    .success h3 {
+      font-size: 32px;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    .success p {
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .error-message {
+      display: none;
+      margin-top: 15px;
+      padding: 13px 15px;
+      border-radius: 12px;
+      background: #eeeeee;
+      color: #222;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* FOOTER */
+
+    footer {
+      border-top: 1px solid rgba(0,0,0,0.08);
+      padding: 30px 24px;
+      text-align: center;
+      color: #888;
+      font-size: 13px;
+    }
+
+    footer strong {
+      color: var(--black);
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 800px) {
+      .nav-inner {
+        min-height: 66px;
+      }
+
+      .brand span {
+        display: none;
+      }
+
+      .nav-link {
+        display: none;
+      }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 50px;
+        padding-top: 65px;
+        padding-bottom: 65px;
+      }
+
+      .board-wrap {
+        order: -1;
+      }
+
+      .chessboard {
+        width: min(320px, 78vw);
+      }
+
+      .event-grid {
+        grid-template-columns: 1fr;
+        gap: 45px;
+      }
+
+      main {
+        padding-top: 60px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .nav-button {
+        padding: 10px 14px;
+        font-size: 13px;
+      }
+
+      .hero-inner {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      main {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .form-card {
+        padding: 23px 18px;
+      }
+
+      h1 {
+        font-size: 54px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="nav-inner">
+
+      <a href="/" class="brand" aria-label="Atelier Jeu d'Échecs Lezay">
+        <img
+          src="https://image-namanhstudio.weebly.com/uploads/1/5/5/3/155356283/icon-echec-lezay_orig.png"
+          alt="Logo Atelier Jeu d'Échecs Lezay"
+        >
+        <span>Atelier Jeu d'Échecs<br>Lezay</span>
+      </a>
+
+      <a href="/" class="nav-link">Retour au site</a>
+
+      <a href="#inscription" class="nav-button">S'inscrire</a>
+
+    </div>
+  </nav>
+
+
+  <header class="hero">
+
+    <div class="hero-inner">
+
+      <div>
+        <div class="eyebrow">Événement · Strasbourg · Meinau</div>
+
+        <h1>
+          Place aux<br>
+          <span class="hero-title-accent">habitants.</span>
+        </h1>
+
+        <p class="hero-description">
+          Retrouvez l'Atelier Jeu d'Échecs Lezay pour un moment de découverte,
+          de rencontre et de jeu autour des échecs.
+        </p>
+      </div>
+
+
+      <div class="board-wrap">
+        <div class="chessboard" aria-label="Échiquier décoratif">
+
+          <div class="square light">♜</div>
+          <div class="square dark">♞</div>
+          <div class="square light">♝</div>
+          <div class="square dark">♛</div>
+          <div class="square light">♚</div>
+          <div class="square dark">♝</div>
+          <div class="square light">♞</div>
+          <div class="square dark">♜</div>
+
+          <div class="square dark">♟</div>
+          <div class="square light">♟</div>
+          <div class="square dark">♟</div>
+          <div class="square light">♟</div>
+          <div class="square dark">♟</div>
+          <div class="square light">♟</div>
+          <div class="square dark">♟</div>
+          <div class="square light">♟</div>
+
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+
+          <div class="square light">♙</div>
+          <div class="square dark">♙</div>
+          <div class="square light">♙</div>
+          <div class="square dark">♙</div>
+          <div class="square light">♙</div>
+          <div class="square dark">♙</div>
+          <div class="square light">♙</div>
+          <div class="square dark">♙</div>
+
+          <div class="square dark">♖</div>
+          <div class="square light">♘</div>
+          <div class="square dark">♗</div>
+          <div class="square light">♕</div>
+          <div class="square dark">♔</div>
+          <div class="square light">♗</div>
+          <div class="square dark">♘</div>
+          <div class="square light">♖</div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <main id="inscription">
+
+    <div class="event-grid">
+
+      <section>
+
+        <div class="section-label">23 septembre</div>
+
+        <h2>
+          Venez jouer.<br>
+          Venez découvrir.
+        </h2>
+
+        <p class="intro">
+          L'Atelier Jeu d'Échecs Lezay participe à
+          <strong>Place aux habitants</strong>.
+          Inscrivez-vous pour participer à ce moment consacré
+          à la découverte et au partage autour du jeu d'échecs.
+        </p>
+
+        <div class="details">
+
+          <div class="detail">
+            <strong>Date</strong>
+            <span>23 septembre</span>
+          </div>
+
+          <div class="detail">
+            <strong>Horaires</strong>
+            <span>14h00 – 17h00</span>
+          </div>
+
+          <div class="detail">
+            <strong>Adresse</strong>
+            <span>9–11 rue de la Corse · Meinau</span>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="form-card">
+
+        <div id="form-container">
+
+          <h3>Je m'inscris</h3>
+
+          <p>
+            Remplissez le formulaire ci-dessous pour nous faire savoir
+            que vous souhaitez participer.
+          </p>
+
+          <form
+            id="registration-form"
+            action="https://formspree.io/f/xaenyvlq"
+            method="POST"
+          >
+
+            <div class="form-grid">
+
+              <div class="field">
+                <label for="first_name">Prénom *</label>
+                <input
+                  type="text"
+                  id="first_name"
+                  name="Prénom"
+                  placeholder="Votre prénom"
+                  autocomplete="given-name"
+                  required
+                >
+              </div>
+
+              <div class="field">
+                <label for="last_name">Nom *</label>
+                <input
+                  type="text"
+                  id="last_name"
+                  name="Nom"
+                  placeholder="Votre nom"
+                  autocomplete="family-name"
+                  required
+                >
+              </div>
+
+              <div class="field">
+                <label for="class">Classe <span class="optional">(facultatif)</span></label>
+                <input
+                  type="text"
+                  id="class"
+                  name="Classe"
+                  placeholder="Ex. 4e4"
+                >
+              </div>
+
+              <div class="field">
+                <label for="level">Niveau aux échecs <span class="optional">(facultatif)</span></label>
+
+                <select id="level" name="Niveau aux échecs">
+                  <option value="">Sélectionner</option>
+                  <option value="Débutant">Débutant</option>
+                  <option value="Débutant avancé">Débutant avancé</option>
+                  <option value="Intermédiaire">Intermédiaire</option>
+                  <option value="Avancé">Avancé</option>
+                  <option value="Je ne sais pas">Je ne sais pas</option>
+                </select>
+              </div>
+
+              <div class="field full">
+                <label for="email">Email <span class="optional">(facultatif)</span></label>
+
+                <input
+                  type="email"
+                  id="email"
+                  name="Email"
+                  placeholder="votre@email.com"
+                  autocomplete="email"
+                >
+              </div>
+
+              <div class="field full">
+                <label for="message">Message <span class="optional">(facultatif)</span></label>
+
+                <textarea
+                  id="message"
+                  name="Message"
+                  placeholder="Une question ou une information à nous transmettre ?"
+                ></textarea>
+              </div>
+
+            </div>
+
+            <!-- Honeypot anti-spam -->
+            <input
+              type="text"
+              name="_gotcha"
+              tabindex="-1"
+              autocomplete="off"
+              style="display:none"
+            >
+
+            <input
+              type="hidden"
+              name="_subject"
+              value="Inscription — Place aux habitants — 23 septembre"
+            >
+
+            <button
+              type="submit"
+              class="submit"
+              id="submit-button"
+            >
+              Confirmer mon inscription
+            </button>
+
+            <div
+              class="error-message"
+              id="error-message"
+              role="alert"
+            >
+              Une erreur est survenue. Merci de réessayer.
+            </div>
+
+            <p class="privacy">
+              Vos informations sont utilisées uniquement pour gérer
+              votre inscription à cet événement.
+            </p>
+
+          </form>
+
+        </div>
+
+
+        <div
+          class="success"
+          id="success-message"
+          role="status"
+        >
+
+          <div class="success-icon">✓</div>
+
+          <h3>Inscription envoyée !</h3>
+
+          <p>
+            Merci pour votre inscription.<br>
+            Nous avons bien reçu votre demande pour
+            <strong>Place aux habitants</strong>.
+          </p>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <footer>
+    © 2026 <strong>Atelier Jeu d'Échecs Lezay</strong>
+  </footer>
+
+
+  <script>
+    const form = document.getElementById("registration-form");
+    const submitButton = document.getElementById("submit-button");
+    const formContainer = document.getElementById("form-container");
+    const successMessage = document.getElementById("success-message");
+    const errorMessage = document.getElementById("error-message");
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      submitButton.disabled = true;
+      submitButton.textContent = "Envoi en cours…";
+      errorMessage.style.display = "none";
+
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch(form.action, {
+          method: "POST",
+          body: formData,
+          headers: {
+            "Accept": "application/json"
+          }
+        });
+
+        if (response.ok) {
+          formContainer.style.display = "none";
+          successMessage.style.display = "block";
+        } else {
+          throw new Error("Formspree error");
+        }
+
+      } catch (error) {
+        errorMessage.style.display = "block";
+        submitButton.disabled = false;
+        submitButton.textContent = "Confirmer mon inscription";
+      }
+    });
+  </script>
+
+</body>
+</html>
+```
