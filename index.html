@@ -1,56 +1,54 @@
+```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
+  <meta
+    name="description"
+    content="Atelier Jeu d'Échecs Lezay — Club d'échecs du Collège Lezay Marnésia à Strasbourg."
+  />
 
   <title>Atelier Jeu d'Échecs Lezay</title>
-  <meta name="description" content="Atelier Jeu d'Échecs Lezay — Collège Lezay Marnésia, Strasbourg.">
 
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    :root {
-      --black: #050505;
-      --white: #ffffff;
-      --green: #19a463;
-      --green-dark: #0d6f43;
-      --green-light: #dff7ea;
-      --border: rgba(25, 164, 99, 0.35);
-      --shadow: 0 20px 60px rgba(0, 0, 0, 0.16);
-    }
+    /* =========================================================
+       RESET
+    ========================================================= */
 
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     html {
       scroll-behavior: smooth;
+      scroll-padding-top: 90px;
     }
 
     body {
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
-      background: var(--white);
-      color: var(--black);
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      background: var(--bg);
+      color: var(--text);
       line-height: 1.6;
       overflow-x: hidden;
-      transition: background 0.25s ease, color 0.25s ease;
-    }
 
-    body.dark {
-      --white: #050505;
-      --black: #ffffff;
-      --green-light: #0b291b;
-      --border: rgba(25, 164, 99, 0.45);
-      --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
+      transition:
+        background 0.35s ease,
+        color 0.35s ease;
     }
 
     button,
@@ -60,72 +58,299 @@
       font: inherit;
     }
 
-    button {
-      cursor: pointer;
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
     }
 
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    ::selection {
+      background: var(--green);
+      color: #fff;
+    }
+
+    /* =========================================================
+       VARIABLES
+    ========================================================= */
+
+    :root {
+      --black: #050505;
+      --black-soft: #0b0d0c;
+      --black-card: #101312;
+
+      --white: #ffffff;
+      --white-soft: #f5f7f6;
+      --white-card: #ffffff;
+
+      --green: #19a463;
+      --green-dark: #0d6f43;
+      --green-light: #dff7ea;
+
+      --text: #f7f9f8;
+      --text-soft: #aeb8b3;
+      --text-muted: #7c8882;
+
+      --bg: #050505;
+      --surface: #0b0d0c;
+      --surface-2: #111513;
+
+      --border: rgba(255, 255, 255, 0.09);
+      --border-green: rgba(25, 164, 99, 0.35);
+
+      --nav-bg: rgba(5, 5, 5, 0.78);
+
+      --shadow:
+        0 20px 70px rgba(0, 0, 0, 0.28);
+
+      --shadow-green:
+        0 20px 70px rgba(25, 164, 99, 0.10);
+
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 30px;
+      --radius-xl: 38px;
+
+      --container: 1180px;
+    }
+
+    body.light {
+      --text: #090b0a;
+      --text-soft: #53605a;
+      --text-muted: #7b8781;
+
+      --bg: #f6f8f7;
+      --surface: #ffffff;
+      --surface-2: #eef2ef;
+
+      --border: rgba(5, 5, 5, 0.09);
+      --border-green: rgba(25, 164, 99, 0.30);
+
+      --nav-bg: rgba(246, 248, 247, 0.82);
+
+      --shadow:
+        0 20px 60px rgba(0, 0, 0, 0.08);
+
+      --shadow-green:
+        0 20px 60px rgba(25, 164, 99, 0.09);
+    }
+
+    /* =========================================================
+       UTILITIES
+    ========================================================= */
+
     .container {
-      width: min(1180px, calc(100% - 40px));
+      width: min(var(--container), calc(100% - 40px));
       margin: 0 auto;
     }
 
-    /* =========================
+    .section {
+      padding: 130px 0;
+      position: relative;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+
+      color: var(--green);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+
+      margin-bottom: 22px;
+    }
+
+    .section-label::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: var(--green);
+    }
+
+    .section-title {
+      max-width: 780px;
+
+      font-size: clamp(2.4rem, 5vw, 4.7rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+      font-weight: 800;
+    }
+
+    .section-intro {
+      max-width: 670px;
+      margin-top: 24px;
+
+      color: var(--text-soft);
+      font-size: 1.08rem;
+      line-height: 1.8;
+    }
+
+    .green {
+      color: var(--green);
+    }
+
+    /* =========================================================
+       BACKGROUND
+    ========================================================= */
+
+    .ambient {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .ambient::before {
+      content: "";
+      position: absolute;
+
+      width: 650px;
+      height: 650px;
+
+      top: -280px;
+      right: -240px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(25, 164, 99, 0.12),
+          transparent 68%
+        );
+
+      filter: blur(20px);
+    }
+
+    .ambient::after {
+      content: "";
+      position: absolute;
+
+      width: 500px;
+      height: 500px;
+
+      bottom: 10%;
+      left: -300px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(25, 164, 99, 0.07),
+          transparent 68%
+        );
+
+      filter: blur(30px);
+    }
+
+    /* =========================================================
        NAVBAR
-    ========================= */
+    ========================================================= */
 
     .navbar {
       position: fixed;
       top: 0;
       left: 0;
-      right: 0;
-      z-index: 1000;
-      border-bottom: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(16px);
-    }
+      width: 100%;
 
-    body.dark .navbar {
-      background: rgba(5, 5, 5, 0.92);
+      z-index: 1000;
+
+      border-bottom: 1px solid var(--border);
+
+      background: var(--nav-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
     }
 
     .nav-inner {
-      height: 76px;
+      min-height: 78px;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 25px;
+      gap: 30px;
     }
 
     .brand {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 12px;
-      font-weight: 900;
-      letter-spacing: -0.03em;
-      white-space: nowrap;
+      gap: 13px;
+
+      flex-shrink: 0;
     }
 
-    .brand img {
-      width: 42px;
-      height: 42px;
+    .brand-logo {
+      width: 39px;
+      height: 39px;
+
       object-fit: contain;
+
+      border-radius: 10px;
+
+      background: #fff;
+      padding: 4px;
+
+      border: 1px solid var(--border);
+    }
+
+    .brand-name {
+      font-size: 0.88rem;
+      line-height: 1.1;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-name span {
+      display: block;
+
+      margin-top: 4px;
+
+      color: var(--text-muted);
+
+      font-size: 0.64rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 24px;
-      font-size: 14px;
-      font-weight: 700;
+      gap: 5px;
     }
 
-    .nav-links a {
+    .nav-link {
       position: relative;
-      transition: color 0.2s ease;
+
+      padding: 10px 12px;
+
+      color: var(--text-soft);
+
+      font-size: 0.82rem;
+      font-weight: 650;
+
+      border-radius: 10px;
+
+      transition:
+        color 0.25s ease,
+        background 0.25s ease;
     }
 
-    .nav-links a:hover {
-      color: var(--green);
+    .nav-link:hover {
+      color: var(--text);
+      background: var(--surface-2);
     }
 
     .nav-actions {
@@ -134,475 +359,1001 @@
       gap: 9px;
     }
 
-    .theme-btn,
-    .menu-btn {
-      width: 42px;
-      height: 42px;
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      background: transparent;
-      color: var(--black);
+    .theme-toggle,
+    .menu-toggle {
+      width: 40px;
+      height: 40px;
+
       display: grid;
       place-items: center;
-      font-size: 17px;
+
+      border: 1px solid var(--border);
+      border-radius: 11px;
+
+      background: var(--surface);
+
+      color: var(--text);
+
+      cursor: pointer;
+
+      transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease;
     }
 
-    .menu-btn {
-      display: none;
+    .theme-toggle:hover,
+    .menu-toggle:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-green);
     }
 
-    .btn {
+    .theme-icon {
+      font-size: 1rem;
+    }
+
+    .nav-cta {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 9px;
-      min-height: 46px;
-      padding: 0 20px;
-      border-radius: 999px;
-      border: 1px solid var(--green);
-      font-weight: 800;
-      transition: 0.2s ease;
-    }
 
-    .btn-green {
+      min-height: 40px;
+      padding: 0 17px;
+
       background: var(--green);
-      color: #ffffff;
+      color: #fff;
+
+      border-radius: 11px;
+
+      font-size: 0.78rem;
+      font-weight: 800;
+
+      box-shadow: 0 8px 25px rgba(25, 164, 99, 0.18);
+
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
     }
 
-    .btn-green:hover {
-      background: var(--green-dark);
+    .nav-cta:hover {
       transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(25, 164, 99, 0.25);
     }
 
-    .btn-outline {
-      background: transparent;
-      color: var(--black);
+    .menu-toggle {
+      display: none;
     }
 
-    .btn-outline:hover {
-      background: var(--green-light);
-    }
-
-    /* =========================
+    /* =========================================================
        HERO
-    ========================= */
+    ========================================================= */
 
     .hero {
-      min-height: 100vh;
-      padding: 150px 0 90px;
+      min-height: 100svh;
+
       display: flex;
       align-items: center;
+
+      padding:
+        150px
+        0
+        90px;
+
       position: relative;
       overflow: hidden;
     }
 
-    .hero::before {
-      content: "";
-      position: absolute;
-      width: 500px;
-      height: 500px;
-      border-radius: 50%;
-      background: rgba(25, 164, 99, 0.09);
-      top: 5%;
-      right: -180px;
-      filter: blur(10px);
-      pointer-events: none;
-    }
-
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 80px;
       align-items: center;
-      gap: 70px;
     }
 
-    .eyebrow {
+    .hero-eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
+
+      padding: 7px 11px;
+
+      border: 1px solid var(--border-green);
+      border-radius: 999px;
+
       color: var(--green);
-      font-size: 13px;
-      font-weight: 900;
-      text-transform: uppercase;
+
+      background: rgba(25, 164, 99, 0.06);
+
+      font-size: 0.68rem;
+      font-weight: 800;
       letter-spacing: 0.13em;
-      margin-bottom: 18px;
+      text-transform: uppercase;
+
+      margin-bottom: 25px;
     }
 
-    .eyebrow::before {
-      content: "";
-      width: 26px;
-      height: 2px;
+    .hero-eyebrow-dot {
+      width: 6px;
+      height: 6px;
+
+      border-radius: 50%;
+      background: var(--green);
+
+      box-shadow: 0 0 0 5px rgba(25, 164, 99, 0.10);
+    }
+
+    .hero-title {
+      max-width: 780px;
+
+      font-size: clamp(3.7rem, 8vw, 7.5rem);
+      line-height: 0.88;
+
+      letter-spacing: -0.075em;
+      font-weight: 850;
+    }
+
+    .hero-title .outline {
+      color: transparent;
+      -webkit-text-stroke: 1px var(--text);
+    }
+
+    .hero-title .accent {
+      color: var(--green);
+    }
+
+    .hero-description {
+      max-width: 620px;
+
+      margin-top: 30px;
+
+      color: var(--text-soft);
+
+      font-size: 1.08rem;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+
+      margin-top: 34px;
+    }
+
+    .button-primary,
+    .button-secondary {
+      min-height: 50px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+
+      padding: 0 21px;
+
+      border-radius: 13px;
+
+      font-size: 0.82rem;
+      font-weight: 800;
+
+      transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .button-primary {
+      background: var(--green);
+      color: #fff;
+
+      box-shadow:
+        0 14px 35px rgba(25, 164, 99, 0.17);
+    }
+
+    .button-primary:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        0 18px 40px rgba(25, 164, 99, 0.27);
+    }
+
+    .button-secondary {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .button-secondary:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-green);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+
+      margin-top: 45px;
+
+      color: var(--text-muted);
+
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .hero-meta-item strong {
+      color: var(--text);
+    }
+
+    .hero-meta-dot {
+      width: 4px;
+      height: 4px;
+
+      border-radius: 50%;
       background: var(--green);
     }
 
-    .hero h1 {
-      font-size: clamp(48px, 7vw, 88px);
-      line-height: 0.95;
-      letter-spacing: -0.065em;
-      max-width: 800px;
-      margin-bottom: 28px;
-    }
-
-    .hero h1 span {
-      color: var(--green);
-    }
-
-    .hero-text {
-      max-width: 650px;
-      font-size: 19px;
-      color: var(--black);
-      opacity: 0.78;
-      margin-bottom: 34px;
-    }
-
-    .hero-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    /* Chessboard */
+    /* =========================================================
+       CHESSBOARD
+    ========================================================= */
 
     .hero-board-wrap {
+      position: relative;
+
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
-    .chessboard-frame {
-      width: min(500px, 90vw);
+    .board-glow {
+      position: absolute;
+
+      width: 420px;
+      height: 420px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(25, 164, 99, 0.17),
+          transparent 67%
+        );
+
+      filter: blur(15px);
+    }
+
+    .board-frame {
+      position: relative;
+
+      width: min(100%, 470px);
       aspect-ratio: 1;
-      padding: 15px;
-      background: var(--black);
-      border: 2px solid var(--green);
-      box-shadow: var(--shadow);
-      transform: rotate(1deg);
+
+      padding: 12px;
+
+      border-radius: 25px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.13),
+          rgba(255, 255, 255, 0.025)
+        );
+
+      border: 1px solid rgba(255, 255, 255, 0.10);
+
+      box-shadow:
+        0 35px 100px rgba(0, 0, 0, 0.38),
+        0 0 80px rgba(25, 164, 99, 0.08);
+
+      transform: rotate(1.5deg);
+    }
+
+    body.light .board-frame {
+      background: #fff;
+      border-color: rgba(0, 0, 0, 0.08);
+      box-shadow:
+        0 35px 80px rgba(0, 0, 0, 0.12),
+        0 0 70px rgba(25, 164, 99, 0.08);
     }
 
     .chessboard {
       width: 100%;
       height: 100%;
+
       display: grid;
       grid-template-columns: repeat(8, 1fr);
-      border: 2px solid var(--green);
+      grid-template-rows: repeat(8, 1fr);
+
+      overflow: hidden;
+
+      border-radius: 15px;
+
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.08);
     }
 
     .square {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: Georgia, serif;
-      font-size: clamp(25px, 5vw, 52px);
-      line-height: 1;
+
+      font-family:
+        "Times New Roman",
+        Georgia,
+        serif;
+
+      font-size: clamp(1.8rem, 5vw, 3.2rem);
+
       user-select: none;
     }
 
-    .square.light {
-      background: #ffffff;
-      color: #050505;
+    .square.light-square {
+      background: #f0f3f1;
+      color: #0a0d0b;
     }
 
-    .square.dark {
+    .square.dark-square {
+      background: var(--green-dark);
+      color: #fff;
+    }
+
+    body.light .square.light-square {
+      background: #f3f5f4;
+    }
+
+    body.light .square.dark-square {
+      background: #137b4c;
+    }
+
+    .piece {
+      filter:
+        drop-shadow(0 5px 5px rgba(0, 0, 0, 0.20));
+    }
+
+    .board-caption {
+      position: absolute;
+
+      right: -25px;
+      bottom: -25px;
+
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      padding: 13px 16px;
+
+      border-radius: 15px;
+
+      border: 1px solid var(--border-green);
+
+      background: var(--surface);
+
+      box-shadow: var(--shadow);
+
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    .board-caption span {
+      display: block;
+
+      width: 8px;
+      height: 8px;
+
+      border-radius: 50%;
       background: var(--green);
-      color: #ffffff;
     }
 
-    /* =========================
-       GENERAL SECTIONS
-    ========================= */
+    /* =========================================================
+       MARQUEE
+    ========================================================= */
 
-    section {
-      padding: 110px 0;
-      scroll-margin-top: 80px;
+    .marquee {
+      overflow: hidden;
+
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+
+      background: var(--surface);
+
+      white-space: nowrap;
     }
 
-    .section-header {
-      max-width: 760px;
-      margin-bottom: 55px;
+    .marquee-track {
+      display: inline-flex;
+      align-items: center;
+      gap: 45px;
+
+      min-width: max-content;
+
+      padding: 18px 0;
+
+      animation: marquee 28s linear infinite;
     }
 
-    .section-number {
-      color: var(--green);
-      font-size: 13px;
-      font-weight: 900;
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      gap: 45px;
+
+      color: var(--text-muted);
+
+      font-size: 0.7rem;
+      font-weight: 800;
       letter-spacing: 0.15em;
-      margin-bottom: 12px;
+      text-transform: uppercase;
     }
 
-    .section-header h2 {
-      font-size: clamp(38px, 5vw, 62px);
-      line-height: 1;
-      letter-spacing: -0.055em;
-      margin-bottom: 20px;
+    .marquee-item::after {
+      content: "♟";
+      color: var(--green);
+      font-size: 0.9rem;
     }
 
-    .section-header p {
-      font-size: 17px;
-      opacity: 0.72;
-      max-width: 700px;
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
     }
 
-    /* =========================
+    /* =========================================================
        ABOUT
-    ========================= */
+    ========================================================= */
 
     .about-layout {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 70px;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 90px;
       align-items: start;
     }
 
-    .about-copy {
-      font-size: 17px;
+    .about-statement {
+      position: sticky;
+      top: 120px;
     }
 
-    .about-copy p {
-      margin-bottom: 20px;
+    .about-quote {
+      margin-top: 35px;
+
+      padding-left: 22px;
+
+      border-left: 2px solid var(--green);
+
+      color: var(--text-soft);
+
+      font-size: 1.03rem;
+      line-height: 1.8;
+    }
+
+    .about-copy {
+      color: var(--text-soft);
+      font-size: 1rem;
+      line-height: 1.9;
+    }
+
+    .about-copy + .about-copy {
+      margin-top: 24px;
     }
 
     .about-highlight {
-      padding: 26px;
-      border-left: 4px solid var(--green);
-      background: var(--green-light);
-      font-weight: 800;
-      font-size: 18px;
-      margin: 30px 0;
+      margin-top: 35px;
+
+      padding: 24px;
+
+      border: 1px solid var(--border-green);
+      border-radius: var(--radius-md);
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(25, 164, 99, 0.08),
+          transparent
+        );
     }
 
-    .stats {
+    .about-highlight strong {
+      display: block;
+
+      color: var(--text);
+
+      font-size: 1.1rem;
+      line-height: 1.4;
+    }
+
+    .stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
+      gap: 12px;
+
+      margin-top: 42px;
     }
 
     .stat {
+      padding: 22px;
+
       border: 1px solid var(--border);
-      padding: 24px;
-      min-height: 145px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      border-radius: 17px;
+
+      background: var(--surface);
+
+      transition:
+        transform 0.25s ease,
+        border-color 0.25s ease;
     }
 
-    .stat strong {
-      color: var(--green);
-      font-size: 32px;
-      line-height: 1;
+    .stat:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-green);
     }
 
-    .stat span {
-      font-size: 13px;
-      font-weight: 800;
+    .stat-number {
+      font-size: 1.75rem;
+      font-weight: 850;
+      letter-spacing: -0.05em;
     }
 
-    /* =========================
+    .stat-label {
+      margin-top: 4px;
+
+      color: var(--text-muted);
+
+      font-size: 0.68rem;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    /* =========================================================
        ACTIVITIES
-    ========================= */
+    ========================================================= */
+
+    .activities-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 40px;
+
+      margin-bottom: 55px;
+    }
+
+    .activities-header .section-intro {
+      margin: 0;
+      max-width: 430px;
+    }
 
     .activities-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border-top: 1px solid var(--border);
-      border-left: 1px solid var(--border);
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
     }
 
-    .activity {
-      padding: 30px;
-      min-height: 280px;
-      border-right: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      transition: 0.25s ease;
+    .activity-card {
+      position: relative;
+
+      min-height: 310px;
+
+      padding: 31px;
+
+      overflow: hidden;
+
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+
+      background: var(--surface);
+
+      transition:
+        transform 0.35s ease,
+        border-color 0.35s ease,
+        box-shadow 0.35s ease;
     }
 
-    .activity:hover {
-      background: var(--green-light);
-      transform: translateY(-4px);
+    .activity-card:hover {
+      transform: translateY(-7px);
+
+      border-color: var(--border-green);
+
+      box-shadow: var(--shadow-green);
     }
 
     .activity-number {
       color: var(--green);
+
+      font-size: 0.67rem;
       font-weight: 900;
-      font-size: 14px;
-      margin-bottom: 65px;
+      letter-spacing: 0.15em;
     }
 
-    .activity h3 {
-      font-size: 24px;
-      margin-bottom: 12px;
-      letter-spacing: -0.03em;
+    .activity-icon {
+      position: absolute;
+
+      top: 22px;
+      right: 25px;
+
+      font-family: Georgia, serif;
+
+      color: rgba(25, 164, 99, 0.16);
+
+      font-size: 5.5rem;
+      line-height: 1;
     }
 
-    .activity p {
-      opacity: 0.7;
-      font-size: 15px;
+    .activity-card h3 {
+      margin-top: 70px;
+
+      font-size: 1.7rem;
+      line-height: 1;
+
+      letter-spacing: -0.04em;
     }
 
-    /* =========================
-       INFORMATIONS
-    ========================= */
+    .activity-card p {
+      max-width: 420px;
 
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
+      margin-top: 15px;
+
+      color: var(--text-soft);
+
+      font-size: 0.9rem;
+      line-height: 1.75;
     }
 
-    .info-card {
-      border: 1px solid var(--border);
-      padding: 28px;
-      min-height: 200px;
+    .activity-line {
+      position: absolute;
+
+      left: 31px;
+      bottom: 27px;
+
+      width: 38px;
+      height: 2px;
+
+      background: var(--green);
+
+      transition: width 0.3s ease;
     }
 
-    .info-icon {
-      color: var(--green);
-      font-size: 25px;
-      margin-bottom: 30px;
+    .activity-card:hover .activity-line {
+      width: 70px;
     }
 
-    .info-card h3 {
-      font-size: 19px;
-      margin-bottom: 7px;
-    }
+    /* =========================================================
+       INFORMATION
+    ========================================================= */
 
-    .info-card p {
-      opacity: 0.7;
-      font-size: 15px;
-    }
-
-    .info-card strong {
-      color: var(--green);
-    }
-
-    /* =========================
-       CLUB LIFE
-    ========================= */
-
-    .club-list {
+    .info-section {
+      background: var(--surface);
       border-top: 1px solid var(--border);
-    }
-
-    .club-item {
-      display: grid;
-      grid-template-columns: 80px 170px 1fr;
-      align-items: center;
-      gap: 30px;
-      padding: 28px 0;
       border-bottom: 1px solid var(--border);
     }
 
-    .club-symbol {
-      width: 52px;
-      height: 52px;
+    .info-layout {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .info-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .info-card {
+      min-height: 190px;
+
+      padding: 25px;
+
+      border: 1px solid var(--border);
+      border-radius: 19px;
+
+      background: var(--bg);
+
+      transition:
+        transform 0.25s ease,
+        border-color 0.25s ease;
+    }
+
+    .info-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-green);
+    }
+
+    .info-icon {
+      width: 38px;
+      height: 38px;
+
       display: grid;
       place-items: center;
-      border: 1px solid var(--green);
+
+      margin-bottom: 24px;
+
+      border-radius: 11px;
+
+      background: rgba(25, 164, 99, 0.10);
+
       color: var(--green);
-      font-family: Georgia, serif;
-      font-size: 25px;
+
+      font-size: 1rem;
     }
 
-    .club-title {
-      font-size: 20px;
+    .info-card h3 {
+      font-size: 0.92rem;
+      font-weight: 850;
+    }
+
+    .info-card p {
+      margin-top: 8px;
+
+      color: var(--text-soft);
+
+      font-size: 0.79rem;
+      line-height: 1.65;
+    }
+
+    .info-card strong {
+      color: var(--text);
+    }
+
+    /* =========================================================
+       CLUB LIFE
+    ========================================================= */
+
+    .life-header {
+      max-width: 700px;
+      margin-bottom: 55px;
+    }
+
+    .life-list {
+      border-top: 1px solid var(--border);
+    }
+
+    .life-item {
+      display: grid;
+      grid-template-columns: 90px 190px 1fr;
+      align-items: center;
+      gap: 30px;
+
+      min-height: 125px;
+
+      border-bottom: 1px solid var(--border);
+
+      transition:
+        padding 0.3s ease,
+        background 0.3s ease;
+    }
+
+    .life-item:hover {
+      padding-left: 18px;
+      padding-right: 18px;
+
+      background: var(--surface);
+    }
+
+    .life-index {
+      color: var(--green);
+
+      font-size: 0.7rem;
       font-weight: 900;
+      letter-spacing: 0.12em;
     }
 
-    .club-text {
-      opacity: 0.7;
-      font-size: 15px;
+    .life-icon {
+      font-family: Georgia, serif;
+
+      font-size: 2rem;
     }
 
-    /* =========================
+    .life-title {
+      font-size: 1.05rem;
+      font-weight: 850;
+    }
+
+    .life-description {
+      color: var(--text-soft);
+
+      font-size: 0.83rem;
+      line-height: 1.7;
+    }
+
+    /* =========================================================
        ENCADREMENT
-    ========================= */
+    ========================================================= */
 
-    .team-grid {
+    .staff-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+    }
+
+    .staff-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+      align-items: end;
+
+      margin-bottom: 50px;
+    }
+
+    .staff-header .section-intro {
+      margin: 0;
+      max-width: 460px;
+    }
+
+    .staff-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 15px;
     }
 
-    .person {
-      border: 1px solid var(--border);
-      padding: 35px;
-      min-height: 250px;
+    .staff-card {
       position: relative;
+
+      padding: 30px;
+
+      min-height: 260px;
+
       overflow: hidden;
+
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+
+      background: var(--bg);
+
+      transition:
+        transform 0.3s ease,
+        border-color 0.3s ease;
     }
 
-    .person::after {
-      content: "♟";
+    .staff-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--border-green);
+    }
+
+    .staff-card::after {
+      content: "";
+
       position: absolute;
-      right: 22px;
-      bottom: -30px;
-      font-family: Georgia, serif;
-      font-size: 170px;
-      color: var(--green);
-      opacity: 0.08;
+
+      width: 170px;
+      height: 170px;
+
+      right: -65px;
+      top: -65px;
+
+      border-radius: 50%;
+
+      border: 1px solid var(--border-green);
     }
 
-    .person-role {
+    .staff-badge {
+      display: inline-flex;
+
+      padding: 6px 9px;
+
+      border-radius: 999px;
+
+      background: rgba(25, 164, 99, 0.09);
       color: var(--green);
-      font-size: 13px;
-      font-weight: 900;
-      text-transform: uppercase;
+
+      font-size: 0.62rem;
+      font-weight: 850;
       letter-spacing: 0.08em;
-      margin-bottom: 55px;
+      text-transform: uppercase;
     }
 
-    .person h3 {
-      font-size: 28px;
-      letter-spacing: -0.04em;
-      margin-bottom: 8px;
-    }
+    .staff-name {
+      margin-top: 55px;
 
-    .person p {
-      opacity: 0.7;
-    }
+      font-size: clamp(1.4rem, 3vw, 2.1rem);
 
-    /* =========================
-       CTA
-    ========================= */
-
-    .cta {
-      padding: 0 0 110px;
-    }
-
-    .cta-box {
-      background: var(--black);
-      color: var(--white);
-      border: 1px solid var(--green);
-      padding: 55px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 30px;
-    }
-
-    body.dark .cta-box {
-      background: var(--white);
-      color: var(--black);
-    }
-
-    .cta-box h2 {
-      font-size: clamp(32px, 5vw, 54px);
       line-height: 1;
-      letter-spacing: -0.05em;
-      margin-bottom: 14px;
+
+      letter-spacing: -0.045em;
     }
 
-    .cta-box p {
-      opacity: 0.7;
-      max-width: 600px;
+    .staff-role {
+      margin-top: 12px;
+
+      color: var(--text-soft);
+
+      font-size: 0.82rem;
     }
 
-    /* =========================
+    /* =========================================================
+       NEWS CTA
+    ========================================================= */
+
+    .news-section {
+      padding: 110px 0;
+    }
+
+    .news-card {
+      position: relative;
+
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 50px;
+
+      padding: 55px;
+
+      overflow: hidden;
+
+      border: 1px solid var(--border-green);
+      border-radius: var(--radius-xl);
+
+      background:
+        linear-gradient(
+          120deg,
+          rgba(25, 164, 99, 0.10),
+          var(--surface)
+        );
+
+      box-shadow: var(--shadow-green);
+    }
+
+    .news-card::before {
+      content: "♞";
+
+      position: absolute;
+
+      right: 45px;
+      bottom: -75px;
+
+      color: rgba(25, 164, 99, 0.06);
+
+      font-family: Georgia, serif;
+      font-size: 18rem;
+      line-height: 1;
+    }
+
+    .news-title {
+      max-width: 700px;
+
+      font-size: clamp(2rem, 4vw, 3.6rem);
+
+      line-height: 1;
+
+      letter-spacing: -0.055em;
+    }
+
+    .news-text {
+      max-width: 620px;
+
+      margin-top: 17px;
+
+      color: var(--text-soft);
+
+      font-size: 0.92rem;
+    }
+
+    .news-button {
+      position: relative;
+      z-index: 1;
+
+      white-space: nowrap;
+    }
+
+    /* =========================================================
        FOOTER
-    ========================= */
+    ========================================================= */
 
     footer {
+      padding: 35px 0 25px;
+
       border-top: 1px solid var(--border);
-      padding: 30px 0;
+
+      background: var(--bg);
     }
 
     .footer-inner {
@@ -610,39 +1361,66 @@
       justify-content: space-between;
       align-items: center;
       gap: 20px;
-      font-size: 13px;
-      opacity: 0.65;
     }
 
-    /* =========================
-       MODAL INSCRIPTION
-    ========================= */
+    .footer-brand {
+      color: var(--text-muted);
+
+      font-size: 0.72rem;
+      font-weight: 650;
+    }
+
+    .footer-mark {
+      color: var(--text-muted);
+
+      font-size: 0.67rem;
+    }
+
+    /* =========================================================
+       MODAL
+    ========================================================= */
 
     .modal {
       position: fixed;
       inset: 0;
+
       z-index: 2000;
-      background: rgba(0, 0, 0, 0.72);
+
       display: none;
       align-items: center;
       justify-content: center;
+
       padding: 20px;
-      overflow-y: auto;
+
+      background: rgba(0, 0, 0, 0.72);
+
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
     }
 
-    .modal.open {
+    .modal.active {
       display: flex;
     }
 
     .modal-box {
-      width: min(600px, 100%);
-      background: var(--white);
-      color: var(--black);
-      border: 1px solid var(--green);
-      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.4);
+      width: min(570px, 100%);
+      max-height: calc(100svh - 40px);
+
+      overflow-y: auto;
+
       position: relative;
+
       padding: 35px;
-      animation: modalIn 0.2s ease;
+
+      border: 1px solid var(--border-green);
+      border-radius: 26px;
+
+      background: var(--surface);
+
+      box-shadow:
+        0 35px 100px rgba(0, 0, 0, 0.40);
+
+      animation: modalIn 0.28s ease both;
     }
 
     @keyframes modalIn {
@@ -650,6 +1428,7 @@
         opacity: 0;
         transform: translateY(15px) scale(0.98);
       }
+
       to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -658,93 +1437,197 @@
 
     .modal-close {
       position: absolute;
-      top: 15px;
-      right: 15px;
+
+      top: 17px;
+      right: 17px;
+
       width: 38px;
       height: 38px;
-      border-radius: 50%;
+
+      display: grid;
+      place-items: center;
+
       border: 1px solid var(--border);
-      background: transparent;
-      color: var(--black);
-      font-size: 20px;
+      border-radius: 10px;
+
+      background: var(--bg);
+
+      color: var(--text);
+
+      cursor: pointer;
+
+      font-size: 1.2rem;
     }
 
-    .modal-header {
-      padding-right: 45px;
-      margin-bottom: 28px;
+    .modal-label {
+      color: var(--green);
+
+      font-size: 0.67rem;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
     }
 
-    .modal-header .eyebrow {
-      margin-bottom: 10px;
-    }
+    .modal-title {
+      margin-top: 10px;
 
-    .modal-header h2 {
-      font-size: 34px;
+      font-size: 2rem;
       line-height: 1;
+
       letter-spacing: -0.05em;
-      margin-bottom: 10px;
     }
 
-    .modal-header p {
-      font-size: 14px;
-      opacity: 0.65;
+    .modal-description {
+      margin-top: 12px;
+
+      color: var(--text-soft);
+
+      font-size: 0.84rem;
+    }
+
+    .form {
+      margin-top: 30px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px;
     }
 
     .form-group {
-      margin-bottom: 17px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+
+      margin-bottom: 13px;
     }
 
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
+    .form-group.full {
+      grid-column: 1 / -1;
     }
 
-    label {
+    .form-label {
+      color: var(--text);
+
+      font-size: 0.71rem;
+      font-weight: 800;
+    }
+
+    .form-label span {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+
+      border: 1px solid var(--border);
+      border-radius: 11px;
+
+      background: var(--bg);
+
+      color: var(--text);
+
+      outline: none;
+
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .form-input,
+    .form-select {
+      height: 46px;
+      padding: 0 13px;
+    }
+
+    .form-textarea {
+      min-height: 105px;
+      resize: vertical;
+
+      padding: 12px 13px;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--green);
+
+      box-shadow:
+        0 0 0 3px rgba(25, 164, 99, 0.10);
+    }
+
+    .form-submit {
+      width: 100%;
+      height: 49px;
+
+      border: 0;
+      border-radius: 12px;
+
+      background: var(--green);
+      color: #fff;
+
+      font-size: 0.8rem;
+      font-weight: 850;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 12px 30px rgba(25, 164, 99, 0.18);
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .form-submit:hover {
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 16px 35px rgba(25, 164, 99, 0.25);
+    }
+
+    .form-submit:disabled {
+      opacity: 0.65;
+      cursor: wait;
+      transform: none;
+    }
+
+    .form-message {
+      margin-top: 13px;
+
+      display: none;
+
+      padding: 12px 14px;
+
+      border-radius: 11px;
+
+      font-size: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .form-message.show {
       display: block;
-      font-size: 13px;
-      font-weight: 900;
-      margin-bottom: 7px;
     }
 
-    .required {
+    .form-message.success {
+      border: 1px solid rgba(25, 164, 99, 0.30);
+      background: rgba(25, 164, 99, 0.08);
       color: var(--green);
     }
 
-    input,
-    select,
-    textarea {
-      width: 100%;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--black);
-      padding: 12px 13px;
-      border-radius: 7px;
-      outline: none;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px rgba(25, 164, 99, 0.12);
-    }
-
-    textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    select option {
-      color: #050505;
-      background: #ffffff;
-    }
-
-    .form-note {
-      font-size: 12px;
-      opacity: 0.55;
-      margin-top: 8px;
+    .form-message.error {
+      border: 1px solid rgba(180, 40, 40, 0.25);
+      background: rgba(180, 40, 40, 0.08);
+      color: #d66;
     }
 
     .honeypot {
@@ -754,781 +1637,1078 @@
       pointer-events: none !important;
     }
 
-    .form-message {
-      display: none;
-      padding: 13px;
-      margin-bottom: 16px;
-      border: 1px solid var(--green);
-      background: var(--green-light);
-      font-size: 14px;
-      font-weight: 700;
+    /* =========================================================
+       REVEAL ANIMATION
+    ========================================================= */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+
+      transition:
+        opacity 0.7s ease,
+        transform 0.7s ease;
     }
 
-    .form-message.show {
-      display: block;
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    .form-message.error {
-      background: transparent;
-    }
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
 
-    .submit-btn {
-      width: 100%;
-      border: 0;
-      margin-top: 5px;
-    }
-
-    .submit-btn:disabled {
-      opacity: 0.55;
-      cursor: wait;
-      transform: none;
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 1000px) {
+    @media (max-width: 1050px) {
       .nav-links {
-        display: none;
+        gap: 0;
       }
 
-      .menu-btn {
+      .nav-link {
+        padding-left: 8px;
+        padding-right: 8px;
+
+        font-size: 0.75rem;
+      }
+
+      .hero-grid {
+        gap: 50px;
+      }
+
+      .about-layout,
+      .info-layout {
+        gap: 50px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .nav-links {
+        display: none;
+
+        position: absolute;
+
+        top: calc(100% + 1px);
+        left: 20px;
+        right: 20px;
+
+        padding: 10px;
+
+        flex-direction: column;
+        align-items: stretch;
+
+        border: 1px solid var(--border);
+        border-radius: 17px;
+
+        background: var(--surface);
+
+        box-shadow: var(--shadow);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-link {
+        width: 100%;
+        padding: 13px;
+      }
+
+      .menu-toggle {
         display: grid;
       }
 
-      .nav-links.mobile-open {
-        position: absolute;
-        top: 76px;
-        left: 0;
-        right: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0;
-        padding: 10px 20px 20px;
-        background: var(--white);
-        border-bottom: 1px solid var(--border);
+      .hero {
+        padding-top: 125px;
       }
 
-      .nav-links.mobile-open a {
-        padding: 13px 0;
-        border-bottom: 1px solid var(--border);
-      }
-
-      .hero-grid,
-      .about-layout {
+      .hero-grid {
         grid-template-columns: 1fr;
       }
 
       .hero-board-wrap {
-        order: -1;
+        max-width: 520px;
+        margin: 25px auto 0;
       }
 
-      .hero {
-        padding-top: 120px;
+      .about-layout,
+      .info-layout {
+        grid-template-columns: 1fr;
       }
 
-      .activities-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .about-statement {
+        position: static;
       }
 
-      .info-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .activities-header,
+      .staff-header {
+        display: block;
       }
 
-      .club-item {
-        grid-template-columns: 65px 1fr;
+      .activities-header .section-intro,
+      .staff-header .section-intro {
+        margin-top: 20px;
       }
 
-      .club-text {
-        grid-column: 2;
+      .news-card {
+        grid-template-columns: 1fr;
+      }
+
+      .news-button {
+        width: fit-content;
       }
     }
 
     @media (max-width: 650px) {
       .container {
-        width: min(100% - 28px, 1180px);
+        width: min(100% - 28px, var(--container));
       }
 
-      .brand span {
-        display: none;
+      .section {
+        padding: 90px 0;
       }
 
-      .hero h1 {
-        font-size: 54px;
+      .hero {
+        padding:
+          120px
+          0
+          65px;
       }
 
-      .hero-text {
-        font-size: 17px;
+      .hero-title {
+        font-size: clamp(3.25rem, 16vw, 5rem);
       }
 
-      section {
-        padding: 80px 0;
+      .hero-description {
+        font-size: 0.95rem;
+      }
+
+      .hero-meta {
+        gap: 11px 17px;
+      }
+
+      .board-frame {
+        padding: 8px;
+        border-radius: 18px;
+      }
+
+      .chessboard {
+        border-radius: 11px;
+      }
+
+      .square {
+        font-size: clamp(1.35rem, 8vw, 2.4rem);
+      }
+
+      .board-caption {
+        right: -5px;
+        bottom: -20px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
       }
 
       .activities-grid,
-      .info-grid,
-      .team-grid,
-      .stats {
+      .info-cards,
+      .staff-grid {
         grid-template-columns: 1fr;
       }
 
-      .activity {
-        min-height: auto;
+      .activity-card {
+        min-height: 275px;
       }
 
-      .activity-number {
-        margin-bottom: 35px;
+      .life-item {
+        grid-template-columns: 55px 1fr;
+        gap: 10px 15px;
+
+        padding: 25px 0;
       }
 
-      .cta-box {
-        padding: 32px 24px;
-        flex-direction: column;
+      .life-icon {
+        grid-row: span 2;
+      }
+
+      .life-description {
+        grid-column: 2;
+      }
+
+      .news-card {
+        padding: 30px;
+        border-radius: 25px;
+      }
+
+      .footer-inner {
         align-items: flex-start;
+        flex-direction: column;
       }
 
-      .form-row {
+      .form-grid {
         grid-template-columns: 1fr;
+      }
+
+      .form-group.full {
+        grid-column: auto;
       }
 
       .modal-box {
         padding: 27px 20px;
+        border-radius: 20px;
       }
 
-      .footer-inner {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .nav-actions .btn {
+      .brand-name {
         display: none;
+      }
+
+      .nav-cta {
+        padding: 0 12px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
       }
     }
   </style>
 </head>
 
 <body>
+  <div class="ambient"></div>
 
-  <!-- =========================
-       NAVBAR
-  ========================= -->
+  <!-- =======================================================
+       NAVIGATION
+  ======================================================== -->
 
   <header class="navbar">
     <div class="container nav-inner">
 
-      <a href="#accueil" class="brand">
+      <a href="#accueil" class="brand" aria-label="Accueil">
         <img
+          class="brand-logo"
           src="https://image-namanhstudio.weebly.com/uploads/1/5/5/3/155356283/icon-echec-lezay_orig.png"
           alt="Logo Atelier Jeu d'Échecs Lezay"
-        >
-        <span>Atelier Échecs Lezay</span>
+        />
+
+        <div class="brand-name">
+          Atelier Jeu d'Échecs
+          <span>Collège Lezay Marnésia</span>
+        </div>
       </a>
 
       <nav class="nav-links" id="navLinks">
-        <a href="#a-propos">À propos</a>
-        <a href="#activites">Activités</a>
-        <a href="#informations">Informations</a>
-        <a href="#vie-du-club">Vie du club</a>
-        <a href="#encadrement">Encadrement</a>
-        <a href="https://echeclezay.substack.com" target="_blank" rel="noopener">
+        <a class="nav-link" href="#a-propos">À propos</a>
+        <a class="nav-link" href="#activites">Activités</a>
+        <a class="nav-link" href="#informations">Informations</a>
+        <a class="nav-link" href="#vie-du-club">Vie du club</a>
+        <a class="nav-link" href="#encadrement">Encadrement</a>
+        <a
+          class="nav-link"
+          href="https://echeclezay.substack.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Nouvelles
         </a>
       </nav>
 
       <div class="nav-actions">
         <button
-          class="theme-btn"
+          class="theme-toggle"
           id="themeToggle"
           type="button"
           aria-label="Changer de thème"
           title="Changer de thème"
         >
-          ☾
+          <span class="theme-icon" id="themeIcon">☾</span>
         </button>
 
         <button
-          class="menu-btn"
+          class="menu-toggle"
           id="menuToggle"
           type="button"
           aria-label="Ouvrir le menu"
+          aria-expanded="false"
         >
           ☰
         </button>
 
-        <button class="btn btn-green" type="button" data-open-register>
+        <a href="#" class="nav-cta open-registration">
           S'inscrire
-        </button>
+        </a>
       </div>
 
     </div>
   </header>
 
+  <main id="accueil">
 
-  <main>
-
-    <!-- =========================
+    <!-- =====================================================
          HERO
-    ========================= -->
+    ====================================================== -->
 
-    <section class="hero" id="accueil">
+    <section class="hero">
       <div class="container hero-grid">
 
-        <div>
-          <div class="eyebrow">Collège Lezay Marnésia · Strasbourg</div>
+        <div class="hero-content reveal">
 
-          <h1>
+          <div class="hero-eyebrow">
+            <span class="hero-eyebrow-dot"></span>
+            Atelier officiel du collège
+          </div>
+
+          <h1 class="hero-title">
             Pense.
-            <br>
-            Joue.
-            <br>
-            <span>Progresse.</span>
+            <span class="accent">Joue.</span>
+            <span class="outline">Progresse.</span>
           </h1>
 
-          <p class="hero-text">
-            L'Atelier Jeu d'Échecs Lezay est un espace ouvert aux élèves
-            de la 6e à la 3e pour jouer, apprendre, réfléchir et progresser
-            ensemble autour de l'échiquier.
+          <p class="hero-description">
+            L'Atelier Jeu d'Échecs Lezay propose aux élèves du Collège
+            Lezay Marnésia un espace pour jouer, apprendre, réfléchir
+            et progresser ensemble — quel que soit leur niveau.
           </p>
 
-          <div class="hero-buttons">
-            <button class="btn btn-green" type="button" data-open-register>
+          <div class="hero-actions">
+            <a href="#" class="button-primary open-registration">
               Rejoindre l'atelier
-            </button>
+              <span>→</span>
+            </a>
 
-            <a class="btn btn-outline" href="#informations">
+            <a href="#a-propos" class="button-secondary">
               Découvrir le club
             </a>
           </div>
+
+          <div class="hero-meta">
+            <div class="hero-meta-item">
+              <span class="hero-meta-dot"></span>
+              <strong>6e → 3e</strong>
+            </div>
+
+            <div class="hero-meta-item">
+              <span class="hero-meta-dot"></span>
+              Tous niveaux
+            </div>
+
+            <div class="hero-meta-item">
+              <span class="hero-meta-dot"></span>
+              Gratuit
+            </div>
+
+            <div class="hero-meta-item">
+              <span class="hero-meta-dot"></span>
+              Strasbourg
+            </div>
+          </div>
+
         </div>
 
-        <div class="hero-board-wrap">
-          <div class="chessboard-frame">
-            <div class="chessboard" aria-label="Échiquier décoratif">
+        <div class="hero-board-wrap reveal">
 
-              <div class="square light">♜</div>
-              <div class="square dark">♞</div>
-              <div class="square light">♝</div>
-              <div class="square dark">♛</div>
-              <div class="square light">♚</div>
-              <div class="square dark">♝</div>
-              <div class="square light">♞</div>
-              <div class="square dark">♜</div>
+          <div class="board-glow"></div>
 
-              <div class="square dark">♟</div>
-              <div class="square light">♟</div>
-              <div class="square dark">♟</div>
-              <div class="square light">♟</div>
-              <div class="square dark">♟</div>
-              <div class="square light">♟</div>
-              <div class="square dark">♟</div>
-              <div class="square light">♟</div>
+          <div class="board-frame">
 
-              <div class="square light"></div>
-              <div class="square dark"></div>
-              <div class="square light"></div>
-              <div class="square dark"></div>
-              <div class="square light"></div>
-              <div class="square dark"></div>
-              <div class="square light"></div>
-              <div class="square dark"></div>
+            <div class="chessboard">
 
-              <div class="square dark"></div>
-              <div class="square light"></div>
-              <div class="square dark"></div>
-              <div class="square light"></div>
-              <div class="square dark"></div>
-              <div class="square light"></div>
-              <div class="square dark"></div>
-              <div class="square light"></div>
+              <!-- Rangée 8 -->
+              <div class="square light-square"><span class="piece">♜</span></div>
+              <div class="square dark-square"><span class="piece">♞</span></div>
+              <div class="square light-square"><span class="piece">♝</span></div>
+              <div class="square dark-square"><span class="piece">♛</span></div>
+              <div class="square light-square"><span class="piece">♚</span></div>
+              <div class="square dark-square"><span class="piece">♝</span></div>
+              <div class="square light-square"><span class="piece">♞</span></div>
+              <div class="square dark-square"><span class="piece">♜</span></div>
 
-              <div class="square light"></div>
-              <div class="square dark"></div>
-              <div class="square light"></div>
-              <div class="square dark"></div>
-              <div class="square light"></div>
-              <div class="square dark"></div>
-              <div class="square light"></div>
-              <div class="square dark"></div>
+              <!-- Rangée 7 -->
+              <div class="square dark-square"><span class="piece">♟</span></div>
+              <div class="square light-square"><span class="piece">♟</span></div>
+              <div class="square dark-square"><span class="piece">♟</span></div>
+              <div class="square light-square"><span class="piece">♟</span></div>
+              <div class="square dark-square"><span class="piece">♟</span></div>
+              <div class="square light-square"><span class="piece">♟</span></div>
+              <div class="square dark-square"><span class="piece">♟</span></div>
+              <div class="square light-square"><span class="piece">♟</span></div>
 
-              <div class="square dark"></div>
-              <div class="square light"></div>
-              <div class="square dark"></div>
-              <div class="square light"></div>
-              <div class="square dark"></div>
-              <div class="square light"></div>
-              <div class="square dark"></div>
-              <div class="square light"></div>
+              <!-- Rangée 6 -->
+              <div class="square light-square"></div>
+              <div class="square dark-square"></div>
+              <div class="square light-square"></div>
+              <div class="square dark-square"></div>
+              <div class="square light-square"></div>
+              <div class="square dark-square"></div>
+              <div class="square light-square"></div>
+              <div class="square dark-square"></div>
 
-              <div class="square light">♙</div>
-              <div class="square dark">♙</div>
-              <div class="square light">♙</div>
-              <div class="square dark">♙</div>
-              <div class="square light">♙</div>
-              <div class="square dark">♙</div>
-              <div class="square light">♙</div>
-              <div class="square dark">♙</div>
+              <!-- Rangée 5 -->
+              <div class="square dark-square"></div>
+              <div class="square light-square"></div>
+              <div class="square dark-square"></div>
+              <div class="square light-square"></div>
+              <div class="square dark-square"></div>
+              <div class="square light-square"></div>
+              <div class="square dark-square"></div>
+              <div class="square light-square"></div>
 
-              <div class="square dark">♖</div>
-              <div class="square light">♘</div>
-              <div class="square dark">♗</div>
-              <div class="square light">♕</div>
-              <div class="square dark">♔</div>
-              <div class="square light">♗</div>
-              <div class="square dark">♘</div>
-              <div class="square light">♖</div>
+              <!-- Rangée 4 -->
+              <div class="square light-square"></div>
+              <div class="square dark-square"></div>
+              <div class="square light-square"></div>
+              <div class="square dark-square"></div>
+              <div class="square light-square"></div>
+              <div class="square dark-square"></div>
+              <div class="square light-square"></div>
+              <div class="square dark-square"></div>
+
+              <!-- Rangée 3 -->
+              <div class="square dark-square"></div>
+              <div class="square light-square"></div>
+              <div class="square dark-square"></div>
+              <div class="square light-square"></div>
+              <div class="square dark-square"></div>
+              <div class="square light-square"></div>
+              <div class="square dark-square"></div>
+              <div class="square light-square"></div>
+
+              <!-- Rangée 2 -->
+              <div class="square light-square"><span class="piece">♙</span></div>
+              <div class="square dark-square"><span class="piece">♙</span></div>
+              <div class="square light-square"><span class="piece">♙</span></div>
+              <div class="square dark-square"><span class="piece">♙</span></div>
+              <div class="square light-square"><span class="piece">♙</span></div>
+              <div class="square dark-square"><span class="piece">♙</span></div>
+              <div class="square light-square"><span class="piece">♙</span></div>
+              <div class="square dark-square"><span class="piece">♙</span></div>
+
+              <!-- Rangée 1 -->
+              <div class="square dark-square"><span class="piece">♖</span></div>
+              <div class="square light-square"><span class="piece">♘</span></div>
+              <div class="square dark-square"><span class="piece">♗</span></div>
+              <div class="square light-square"><span class="piece">♕</span></div>
+              <div class="square dark-square"><span class="piece">♔</span></div>
+              <div class="square light-square"><span class="piece">♗</span></div>
+              <div class="square dark-square"><span class="piece">♘</span></div>
+              <div class="square light-square"><span class="piece">♖</span></div>
 
             </div>
           </div>
+
+          <div class="board-caption">
+            <span></span>
+            Une infinité de possibilités
+          </div>
+
         </div>
 
       </div>
     </section>
 
+    <!-- =====================================================
+         MARQUEE
+    ====================================================== -->
 
-    <!-- =========================
-         01 · À PROPOS
-    ========================= -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
 
-    <section id="a-propos">
+        <div class="marquee-item">Concentration</div>
+        <div class="marquee-item">Logique</div>
+        <div class="marquee-item">Patience</div>
+        <div class="marquee-item">Stratégie</div>
+        <div class="marquee-item">Réflexion</div>
+        <div class="marquee-item">Progression</div>
+
+        <div class="marquee-item">Concentration</div>
+        <div class="marquee-item">Logique</div>
+        <div class="marquee-item">Patience</div>
+        <div class="marquee-item">Stratégie</div>
+        <div class="marquee-item">Réflexion</div>
+        <div class="marquee-item">Progression</div>
+
+      </div>
+    </div>
+
+    <!-- =====================================================
+         À PROPOS
+    ====================================================== -->
+
+    <section class="section" id="a-propos">
       <div class="container">
-
-        <div class="section-header">
-          <div class="section-number">01 · À PROPOS</div>
-          <h2>Un club pour penser autrement.</h2>
-          <p>
-            Plus qu'un jeu, les échecs développent la concentration,
-            la logique, la patience et la capacité à prendre des décisions.
-          </p>
-        </div>
 
         <div class="about-layout">
 
-          <div class="about-copy">
-            <div class="about-highlight">
-              Un échiquier, quelques pièces, et une infinité de possibilités.
-              Chaque partie est une nouvelle manière d'apprendre.
+          <div class="about-statement reveal">
+            <div class="section-label">
+              01 · À propos
             </div>
 
-            <p>
-              L'Atelier jeu d'échecs Lezay propose aux élèves du Collège
-              Lezay Marnésia un espace dédié à la pratique des échecs.
-            </p>
+            <h2 class="section-title">
+              Un club pour
+              <span class="green">penser autrement.</span>
+            </h2>
 
-            <p>
-              Débutant ou joueur déjà expérimenté, chacun peut venir jouer,
-              apprendre de nouvelles stratégies, résoudre des positions et
-              affronter d'autres membres du club.
-            </p>
-
-            <p>
-              L'objectif est simple : progresser ensemble tout en prenant
-              plaisir à jouer.
-            </p>
+            <div class="about-quote">
+              « Un échiquier, quelques pièces, et une infinité
+              de possibilités. Chaque partie est une nouvelle
+              manière d'apprendre. »
+            </div>
           </div>
 
-          <div class="stats">
-            <div class="stat">
-              <strong>6e–3e</strong>
-              <span>Niveaux concernés</span>
+          <div class="reveal">
+
+            <p class="about-copy">
+              Plus qu'un jeu, les échecs développent la concentration,
+              la logique, la patience et la capacité à prendre des
+              décisions.
+            </p>
+
+            <p class="about-copy">
+              L'Atelier jeu d'échecs Lezay propose aux élèves du
+              Collège Lezay Marnésia un espace dédié à la pratique
+              des échecs.
+            </p>
+
+            <p class="about-copy">
+              Débutant ou joueur déjà expérimenté, chacun peut venir
+              jouer, apprendre de nouvelles stratégies, résoudre des
+              positions et affronter d'autres membres du club.
+            </p>
+
+            <div class="about-highlight">
+              <strong>
+                L'objectif est simple : progresser ensemble
+                tout en prenant plaisir à jouer.
+              </strong>
             </div>
 
-            <div class="stat">
-              <strong>15–20</strong>
-              <span>Objectif de membres</span>
+            <div class="stats-grid">
+
+              <div class="stat">
+                <div class="stat-number">6e–3e</div>
+                <div class="stat-label">
+                  Niveaux concernés
+                </div>
+              </div>
+
+              <div class="stat">
+                <div class="stat-number">15–20</div>
+                <div class="stat-label">
+                  Objectif de membres
+                </div>
+              </div>
+
+              <div class="stat">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">
+                  Atelier non lucratif
+                </div>
+              </div>
+
             </div>
 
-            <div class="stat">
-              <strong>100%</strong>
-              <span>Atelier non lucratif</span>
-            </div>
           </div>
 
         </div>
+
       </div>
     </section>
 
+    <!-- =====================================================
+         ACTIVITÉS
+    ====================================================== -->
 
-    <!-- =========================
-         02 · ACTIVITÉS
-    ========================= -->
-
-    <section id="activites">
+    <section class="section" id="activites">
       <div class="container">
 
-        <div class="section-header">
-          <div class="section-number">02 · ACTIVITÉS</div>
-          <h2>Quatre façons de progresser.</h2>
-          <p>
-            L'atelier mélange pratique, réflexion et découverte pour permettre
-            à chacun de trouver son propre rythme.
+        <div class="activities-header reveal">
+
+          <div>
+            <div class="section-label">
+              02 · Activités
+            </div>
+
+            <h2 class="section-title">
+              Quatre façons
+              de <span class="green">progresser.</span>
+            </h2>
+          </div>
+
+          <p class="section-intro">
+            L'atelier mélange pratique, réflexion et découverte
+            pour permettre à chacun de trouver son propre rythme.
           </p>
+
         </div>
 
         <div class="activities-grid">
 
-          <article class="activity">
+          <article class="activity-card reveal">
             <div class="activity-number">01</div>
+            <div class="activity-icon">♟</div>
+
             <h3>Jouer</h3>
+
             <p>
-              Des parties libres pour pratiquer, tester ses idées et découvrir
-              différents styles de jeu.
+              Des parties libres pour pratiquer, tester ses idées
+              et découvrir différents styles de jeu.
             </p>
+
+            <div class="activity-line"></div>
           </article>
 
-          <article class="activity">
+          <article class="activity-card reveal">
             <div class="activity-number">02</div>
+            <div class="activity-icon">♞</div>
+
             <h3>Apprendre</h3>
+
             <p>
-              Découvrir les règles, les ouvertures, les tactiques et les
-              principes essentiels du jeu.
+              Découvrir les règles, les ouvertures, les tactiques
+              et les principes essentiels du jeu.
             </p>
+
+            <div class="activity-line"></div>
           </article>
 
-          <article class="activity">
+          <article class="activity-card reveal">
             <div class="activity-number">03</div>
+            <div class="activity-icon">♝</div>
+
             <h3>Réfléchir</h3>
+
             <p>
-              Résoudre des problèmes, analyser des positions et développer
-              sa capacité de raisonnement.
+              Résoudre des problèmes, analyser des positions et
+              développer sa capacité de raisonnement.
             </p>
+
+            <div class="activity-line"></div>
           </article>
 
-          <article class="activity">
+          <article class="activity-card reveal">
             <div class="activity-number">04</div>
+            <div class="activity-icon">♛</div>
+
             <h3>Progresser</h3>
+
             <p>
               Jouer régulièrement, analyser ses parties et apprendre
-              de ses erreurs.
+              de ses erreurs pour avancer progressivement.
             </p>
+
+            <div class="activity-line"></div>
           </article>
 
         </div>
+
       </div>
     </section>
 
+    <!-- =====================================================
+         INFORMATIONS
+    ====================================================== -->
 
-    <!-- =========================
-         03 · INFORMATIONS
-    ========================= -->
-
-    <section id="informations">
+    <section class="section info-section" id="informations">
       <div class="container">
 
-        <div class="section-header">
-          <div class="section-number">03 · INFORMATIONS</div>
-          <h2>Le club, concrètement.</h2>
-          <p>
-            Un atelier au sein du collège, pensé pour rester simple,
-            accessible et centré sur la pratique.
-          </p>
+        <div class="info-layout">
+
+          <div class="reveal">
+            <div class="section-label">
+              03 · Informations
+            </div>
+
+            <h2 class="section-title">
+              Le club,
+              <span class="green">concrètement.</span>
+            </h2>
+
+            <p class="section-intro">
+              Un atelier au sein du collège, pensé pour rester
+              simple, accessible et centré sur la pratique.
+            </p>
+          </div>
+
+          <div class="info-cards">
+
+            <article class="info-card reveal">
+              <div class="info-icon">⌂</div>
+
+              <h3>Lieu</h3>
+
+              <p>
+                <strong>Salle A25</strong><br />
+                Collège Lezay Marnésia · Strasbourg
+              </p>
+            </article>
+
+            <article class="info-card reveal">
+              <div class="info-icon">♟</div>
+
+              <h3>Public</h3>
+
+              <p>
+                <strong>6e à 3e</strong><br />
+                Tous les niveaux sont les bienvenus.
+              </p>
+            </article>
+
+            <article class="info-card reveal">
+              <div class="info-icon">€</div>
+
+              <h3>Adhésion</h3>
+
+              <p>
+                <strong>Gratuite</strong><br />
+                L'atelier est une activité non lucrative.
+              </p>
+            </article>
+
+            <article class="info-card reveal">
+              <div class="info-icon">◷</div>
+
+              <h3>Séances</h3>
+
+              <p>
+                <strong>Le lundi en S4</strong><br />
+                16h45 – 17h40
+              </p>
+            </article>
+
+            <article class="info-card reveal">
+              <div class="info-icon">@</div>
+
+              <h3>Email</h3>
+
+              <p>
+                <strong>echeclezay@proton.me</strong><br />
+                Pour toute question concernant l'atelier.
+              </p>
+            </article>
+
+          </div>
+
         </div>
 
-        <div class="info-grid">
-
-          <article class="info-card">
-            <div class="info-icon">⌖</div>
-            <h3>Lieu</h3>
-            <p>
-              <strong>Salle A25</strong><br>
-              Collège Lezay Marnésia · Strasbourg
-            </p>
-          </article>
-
-          <article class="info-card">
-            <div class="info-icon">♟</div>
-            <h3>Public</h3>
-            <p>
-              <strong>6e à 3e</strong><br>
-              Tous les niveaux sont les bienvenus.
-            </p>
-          </article>
-
-          <article class="info-card">
-            <div class="info-icon">✓</div>
-            <h3>Adhésion</h3>
-            <p>
-              <strong>Gratuite</strong><br>
-              L'atelier est une activité non lucrative.
-            </p>
-          </article>
-
-          <article class="info-card">
-            <div class="info-icon">◷</div>
-            <h3>Séances</h3>
-            <p>
-              <strong>Le lundi en S4</strong><br>
-              16h45 – 17h40
-            </p>
-          </article>
-
-          <article class="info-card">
-            <div class="info-icon">✉</div>
-            <h3>Email</h3>
-            <p>
-              <a href="mailto:echeclezay@proton.me">
-                <strong>echeclezay@proton.me</strong>
-              </a>
-            </p>
-          </article>
-
-          <article class="info-card">
-            <div class="info-icon">♜</div>
-            <h3>Horaires</h3>
-            <p>
-              <strong>Lundi · S4</strong><br>
-              16h45 – 17h40
-            </p>
-          </article>
-
-        </div>
       </div>
     </section>
 
+    <!-- =====================================================
+         VIE DU CLUB
+    ====================================================== -->
 
-    <!-- =========================
-         04 · VIE DU CLUB
-    ========================= -->
-
-    <section id="vie-du-club">
+    <section class="section" id="vie-du-club">
       <div class="container">
 
-        <div class="section-header">
-          <div class="section-number">04 · VIE DU CLUB</div>
-          <h2>Jouer ensemble.</h2>
-          <p>
-            Des moments pour jouer, se rencontrer et mettre en pratique
-            ce que l'on apprend.
+        <div class="life-header reveal">
+
+          <div class="section-label">
+            04 · Vie du club
+          </div>
+
+          <h2 class="section-title">
+            Jouer
+            <span class="green">ensemble.</span>
+          </h2>
+
+          <p class="section-intro">
+            Des moments pour jouer, se rencontrer et mettre en
+            pratique ce que l'on apprend.
           </p>
-        </div>
-
-        <div class="club-list">
-
-          <div class="club-item">
-            <div class="club-symbol">♜</div>
-            <div class="club-title">Tournoi</div>
-            <div class="club-text">
-              <strong>Tournois internes</strong> — Des rencontres amicales
-              entre membres du club pour mettre ses stratégies à l'épreuve.
-            </div>
-          </div>
-
-          <div class="club-item">
-            <div class="club-symbol">♞</div>
-            <div class="club-title">Rencontre</div>
-            <div class="club-text">
-              <strong>Parties & rencontres</strong> — Des séances consacrées
-              au jeu libre et aux échanges entre les membres.
-            </div>
-          </div>
-
-          <div class="club-item">
-            <div class="club-symbol">♟</div>
-            <div class="club-title">Collège</div>
-            <div class="club-text">
-              <strong>Écoles Ouvertes</strong> — Présentation de l'atelier
-              et découverte du jeu dans le cadre des événements du collège.
-            </div>
-          </div>
-
-          <div class="club-item">
-            <div class="club-symbol">♛</div>
-            <div class="club-title">Atelier</div>
-            <div class="club-text">
-              <strong>Apprendre ensemble</strong> — Exercices, positions
-              et analyses pour développer ses compétences progressivement.
-            </div>
-          </div>
 
         </div>
+
+        <div class="life-list">
+
+          <article class="life-item reveal">
+            <div class="life-index">01</div>
+
+            <div class="life-icon">♜</div>
+
+            <div>
+              <div class="life-title">
+                Tournois internes
+              </div>
+
+              <div class="life-description">
+                Des rencontres amicales entre membres du club
+                pour mettre ses stratégies à l'épreuve.
+              </div>
+            </div>
+          </article>
+
+          <article class="life-item reveal">
+            <div class="life-index">02</div>
+
+            <div class="life-icon">♞</div>
+
+            <div>
+              <div class="life-title">
+                Parties & rencontres
+              </div>
+
+              <div class="life-description">
+                Des séances consacrées au jeu libre et aux échanges
+                entre les membres.
+              </div>
+            </div>
+          </article>
+
+          <article class="life-item reveal">
+            <div class="life-index">03</div>
+
+            <div class="life-icon">♟</div>
+
+            <div>
+              <div class="life-title">
+                Écoles Ouvertes
+              </div>
+
+              <div class="life-description">
+                Présentation de l'atelier et découverte du jeu dans
+                le cadre des événements du collège.
+              </div>
+            </div>
+          </article>
+
+          <article class="life-item reveal">
+            <div class="life-index">04</div>
+
+            <div class="life-icon">♛</div>
+
+            <div>
+              <div class="life-title">
+                Apprendre ensemble
+              </div>
+
+              <div class="life-description">
+                Exercices, positions et analyses pour développer
+                ses compétences progressivement.
+              </div>
+            </div>
+          </article>
+
+        </div>
+
       </div>
     </section>
 
+    <!-- =====================================================
+         ENCADREMENT
+    ====================================================== -->
 
-    <!-- =========================
-         05 · ENCADREMENT
-    ========================= -->
-
-    <section id="encadrement">
+    <section class="section staff-section" id="encadrement">
       <div class="container">
 
-        <div class="section-header">
-          <div class="section-number">05 · ENCADREMENT</div>
-          <h2>Derrière l'échiquier.</h2>
-          <p>
-            Une équipe qui accompagne le projet et fait vivre l'atelier
-            au sein du collège.
+        <div class="staff-header reveal">
+
+          <div>
+            <div class="section-label">
+              05 · Encadrement
+            </div>
+
+            <h2 class="section-title">
+              Derrière
+              <span class="green">l'échiquier.</span>
+            </h2>
+          </div>
+
+          <p class="section-intro">
+            Une équipe qui accompagne le projet et fait vivre
+            l'atelier au sein du collège.
           </p>
+
         </div>
 
-        <div class="team-grid">
+        <div class="staff-grid">
 
-          <article class="person">
-            <div class="person-role">
+          <article class="staff-card reveal">
+            <div class="staff-badge">
               Encadrement
             </div>
 
-            <h3>M. Bouhaf</h3>
+            <h3 class="staff-name">
+              M. Bouhaf
+            </h3>
 
-            <p>
+            <p class="staff-role">
               Enseignant · Encadrant de l'atelier
             </p>
           </article>
 
-          <article class="person">
-            <div class="person-role">
-              Design & Adjoint Principal
+          <article class="staff-card reveal">
+            <div class="staff-badge">
+              Projet & design
             </div>
 
-            <h3>Vu Nam Anh NGUYEN</h3>
+            <h3 class="staff-name">
+              Vu Nam Anh NGUYEN
+            </h3>
 
-            <p>
+            <p class="staff-role">
               Design & Adjoint Principal · Classe 4e4
             </p>
           </article>
 
         </div>
+
       </div>
     </section>
 
+    <!-- =====================================================
+         NOUVELLES
+    ====================================================== -->
 
-    <!-- =========================
-         CTA
-    ========================= -->
-
-    <div class="cta">
+    <section class="news-section">
       <div class="container">
 
-        <div class="cta-box">
+        <div class="news-card reveal">
+
           <div>
-            <h2>Prêt à jouer ?</h2>
-            <p>
-              L'inscription est gratuite et ouverte aux élèves de la 6e
-              à la 3e, quel que soit leur niveau aux échecs.
+            <div class="section-label">
+              Nouvelles
+            </div>
+
+            <h2 class="news-title">
+              Retrouvez la vie du club
+              <span class="green">au fil des semaines.</span>
+            </h2>
+
+            <p class="news-text">
+              Actualités, annonces, événements et publications
+              de l'Atelier Jeu d'Échecs Lezay.
             </p>
           </div>
 
-          <button class="btn btn-green" type="button" data-open-register>
-            S'inscrire en ligne
-          </button>
+          <a
+            href="https://echeclezay.substack.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="button-primary news-button"
+          >
+            Voir les nouvelles
+            <span>↗</span>
+          </a>
+
         </div>
 
       </div>
-    </div>
+    </section>
 
   </main>
 
-
-  <!-- =========================
+  <!-- =======================================================
        FOOTER
-  ========================= -->
+  ======================================================== -->
 
   <footer>
     <div class="container footer-inner">
-      <span>© 2026 Atelier Jeu d'Échecs Lezay</span>
+
+      <div class="footer-brand">
+        Atelier Jeu d'Échecs Lezay
+      </div>
+
+      <div class="footer-mark">
+        © 2026 Atelier Jeu d'Échecs Lezay
+      </div>
+
     </div>
   </footer>
 
-
-  <!-- =========================
+  <!-- =======================================================
        MODAL INSCRIPTION
-  ========================= -->
+  ======================================================== -->
 
   <div
     class="modal"
-    id="registerModal"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="registerTitle"
+    id="registrationModal"
+    aria-hidden="true"
   >
-
-    <div class="modal-box">
+    <div
+      class="modal-box"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
 
       <button
         class="modal-close"
-        id="closeModal"
+        id="modalClose"
         type="button"
         aria-label="Fermer"
       >
         ×
       </button>
 
-      <div class="modal-header">
-        <div class="eyebrow">Inscription en ligne</div>
-
-        <h2 id="registerTitle">
-          Rejoindre l'atelier.
-        </h2>
-
-        <p>
-          Remplis ce formulaire pour rejoindre l'Atelier Jeu d'Échecs Lezay.
-          L'inscription est gratuite.
-        </p>
+      <div class="modal-label">
+        Inscription à l'atelier
       </div>
 
-      <div class="form-message" id="formMessage"></div>
+      <h2 class="modal-title" id="modalTitle">
+        Rejoins l'échiquier.
+      </h2>
 
-      <form id="registerForm">
+      <p class="modal-description">
+        Remplis ce formulaire pour nous transmettre ta demande
+        d'inscription à l'Atelier Jeu d'Échecs Lezay.
+      </p>
 
-        <!-- Anti-spam honeypot -->
-        <input
-          type="text"
-          name="website"
-          class="honeypot"
-          tabindex="-1"
-          autocomplete="off"
-        >
+      <form class="form" id="registrationForm">
 
-        <div class="form-row">
+        <div class="form-grid">
 
           <div class="form-group">
-            <label for="firstName">
-              Prénom <span class="required">*</span>
+            <label class="form-label" for="firstName">
+              Prénom
             </label>
 
             <input
+              class="form-input"
               id="firstName"
               name="first_name"
               type="text"
-              required
-              maxlength="100"
-              autocomplete="given-name"
               placeholder="Ton prénom"
-            >
+              required
+              autocomplete="given-name"
+            />
           </div>
 
           <div class="form-group">
-            <label for="lastName">
-              Nom <span class="required">*</span>
+            <label class="form-label" for="lastName">
+              Nom
             </label>
 
             <input
+              class="form-input"
               id="lastName"
               name="last_name"
               type="text"
-              required
-              maxlength="100"
-              autocomplete="family-name"
               placeholder="Ton nom"
-            >
+              required
+              autocomplete="family-name"
+            />
           </div>
 
-        </div>
-
-
-        <div class="form-row">
-
           <div class="form-group">
-            <label for="className">
-              Classe <span class="required">*</span>
+            <label class="form-label" for="className">
+              Classe
             </label>
 
             <select
+              class="form-select"
               id="className"
               name="class_name"
               required
             >
-              <option value="">Choisir...</option>
+              <option value="">Choisir une classe</option>
               <option value="6e">6e</option>
               <option value="5e">5e</option>
               <option value="4e">4e</option>
@@ -1537,306 +2717,575 @@
           </div>
 
           <div class="form-group">
-            <label for="chessLevel">
+            <label class="form-label" for="chessLevel">
               Niveau aux échecs
+              <span>· optionnel</span>
             </label>
 
             <select
+              class="form-select"
               id="chessLevel"
               name="chess_level"
             >
-              <option value="">Non précisé</option>
+              <option value="">Je préfère ne pas préciser</option>
               <option value="Débutant">Débutant</option>
-              <option value="Débutant avancé">Débutant avancé</option>
               <option value="Intermédiaire">Intermédiaire</option>
               <option value="Avancé">Avancé</option>
-              <option value="Expert">Expert</option>
+              <option value="Compétiteur">Compétiteur</option>
             </select>
+          </div>
+
+          <div class="form-group full">
+            <label class="form-label" for="email">
+              Email
+              <span>· optionnel</span>
+            </label>
+
+            <input
+              class="form-input"
+              id="email"
+              name="email"
+              type="email"
+              placeholder="ton@email.fr"
+              autocomplete="email"
+            />
+          </div>
+
+          <div class="form-group full">
+            <label class="form-label" for="message">
+              Message
+              <span>· optionnel</span>
+            </label>
+
+            <textarea
+              class="form-textarea"
+              id="message"
+              name="message"
+              placeholder="Une question, une précision, ton expérience aux échecs..."
+            ></textarea>
           </div>
 
         </div>
 
-
-        <div class="form-group">
-          <label for="email">
-            Email <span style="font-weight: 500; opacity: 0.55;">(optionnel)</span>
-          </label>
-
-          <input
-            id="email"
-            name="email"
-            type="email"
-            maxlength="200"
-            autocomplete="email"
-            placeholder="ton.email@exemple.fr"
-          >
-        </div>
-
-
-        <div class="form-group">
-          <label for="message">
-            Message <span style="font-weight: 500; opacity: 0.55;">(optionnel)</span>
-          </label>
-
-          <textarea
-            id="message"
-            name="message"
-            maxlength="1000"
-            placeholder="Une question, une précision..."
-          ></textarea>
-        </div>
-
-
-        <p class="form-note">
-          Les informations envoyées servent uniquement à gérer les inscriptions
-          à l'atelier.
-        </p>
+        <!-- Honeypot anti-spam -->
+        <input
+          class="honeypot"
+          type="text"
+          name="website"
+          tabindex="-1"
+          autocomplete="off"
+          aria-hidden="true"
+        />
 
         <button
-          class="btn btn-green submit-btn"
-          id="submitBtn"
+          class="form-submit"
+          id="submitButton"
           type="submit"
         >
-          Envoyer mon inscription
+          Envoyer ma demande
         </button>
+
+        <div
+          class="form-message"
+          id="formMessage"
+          role="status"
+        ></div>
 
       </form>
 
     </div>
   </div>
 
+  <!-- =======================================================
+       JAVASCRIPT
+  ======================================================== -->
 
   <script>
-    /* =========================
+    /* =========================================================
        SUPABASE
-    ========================= */
+    ========================================================= */
 
-    const SUPABASE_URL = "https://mulwdqtyojndrjbpgldk.supabase.co";
+    const SUPABASE_URL =
+      "https://mulwdqtyojndrjbpgldk.supabase.co";
 
     const SUPABASE_KEY =
       "sb_publishable_AdZl_u0YAK2xSiv3pX74iA_Q2GMnIwz";
 
-    const { createClient } = supabase;
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
-    const supabaseClient = createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
 
-
-    /* =========================
+    /* =========================================================
        THEME
-    ========================= */
+    ========================================================= */
 
-    const themeToggle = document.getElementById("themeToggle");
+    const themeToggle =
+      document.getElementById("themeToggle");
 
-    function applyTheme(theme) {
-      if (theme === "dark") {
-        document.body.classList.add("dark");
-        themeToggle.textContent = "☀";
-        themeToggle.setAttribute("aria-label", "Passer au thème clair");
-      } else {
-        document.body.classList.remove("dark");
-        themeToggle.textContent = "☾";
-        themeToggle.setAttribute("aria-label", "Passer au thème sombre");
-      }
+    const themeIcon =
+      document.getElementById("themeIcon");
+
+    function updateThemeIcon() {
+      const isLight =
+        document.body.classList.contains("light");
+
+      themeIcon.textContent =
+        isLight ? "☀" : "☾";
+
+      themeToggle.setAttribute(
+        "aria-label",
+        isLight
+          ? "Activer le thème sombre"
+          : "Activer le thème clair"
+      );
     }
 
-    const savedTheme = localStorage.getItem("lezay-theme");
+    const savedTheme =
+      localStorage.getItem("lezay-theme");
 
-    if (savedTheme) {
-      applyTheme(savedTheme);
-    } else {
-      const prefersDark =
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-      applyTheme(prefersDark ? "dark" : "light");
+    if (savedTheme === "light") {
+      document.body.classList.add("light");
     }
+
+    updateThemeIcon();
 
     themeToggle.addEventListener("click", () => {
-      const isDark = document.body.classList.contains("dark");
-      const newTheme = isDark ? "light" : "dark";
+      document.body.classList.toggle("light");
 
-      localStorage.setItem("lezay-theme", newTheme);
-      applyTheme(newTheme);
+      const theme =
+        document.body.classList.contains("light")
+          ? "light"
+          : "dark";
+
+      localStorage.setItem(
+        "lezay-theme",
+        theme
+      );
+
+      updateThemeIcon();
     });
 
 
-    /* =========================
+    /* =========================================================
        MOBILE MENU
-    ========================= */
+    ========================================================= */
 
-    const menuToggle = document.getElementById("menuToggle");
-    const navLinks = document.getElementById("navLinks");
+    const menuToggle =
+      document.getElementById("menuToggle");
+
+    const navLinks =
+      document.getElementById("navLinks");
 
     menuToggle.addEventListener("click", () => {
-      navLinks.classList.toggle("mobile-open");
+      const isOpen =
+        navLinks.classList.toggle("open");
+
+      menuToggle.setAttribute(
+        "aria-expanded",
+        String(isOpen)
+      );
 
       menuToggle.textContent =
-        navLinks.classList.contains("mobile-open") ? "×" : "☰";
+        isOpen ? "×" : "☰";
     });
 
-    navLinks.querySelectorAll("a").forEach(link => {
+    document.querySelectorAll(".nav-link").forEach(link => {
       link.addEventListener("click", () => {
-        navLinks.classList.remove("mobile-open");
+        navLinks.classList.remove("open");
+
+        menuToggle.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
         menuToggle.textContent = "☰";
       });
     });
 
 
-    /* =========================
+    /* =========================================================
        MODAL
-    ========================= */
+    ========================================================= */
 
-    const modal = document.getElementById("registerModal");
-    const closeModal = document.getElementById("closeModal");
+    const modal =
+      document.getElementById("registrationModal");
 
-    function openRegisterModal() {
-      modal.classList.add("open");
+    const modalClose =
+      document.getElementById("modalClose");
+
+    const registrationButtons =
+      document.querySelectorAll(".open-registration");
+
+    function openModal(event) {
+      if (event) {
+        event.preventDefault();
+      }
+
+      modal.classList.add("active");
+      modal.setAttribute("aria-hidden", "false");
+
       document.body.style.overflow = "hidden";
 
       setTimeout(() => {
-        document.getElementById("firstName").focus();
+        document.getElementById("firstName")?.focus();
       }, 100);
     }
 
-    function closeRegisterModal() {
-      modal.classList.remove("open");
+    function closeModal() {
+      modal.classList.remove("active");
+      modal.setAttribute("aria-hidden", "true");
+
       document.body.style.overflow = "";
     }
 
-    document.querySelectorAll("[data-open-register]").forEach(button => {
-      button.addEventListener("click", openRegisterModal);
+    registrationButtons.forEach(button => {
+      button.addEventListener(
+        "click",
+        openModal
+      );
     });
 
-    closeModal.addEventListener("click", closeRegisterModal);
+    modalClose.addEventListener(
+      "click",
+      closeModal
+    );
 
     modal.addEventListener("click", event => {
       if (event.target === modal) {
-        closeRegisterModal();
+        closeModal();
       }
     });
 
-    document.addEventListener("keydown", event => {
-      if (event.key === "Escape" && modal.classList.contains("open")) {
-        closeRegisterModal();
+    document.addEventListener(
+      "keydown",
+      event => {
+        if (
+          event.key === "Escape" &&
+          modal.classList.contains("active")
+        ) {
+          closeModal();
+        }
       }
-    });
+    );
 
 
-    /* =========================
+    /* =========================================================
        FORMULAIRE
-    ========================= */
+    ========================================================= */
 
-    const registerForm = document.getElementById("registerForm");
-    const submitBtn = document.getElementById("submitBtn");
-    const formMessage = document.getElementById("formMessage");
+    const registrationForm =
+      document.getElementById("registrationForm");
 
-    function showMessage(message, isError = false) {
+    const submitButton =
+      document.getElementById("submitButton");
+
+    const formMessage =
+      document.getElementById("formMessage");
+
+
+    function showFormMessage(
+      message,
+      type
+    ) {
       formMessage.textContent = message;
-      formMessage.classList.add("show");
 
-      if (isError) {
-        formMessage.classList.add("error");
-      } else {
-        formMessage.classList.remove("error");
-      }
+      formMessage.className =
+        "form-message show " + type;
     }
 
-    function hideMessage() {
-      formMessage.textContent = "";
-      formMessage.classList.remove("show", "error");
-    }
 
-    registerForm.addEventListener("submit", async event => {
-      event.preventDefault();
+    registrationForm.addEventListener(
+      "submit",
+      async event => {
 
-      hideMessage();
+        event.preventDefault();
 
-      const formData = new FormData(registerForm);
+        const formData =
+          new FormData(registrationForm);
 
-      // Anti-spam
-      if (formData.get("website")) {
-        return;
-      }
+        /* Honeypot */
+        const honeypot =
+          String(
+            formData.get("website") || ""
+          ).trim();
 
-      const firstName = formData.get("first_name")?.trim();
-      const lastName = formData.get("last_name")?.trim();
-      const className = formData.get("class_name");
-      const chessLevel = formData.get("chess_level") || null;
-      const email = formData.get("email")?.trim() || null;
-      const message = formData.get("message")?.trim() || null;
+        if (honeypot) {
+          return;
+        }
 
-      if (!firstName || !lastName || !className) {
-        showMessage(
-          "Merci de remplir tous les champs obligatoires.",
-          true
-        );
-        return;
-      }
+        const firstName =
+          String(
+            formData.get("first_name") || ""
+          ).trim();
 
-      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        showMessage(
-          "L'adresse email renseignée n'est pas valide.",
-          true
-        );
-        return;
-      }
+        const lastName =
+          String(
+            formData.get("last_name") || ""
+          ).trim();
 
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Envoi en cours…";
+        const className =
+          String(
+            formData.get("class_name") || ""
+          ).trim();
 
-      try {
-        const { error } = await supabaseClient
-          .from("students")
-          .insert([
-            {
-              first_name: firstName,
-              last_name: lastName,
-              class_name: className,
-              chess_level: chessLevel,
-              email: email,
-              message: message
-            }
-          ]);
+        const chessLevel =
+          String(
+            formData.get("chess_level") || ""
+          ).trim();
 
-        if (error) {
-          console.error("Erreur Supabase :", error);
+        const email =
+          String(
+            formData.get("email") || ""
+          ).trim();
 
-          showMessage(
-            "Une erreur est survenue lors de l'inscription. Vérifie les informations puis réessaie.",
-            true
+        const message =
+          String(
+            formData.get("message") || ""
+          ).trim();
+
+
+        if (
+          !firstName ||
+          !lastName ||
+          !className
+        ) {
+          showFormMessage(
+            "Merci de renseigner ton prénom, ton nom et ta classe.",
+            "error"
           );
 
           return;
         }
 
-        showMessage(
-          "Inscription envoyée avec succès ! Bienvenue dans l'atelier."
-        );
 
-        registerForm.reset();
+        submitButton.disabled = true;
 
-        setTimeout(() => {
-          closeRegisterModal();
-          hideMessage();
-        }, 2200);
+        submitButton.textContent =
+          "Envoi en cours…";
 
-      } catch (error) {
-        console.error("Erreur :", error);
+        formMessage.className =
+          "form-message";
 
-        showMessage(
-          "Impossible d'envoyer l'inscription pour le moment. Réessaie dans quelques instants.",
-          true
-        );
 
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Envoyer mon inscription";
+        try {
+
+          const { error } =
+            await supabaseClient
+              .from("students")
+              .insert([
+                {
+                  first_name: firstName,
+                  last_name: lastName,
+                  class_name: className,
+                  chess_level: chessLevel,
+                  email: email,
+                  message: message
+                }
+              ]);
+
+
+          if (error) {
+            throw error;
+          }
+
+
+          showFormMessage(
+            "Ta demande d'inscription a bien été envoyée. À bientôt autour de l'échiquier !",
+            "success"
+          );
+
+
+          registrationForm.reset();
+
+          submitButton.textContent =
+            "Demande envoyée ✓";
+
+
+          setTimeout(() => {
+            closeModal();
+
+            submitButton.disabled = false;
+
+            submitButton.textContent =
+              "Envoyer ma demande";
+
+            formMessage.className =
+              "form-message";
+          }, 2200);
+
+
+        } catch (error) {
+
+          console.error(
+            "Erreur Supabase :",
+            error
+          );
+
+          showFormMessage(
+            "Une erreur est survenue lors de l'envoi. Vérifie les informations puis réessaie.",
+            "error"
+          );
+
+          submitButton.disabled = false;
+
+          submitButton.textContent =
+            "Réessayer";
+        }
       }
-    });
+    );
+
+
+    /* =========================================================
+       SCROLL REVEAL
+    ========================================================= */
+
+    const revealElements =
+      document.querySelectorAll(".reveal");
+
+    if ("IntersectionObserver" in window) {
+
+      const observer =
+        new IntersectionObserver(
+          entries => {
+
+            entries.forEach(entry => {
+
+              if (
+                entry.isIntersecting
+              ) {
+
+                entry.target.classList.add(
+                  "visible"
+                );
+
+                observer.unobserve(
+                  entry.target
+                );
+              }
+
+            });
+
+          },
+          {
+            threshold: 0.10,
+            rootMargin: "0px 0px -50px 0px"
+          }
+        );
+
+
+      revealElements.forEach(
+        element => observer.observe(element)
+      );
+
+    } else {
+
+      revealElements.forEach(
+        element =>
+          element.classList.add("visible")
+      );
+
+    }
+
+
+    /* =========================================================
+       SMOOTH ANCHOR FALLBACK
+    ========================================================= */
+
+    document
+      .querySelectorAll('a[href^="#"]')
+      .forEach(anchor => {
+
+        anchor.addEventListener(
+          "click",
+          event => {
+
+            const href =
+              anchor.getAttribute("href");
+
+            if (
+              !href ||
+              href === "#" ||
+              anchor.classList.contains(
+                "open-registration"
+              )
+            ) {
+              return;
+            }
+
+            const target =
+              document.querySelector(href);
+
+            if (!target) {
+              return;
+            }
+
+            event.preventDefault();
+
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+
+          }
+        );
+
+      });
+
+
+    /* =========================================================
+       CHESSBOARD SUBTLE HOVER
+    ========================================================= */
+
+    const board =
+      document.querySelector(".board-frame");
+
+    if (board && window.matchMedia(
+      "(pointer: fine)"
+    ).matches) {
+
+      board.addEventListener(
+        "mousemove",
+        event => {
+
+          const rect =
+            board.getBoundingClientRect();
+
+          const x =
+            (event.clientX - rect.left)
+            / rect.width;
+
+          const y =
+            (event.clientY - rect.top)
+            / rect.height;
+
+          const rotateY =
+            (x - 0.5) * 4;
+
+          const rotateX =
+            (0.5 - y) * 4;
+
+          board.style.transform =
+            `rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotate(1.5deg)`;
+
+        }
+      );
+
+      board.addEventListener(
+        "mouseleave",
+        () => {
+
+          board.style.transform =
+            "rotate(1.5deg)";
+
+        }
+      );
+
+    }
   </script>
 
 </body>
 </html>
+```
