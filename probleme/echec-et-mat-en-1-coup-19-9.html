@@ -1,243 +1,176 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Échec et mat en 1 coup</title>
+<!-- ================================
+     PROBLÈME D'ÉCHECS — MAT EN 1
+     Atelier Jeu d'Échecs Lezay
+================================= -->
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<section class="chess-puzzle">
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, sans-serif;
-      background: #000;
-      color: #fff;
-    }
-
-    .puzzle {
-      width: min(92vw, 520px);
-      text-align: center;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 6px 12px;
-      margin-bottom: 12px;
-      border: 1px solid #4caf50;
-      border-radius: 999px;
-      color: #4caf50;
-      font-size: 13px;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
-
-    h1 {
-      margin: 0 0 8px;
-      font-size: clamp(28px, 7vw, 42px);
-    }
-
-    .description {
-      margin: 0 0 24px;
-      color: #bbb;
-      font-size: 16px;
-    }
-
-    .board {
-      width: 100%;
-      aspect-ratio: 1;
-      display: grid;
-      grid-template-columns: repeat(8, 1fr);
-      border: 4px solid #fff;
-      box-shadow: 0 0 0 2px #222;
-    }
-
-    .square {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: clamp(28px, 8vw, 54px);
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .light {
-      background: #fff;
-      color: #000;
-    }
-
-    .dark {
-      background: #1f7a3a;
-      color: #fff;
-    }
-
-    .square.selected {
-      outline: 4px solid #fff;
-      outline-offset: -4px;
-    }
-
-    .result {
-      min-height: 30px;
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    button {
-      margin-top: 12px;
-      padding: 10px 18px;
-      border: 1px solid #4caf50;
-      border-radius: 6px;
-      background: transparent;
-      color: #4caf50;
-      font-size: 15px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #4caf50;
-      color: #000;
-    }
-  </style>
-</head>
-
-<body>
-
-  <main class="puzzle">
-    <div class="badge">NIVEAU FACILE</div>
+  <div class="puzzle-header">
+    <span class="puzzle-label">PROBLÈME DE LA SEMAINE</span>
 
     <h1>Échec et mat en 1 coup</h1>
 
-    <p class="description">
-      Les Blancs jouent. Trouvez le coup qui met immédiatement le Roi noir échec et mat.
+    <p>
+      Les Blancs jouent. Trouvez le coup qui met le Roi noir
+      immédiatement échec et mat.
     </p>
+  </div>
 
-    <div class="board" id="board"></div>
+  <div class="puzzle-board">
 
-    <div class="result" id="result"></div>
+    <iframe
+      src="https://lichess.org/training/frame?theme=green&bg=dark"
+      title="Problème d'échecs — Échec et mat en 1 coup"
+      allowtransparency="true"
+      frameborder="0"
+      loading="lazy">
+    </iframe>
 
-    <button onclick="resetPuzzle()">Réinitialiser</button>
-  </main>
+  </div>
 
-  <script>
-    /*
-      Position :
+  <div class="puzzle-info">
+    <span>♟</span>
+    <span>Mat en 1</span>
+    <span>•</span>
+    <span>Niveau facile</span>
+  </div>
 
-      8  . . . . . . . .
-      7  . . . . . . . .
-      6  . . . . . . . .
-      5  . . . . . . . .
-      4  . . . . . . . .
-      3  . . . . . . . .
-      2  . . . . . . R .
-      1  . . . . . . . K
+</section>
 
-         a b c d e f g h
 
-      Les Blancs jouent : Rh2#
-    */
+<style>
+/* =================================
+   PUZZLE — ATELIER LEZAY
+================================= */
 
-    const position = {
-      h1: "♔",
-      g2: "♖",
-      g8: "♚"
-    };
+.chess-puzzle {
+  width: min(100%, 900px);
+  margin: 60px auto;
+  padding: 0 20px;
+  color: #fff;
+  text-align: center;
+}
 
-    const solution = "g2-g8";
+/* En-tête */
 
-    let selected = null;
+.puzzle-header {
+  max-width: 650px;
+  margin: 0 auto 35px;
+}
 
-    const board = document.getElementById("board");
-    const result = document.getElementById("result");
+.puzzle-label {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 6px 12px;
 
-    function createBoard() {
-      board.innerHTML = "";
+  border: 1px solid #3fa34d;
+  border-radius: 999px;
 
-      const files = ["a", "b", "c", "d", "e", "f", "g", "h"];
+  color: #3fa34d;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
 
-      for (let rank = 8; rank >= 1; rank--) {
-        for (let fileIndex = 0; fileIndex < 8; fileIndex++) {
+.puzzle-header h1 {
+  margin: 0 0 12px;
 
-          const file = files[fileIndex];
-          const squareName = file + rank;
+  font-size: clamp(32px, 6vw, 52px);
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
 
-          const square = document.createElement("div");
+.puzzle-header p {
+  margin: 0;
 
-          const isDark =
-            (fileIndex + rank) % 2 === 0;
+  color: rgba(255,255,255,.68);
+  font-size: 17px;
+  line-height: 1.6;
+}
 
-          square.className =
-            "square " + (isDark ? "dark" : "light");
 
-          square.dataset.square = squareName;
+/* Échiquier */
 
-          if (position[squareName]) {
-            square.textContent = position[squareName];
-          }
+.puzzle-board {
+  width: min(100%, 500px);
+  margin: 0 auto;
 
-          square.addEventListener("click", () => play(squareName));
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-          board.appendChild(square);
-        }
-      }
-    }
+  background: #000;
 
-    function play(square) {
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 14px;
 
-      if (!selected) {
+  padding: 10px;
 
-        if (position[square] === "♖") {
-          selected = square;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.45),
+    0 0 0 1px rgba(63,163,77,.08);
 
-          document
-            .querySelector(`[data-square="${square}"]`)
-            .classList.add("selected");
+  overflow: hidden;
+}
 
-          result.textContent = "Choisissez la case d'arrivée.";
+.puzzle-board iframe {
+  display: block;
 
-        } else {
-          result.textContent = "Cliquez sur la Tour blanche.";
-        }
+  width: 100%;
+  max-width: 480px;
 
-        return;
-      }
+  aspect-ratio: 10 / 11;
 
-      const move = selected + "-" + square;
+  border: 0;
+}
 
-      if (move === solution) {
 
-        result.textContent = "♟ ÉCHEC ET MAT ! Bravo !";
-        result.style.color = "#4caf50";
+/* Informations sous le puzzle */
 
-      } else {
+.puzzle-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 
-        result.textContent = "Ce n'est pas le mat. Essayez encore !";
-        result.style.color = "#fff";
-      }
+  margin-top: 20px;
 
-      selected = null;
+  color: rgba(255,255,255,.55);
 
-      document
-        .querySelectorAll(".selected")
-        .forEach(el => el.classList.remove("selected"));
-    }
+  font-size: 14px;
+}
 
-    function resetPuzzle() {
-      selected = null;
-      result.textContent = "";
-      result.style.color = "#fff";
-      createBoard();
-    }
+.puzzle-info span:first-child {
+  color: #3fa34d;
+  font-size: 20px;
+}
 
-    createBoard();
-  </script>
 
-</body>
-</html>
+/* Mobile */
+
+@media (max-width: 600px) {
+
+  .chess-puzzle {
+    margin: 40px auto;
+    padding: 0 12px;
+  }
+
+  .puzzle-header {
+    margin-bottom: 25px;
+  }
+
+  .puzzle-header p {
+    font-size: 15px;
+  }
+
+  .puzzle-board {
+    padding: 6px;
+    border-radius: 10px;
+  }
+
+  .puzzle-info {
+    font-size: 13px;
+  }
+}
+</style>
